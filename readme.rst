@@ -2,6 +2,13 @@
 
 file path - /\digitalgaia/\iris/\attendance/\application/\config/\config.php
 
-$config['base_url'] = 'http://localhost/digitalgaia/iris/attendance/';
+code line(26) - $config['base_url'] = 'http://localhost/digitalgaia/iris/attendance/';
 
-change to dev url
+Pls change to dev url
+
+
+**database connection**
+
+file path - /\digitalgaia/\iris/\attendance/\application/\config/\database.php
+
+Pls change the connection setting
