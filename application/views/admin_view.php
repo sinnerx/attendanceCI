@@ -490,7 +490,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       </a>
                     </li>
                     
-                    <!--manager menu-->
+                     <?php
+                        if($_SESSION['userLevel']<3){
+                          ?> <!--manager menu-->
                     <li>
                       <a href="../attendance/" class="auto">
                         <i class="i i-stack icon">
@@ -499,7 +501,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       </a>
                     </li>
                     <!--manager menu end-->
-                    <!-- admin menu -->
+                        <?php
+                        }
+                        if($_SESSION['userLevel']>98){
+                          ?> <!-- admin menu -->
                     <li>
                         <a href="#" class="auto">
                         <span class="pull-right text-muted">
@@ -522,6 +527,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </ul>
                     </li>
                     <!-- end admin menu-->
+                        <?php
+                        }
+                        ?>
                   </ul>
                 </nav>
                 <!-- / nav -->
