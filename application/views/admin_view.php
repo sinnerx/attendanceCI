@@ -594,6 +594,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                   <tr>
                                     <th width="5%">ID</th>
                                     <th width="12%">Manager ID</th>
+                                    <th width="12%">Name</th>
+                                    <th width="12%">Cluster</th>
                                     <th width="15%">Date</th>
                                     <th width="15%">Time</th>
                                     <th width="10%">Activites</th>

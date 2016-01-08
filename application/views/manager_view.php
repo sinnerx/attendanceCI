@@ -562,6 +562,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       <h3 class="m-b-xs text-black">Manager's Attendance</h3>
                       <!--<div class="well well-sm">All about your profile. You can edit all through here.</div>-->
                        <small>Welcome back,<?php echo $this->manager_model->getFullName($userid)?>, <?php echo $this->manager_model->getClusterName($userid); ?><!--<i class="fa fa-map-marker fa-lg text-primary"></i>--> </small>
+                      
                     </div>
                   </section>
                   
@@ -573,6 +574,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <div class="panel-heading b-b">
                             <p style="text-align: center"><a id="curDateTime" href="#" class="block h4 font-bold m-b text-black">Current Date/Time:<br> ...calculating</a></p>
                            <input type="hidden" value="<?php echo $userid?>" id="valManagerID">
+                           <input type="hidden" value="<?php echo $this->manager_model->getFullName($userid)?>" id="valManagerName">
+                           <input type="hidden" value="<?php echo $this->manager_model->getClusterName($userid); ?>" id="valSiteName">
                            <input type="hidden" value="" id="valDateTime">
                            <input type="hidden" value="" id="valDate">
                            <input type="hidden" value="" id="valTime">

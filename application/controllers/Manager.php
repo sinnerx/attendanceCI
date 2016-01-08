@@ -71,7 +71,10 @@ class Manager extends CI_Controller {
         $data = array(
                  //attendance
                 //'latLongIn' => $this->input->post('latLongIn'),
+                 
                 'managerID' => $this->input->post('managerID'),
+                'managerName' => $this->input->post('managerName'),
+                'siteName' => $this->input->post('siteName'),
                 'activityDate' => $this->input->post('activityDate'),
                 'activityTime' => $this->input->post('activityTime'),
                 'activityStatus' => $this->input->post('activityStatus'),
@@ -99,6 +102,8 @@ class Manager extends CI_Controller {
 			$row = array();
                         $row[] = $manager->attID;
 			$row[] = $manager->managerID;
+                        $row[] = $manager->managerName;
+                        $row[] = $manager->siteName;
 			$row[] = $manager->activityDate;
                         $row[] = $manager->activityTime;
 			$row[] = $manager->activityStatus;

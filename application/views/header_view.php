@@ -61,6 +61,8 @@ $(document).ready(function() {
            // alert("reload_table"+ reload_table());
             event.preventDefault();
             var managerID = $("#valManagerID").val();
+            var managerName = $("#valManagerName").val();
+            var siteName = $("#valSiteName").val();
             //var  attID = $("#valAttID").val();
             var  activityTime = $("#valTime").val();
             var  activityDate = $("#valDate").val();
@@ -72,7 +74,7 @@ $(document).ready(function() {
             type: "POST",
             url: "<?php echo base_url(); ?>manager/saveAttendance",
             //dataType: "JSON",
-            data: {managerID: managerID, activityDate: activityDate, activityTime: activityTime, latLongIn: latLongIn, activityStatus: activityStatus, outstationStatus: outstationStatus},
+            data: {managerID: managerID, managerName: managerName, siteName: siteName, activityDate: activityDate, activityTime: activityTime, latLongIn: latLongIn, activityStatus: activityStatus, outstationStatus: outstationStatus},
             success: function (data) {
                     //table.ajax.reload(null,false);
                     console.log(data);
@@ -81,7 +83,7 @@ $(document).ready(function() {
                 },
             error: function (jqXHR, textStatus, errorThrown)
             {
-                //alert("Error: jqXHR: "+jqXHR+" | textStatus: "+textStatus+" | errorThrown: "+errorThrown);
+                alert("Error: jqXHR: "+jqXHR+" | textStatus: "+textStatus+" | errorThrown: "+errorThrown);
                 //reload_table();
             }
             });
@@ -91,6 +93,8 @@ $(document).ready(function() {
     $( "#punch-out" ).click(function(event) {
         event.preventDefault();
         var managerID = $("#valManagerID").val();
+        var managerName = $("#valManagerName").val();
+        var siteName = $("#valSiteName").val();
         //var  attID = $("#valAttID").val();
         var  activityTime = $("#valTime").val();
         var  activityDate = $("#valDate").val();
@@ -103,7 +107,7 @@ $(document).ready(function() {
         type: "POST",
         url: "<?php echo base_url(); ?>manager/saveAttendance",
         //dataType: "JSON",
-        data: {managerID: managerID, activityDate: activityDate, activityTime: activityTime, latLongIn: latLongIn, activityStatus: activityStatus, outstationStatus: outstationStatus},
+        data: {managerID: managerID, managerName: managerName, siteName: siteName, activityDate: activityDate, activityTime: activityTime, latLongIn: latLongIn, activityStatus: activityStatus, outstationStatus: outstationStatus},
         success: function (data) {
                 //table.ajax.reload(null,false);
                 console.log(data);
@@ -112,7 +116,7 @@ $(document).ready(function() {
       },
        error: function (jqXHR, textStatus, errorThrown)
             {
-                //alert("Error: jqXHR: "+jqXHR+" | textStatus: "+textStatus+" | errorThrown: "+errorThrown);
+                alert("Error: jqXHR: "+jqXHR+" | textStatus: "+textStatus+" | errorThrown: "+errorThrown);
                 //reload_table();
             }
      });
