@@ -1,4 +1,5 @@
-## **set base_url** ##
+**set base_url**
+_______________
 
 file path - /\digitalgaia/\iris/\attendance/\application/\config/\config.php
 
@@ -7,13 +8,16 @@ code line(26) - $config['base_url'] = 'http://localhost/digitalgaia/iris/attenda
 Pls change to dev url for dev and live url for live
 
 
-## **database connection** ##
+**database connection**
+_____________________
 
 file path - /\digitalgaia/\iris/\attendance/\application/\config/\database.php
 
 Pls change the connection setting
 
-## **structure in digitalgaia/iris** ##
+**structure in digitalgaia/iris**
+_______________________________
+
 
 digitalgaia
       |_ iris
