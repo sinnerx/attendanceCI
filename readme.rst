@@ -16,6 +16,10 @@ Pls change the connection setting
 
 **db table for att_attendancedetails**
 
+
+```
+#!sql
+
 CREATE TABLE IF NOT EXISTS `att_attendancedetails` (
   `managerID` int(11) NOT NULL,
   `attID` int(11) NOT NULL AUTO_INCREMENT,
@@ -30,3 +34,4 @@ CREATE TABLE IF NOT EXISTS `att_attendancedetails` (
   `imgOut` varchar(255) NOT NULL,
   PRIMARY KEY (`attID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+```
