@@ -17,8 +17,9 @@ Pls change the connection setting
 **db table for att_attendancedetails**
 
 
+
 ```
-#!sql
+#!php
 
 CREATE TABLE IF NOT EXISTS `att_attendancedetails` (
   `managerID` int(11) NOT NULL,
