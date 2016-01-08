@@ -592,8 +592,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <!--<table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">-->
                                 <thead>
                                   <tr>
-                                    <th width="5%">ID</th>
-                                    <th width="12%">Manager ID</th>
+                                    <!--<th width="5%">ID</th>
+                                    <th width="12%">Manager ID</th>-->
                                     <th width="12%">Name</th>
                                     <th width="12%">Cluster</th>
                                     <th width="15%">Date</th>

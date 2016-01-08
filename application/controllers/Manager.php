@@ -100,8 +100,8 @@ class Manager extends CI_Controller {
 		foreach ($list as $manager) {
 			$no++;
 			$row = array();
-                        $row[] = $manager->attID;
-			$row[] = $manager->managerID;
+                        //$row[] = $manager->attID;
+			//$row[] = $manager->managerID;
                         $row[] = $manager->managerName;
                         $row[] = $manager->siteName;
 			$row[] = $manager->activityDate;
