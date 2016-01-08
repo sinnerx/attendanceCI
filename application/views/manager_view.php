@@ -595,6 +595,33 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   </div>
                       <div class="clearfix panel-footer"></div>
                       <div class="row">
+                          <div id="outstationTxt" class="checkbox i-checks" style="text-align: center">
+                              <label>
+                                <input id="outstation" type="checkbox"><i></i> Add Notes
+                              </label>
+                            </div>
+                          
+                              <div id="outstationStatus" class="modal fade" tabindex="-1" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+<!--                                        <div class="modal-header">
+                                            <button type="checkbox" class="close" data-dismiss="modal" id="canceloutstation_X">×</button>
+                                            <h4>Outstation Status</h4>
+                                        </div>-->
+                                        
+                                        <div class="modal-body"><h3 style="text-align: center">Attendance Note</h3>
+                                            <p>
+                                                <textarea name="outstationStatusTxt" id="outstationStatusTxt" rows="6" cols="75" placeholder=" Please state your reason..."></textarea>
+                                            </p>
+                                            <input type="hidden" value="" id="valOutStationStatus">
+<!--                                        </div>
+                                        <div class="modal-footer">-->
+                                            <a href="#" class="btn" data-dismiss="modal" id="canceloutstation">Cancel</a>
+                                            <a href="#" class="btn btn-primary" id="saveoutstation">Save</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                           <div>
                           <!--<div  id='punch-in'>-->
                               <p style="text-align: center">
@@ -610,35 +637,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                   <i class="fa fa-minus"></i> Punch OUT</a>
                               </p>
                           <!--</div>-->
-                          </div>
+                          </div><div id="success" style="text-align: center; color: green; font-weight: bold"></div>
                           <!--<div class="col-lg-offset-2 col-lg-10">-->
-                          <div id="outstationTxt" class="checkbox i-checks" style="text-align: center">
-                              <label>
-                                <input id="outstation" type="checkbox"><i></i> Outstation ?
-                              </label>
-                            </div>
+                          <!--<div class="alert alert-success">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <i class="fa fa-ok-sign"></i><strong>Well done!</strong> You successfully read <a href="#" class="alert-link">this important alert message</a>.
+                          </div>-->
                           
-                              <div id="outstationStatus" class="modal fade" tabindex="-1" role="dialog">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-<!--                                        <div class="modal-header">
-                                            <button type="checkbox" class="close" data-dismiss="modal" id="canceloutstation_X">×</button>
-                                            <h4>Outstation Status</h4>
-                                        </div>-->
-                                        
-                                        <div class="modal-body"><h3 style="text-align: center">Outstation Status</h3>
-                                            <p>
-                                                <textarea name="outstationStatusTxt" id="outstationStatusTxt" rows="6" cols="75" placeholder=" Please state your reason..."></textarea>
-                                            </p>
-                                            <input type="hidden" value="" id="valOutStationStatus">
-<!--                                        </div>
-                                        <div class="modal-footer">-->
-                                            <a href="#" class="btn" data-dismiss="modal" id="canceloutstation">Cancel</a>
-                                            <a href="#" class="btn btn-primary" id="saveoutstation">Save</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                           
                           
                           <!--</div>-->
@@ -691,7 +696,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </div>
                       
                       ############# -->
-                          
+                      
                         <!--<div class="panel-body">
                           <a href="#" class="block h4 font-bold m-b text-black">Get started with Bootstrap</a>                          
                           <div class="r b bg-warning-ltest wrapper m-b">

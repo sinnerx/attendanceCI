@@ -83,7 +83,7 @@ if (navigator.geolocation) {
             var secs = ('0' + d.getSeconds()).slice(-2);
             //alert("secs :"+secs);
             var msec = d.getMilliseconds();
-            return day + "-" + month + "-" + year + " " + hour + ":" + mins + ":" + secs/* + "," + msec*/;
+            return day + "-" + month + "-" + year + " " + hour + ":" + mins/* + ":" + secs + "," + msec*/;
     }
 //    function parseTime(time_) {
 //            var d = new Date(time_);

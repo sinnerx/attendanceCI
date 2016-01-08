@@ -45,7 +45,7 @@ defined ('BASEPATH') or exit('No direct access allowed!');
     <script src="<?php echo base_url();?>js/ie/excanvas.js"></script>
   <![endif]-->
   <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>-->
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   <!--<script src="<?php echo base_url();?>js/jquery.min.js"></script>-->
   <script type="text/javascript">
       
@@ -77,6 +77,7 @@ $(document).ready(function() {
                     //table.ajax.reload(null,false);
                     console.log(data);
                     reload_table();
+                    notify();
                 },
             error: function (jqXHR, textStatus, errorThrown)
             {
@@ -107,6 +108,7 @@ $(document).ready(function() {
                 //table.ajax.reload(null,false);
                 console.log(data);
                 reload_table();
+                notify();
       },
        error: function (jqXHR, textStatus, errorThrown)
             {
@@ -145,6 +147,17 @@ function reload_table(){
      // alert("reloaded!");
       table.ajax.reload(null,false); //reload datatable ajax 
 }
+
+function notify(){
+   
+        var div = document.getElementById('success');
+        div.innerHTML += 'Data successfully submitted!';
+        function f() { 
+            div.innerHTML = "";
+    }
+    setTimeout(f, 3000);        
+}
+    
 
 </script>
 

@@ -25,14 +25,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <ul class="dropdown-menu animated fadeInRight">
             <span class="arrow top"></span>
             <li>
-              <a href="../dashboard/user/profile">My Profile</a>
+              <a href="../../dashboard/user/profile">My Profile</a>
             </li>
             <li>
-              <a href="../dashboard/user/changePassword">Change Password</a>
+              <a href="../../dashboard/user/changePassword">Change Password</a>
             </li>
             <li class="divider"></li>
             <li>
-              <a href="../dashboard/logout">Logout</a>
+              <a href="../../dashboard/logout">Logout</a>
             </li>
           </ul>
         </li>
@@ -63,14 +63,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <ul class="dropdown-menu animated fadeInRight m-t-xs">
             <span class="arrow top hidden-nav-xs"></span>
             <li>
-              <a href="../dashboard/user/profile">My Profile</a>
+              <a href="../../dashboard/user/profile">My Profile</a>
             </li>
             <li>
-              <a href="../dashboard/user/changePassword">Change Password</a>
+              <a href="../../dashboard/user/changePassword">Change Password</a>
             </li>
             <li class="divider"></li>
             <li>
-              <a href="../dashboard/logout">Logout</a>
+              <a href="../../dashboard/logout">Logout</a>
             </li>
           </ul>
         </div>
