@@ -22,8 +22,4 @@ _______________________________
 digitalgaia
       |_ iris
            |_ **attendance**
-           |_ lms
-           |_ phases
-           |_ pim
-           |_ repo
-           |_ tests
+           
