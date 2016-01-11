@@ -70,8 +70,9 @@ if (navigator.geolocation) {
     }
     function parseTimestamp(timestamp) {
             var d = new Date(timestamp);
-            var day = d.getDate();
-            var month = d.getMonth() + 1;
+            //('0' + d.getHours()).slice(-2);
+            var day = ('0' + d.getDate()).slice(-2);
+            var month = ( '0' + (d.getMonth() + 1)).slice(-2);
             var year = d.getFullYear();
             //var hour = d.getHours();
             var hour = ('0' + d.getHours()).slice(-2);

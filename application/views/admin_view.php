@@ -603,7 +603,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <th width="18%">Location (Lat, Long)</th>-->
                                     <th>Name</th>
                                     <th>Cluster</th>
-                                    <th>Date</th>
+                                    <th width="12%">Date</th>
                                     <th>Time</th>
                                     <th>Activites</th>
                                     <th>Status</th>

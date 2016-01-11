@@ -124,7 +124,7 @@ $(document).ready(function() {
     });
     
     table = $('#table').DataTable({ 
-        
+
         "processing": true, //Feature control the processing indicator.
         "serverSide": true, //Feature control DataTables' server-side processing mode.
         "order": [], //Initial no order.
@@ -142,7 +142,7 @@ $(document).ready(function() {
             "orderable": false, //set not orderable
         },
         ],
-        //alert($userid);
+
     });
     
  });
@@ -153,9 +153,10 @@ function reload_table(){
 }
 
 function notify(){
-           var div = document.getElementById('success');
-            div.innerHTML += 'Data successfully submitted!';
-           function f() { 
+   
+        var div = document.getElementById('success');
+        div.innerHTML += 'Data successfully submitted!';
+        function f() { 
             div.innerHTML = "";
     }
     setTimeout(f, 3000);        

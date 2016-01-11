@@ -48,8 +48,10 @@ class Manager_model extends CI_Model {
     private function _get_datatables_query()
 	{
 		//print_r($_POST);
+                
 		$this->db->from($this->table);
-                //$this->db->where('managerID',$userID);
+                //$this->db->where('managerID',$userid);
+                //$this->db->where('managerID',134);
                 //print_r($_POST['search']['value']);
 		$i = 0;
 	
@@ -88,7 +90,8 @@ class Manager_model extends CI_Model {
 
 	function get_datatables()
 	{
-		$this->_get_datatables_query();
+                //$this->db->where('managerID',134);
+                $this->_get_datatables_query();
 		if($_POST['length'] != -1)
 		$this->db->limit($_POST['length'], $_POST['start']);
                 //$this->db->from($this->table);

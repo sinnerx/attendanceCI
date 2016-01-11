@@ -5,22 +5,26 @@
  * and open the template in the editor.
  */
 class Manager extends CI_Controller {
-    
+    public $userid;
+    public $userLevel;
     public function __construct()
 	{
 		parent::__construct();
+                //userID/userLevel from nativesession from IRIS/main system session
+                $this->userid = $this->nativesession->get( 'userid' );
+                $this->userLevel = $this->nativesession->get( 'userLevel' );
+                //load manager model aliases with 'manager'
 		$this->load->model('manager_model','manager');
 	}
 
     public function index() {
         //$this->load->helper('url');
-        //userID/userLevel from nativesession from IRIS/main system session
-        $userid = $this->nativesession->get( 'userid' );
-        $userLevel = $this->nativesession->get( 'userLevel' );
+        
+        
 
         $data = array(
-		    'userid' => $userid,
-		    'userLevel' => $userLevel,
+		    'userid' => $this->userid,
+		    'userLevel' => $this->userLevel,
 		    'message' => 'My Message',
                     'title' => 'Manager\'s Attendance Site',
                     
@@ -46,9 +50,9 @@ class Manager extends CI_Controller {
         //load model for manager
         $this->load->model('manager_model');
         //pass userid to model->method
-        $this->manager_model->getFullName($userid);
-        $this->manager_model->getUserLevel($userLevel);
-        $this->manager_model->getClusterName($userid);
+        $this->manager_model->getFullName($this->userid);
+        $this->manager_model->getUserLevel($this->userLevel);
+        $this->manager_model->getClusterName($this->userid);
         
         //attendance
         //$this->manager_model->insertAttendance($dataAtt);
@@ -94,6 +98,8 @@ class Manager extends CI_Controller {
     //tables
     public function ajax_list()
 	{
+                //$this->db->where('managerID',$this->userid);
+        
 		$list = $this->manager->get_datatables();
 		$data = array();
 		$no = $_POST['start'];
