@@ -594,13 +594,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                   <tr>
                                     <!--<th width="5%">ID</th>
                                     <th width="12%">Manager ID</th>-->
-                                    <th width="15%">Name</th>
+<!--                                    <th width="15%">Name</th>
                                     <th width="15%">Cluster</th>
                                     <th width="10%">Date</th>
                                     <th width="10%">Time</th>
                                     <th width="10%">Activites</th>
                                     <th width="20%">Status</th>
-                                    <th width="18%">Location (Lat, Long)</th>
+                                    <th width="18%">Location (Lat, Long)</th>-->
+                                    <th>Name</th>
+                                    <th>Cluster</th>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                    <th>Activites</th>
+                                    <th>Status</th>
+                                    <th>Location (Lat, Long)</th>
                                     <!--<th>Action</th>-->
                                   </tr>
                                 </thead>
