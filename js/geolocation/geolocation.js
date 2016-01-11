@@ -53,7 +53,7 @@ if (navigator.geolocation) {
             $("#valLatLong").val(latitude.toFixed(7)  + '°, ' + longitude.toFixed(7) + '°');
             $("#valDateTime").val(parseTimestamp(position.timestamp));
             $("#valDate").val(parseTimestamp(position.timestamp).substr(0,9));
-            $("#valTime").val(parseTimestamp(position.timestamp).substr(-9));
+            $("#valTime").val(parseTimestamp(position.timestamp).substr(-6));
              
            // $("#valActivityStatus").val('IN');
             //console.log("parseTimestamp(timestamp): "+parseTimestamp(timestamp));
