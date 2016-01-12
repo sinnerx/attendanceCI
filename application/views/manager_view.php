@@ -671,7 +671,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>
                       </section>                  
                     </div>-->
-                      <!-- ############ temporary disabled table
+                      
                       <div class="col-md-12">
                       <section class="panel b-a">
                         <div class="panel-heading b-b">
@@ -683,8 +683,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               
                                 <thead>
                                   <tr>
-                                    <th width="5%">ID</th>
-                                    <th width="12%">Manager ID</th>
+                                    <!--<th width="5%">ID</th>
+                                    <th width="12%">Manager ID</th>-->
                                     <th width="15%">Date</th>
                                     <th width="15%">Time</th>
                                     <th width="10%">Activites</th>
@@ -698,7 +698,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               </table>
                             </div>
                       
-                      ############# -->
+                      
                       
                         <!--<div class="panel-body">
                           <a href="#" class="block h4 font-bold m-b text-black">Get started with Bootstrap</a>                          

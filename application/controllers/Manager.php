@@ -98,8 +98,9 @@ class Manager extends CI_Controller {
     //tables
     public function ajax_list()
 	{
-                //$this->db->where('managerID',$this->userid);
-        
+                //get the assign userid attendance list
+                $this->db->where('managerID',$this->userid);
+                //list the db
 		$list = $this->manager->get_datatables();
 		$data = array();
 		$no = $_POST['start'];
@@ -108,8 +109,8 @@ class Manager extends CI_Controller {
 			$row = array();
                         //$row[] = $manager->attID;
 			//$row[] = $manager->managerID;
-                        $row[] = $manager->managerName;
-                        $row[] = $manager->siteName;
+                        //$row[] = $manager->managerName;
+                        //$row[] = $manager->siteName;
 			$row[] = $manager->activityDate;
                         $row[] = $manager->activityTime;
 			$row[] = $manager->activityStatus;

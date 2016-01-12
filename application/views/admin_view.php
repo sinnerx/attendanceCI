@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <a class="btn btn-link visible-xs" data-toggle="class:nav-off-screen" data-target="#nav">
           <i class="fa fa-bars"></i>
         </a>
-        <a href="../" class="navbar-brand"><img src="<?php echo base_url();?>images/logo.png" class="m-r-sm"><?php if($userid==1){ echo "Administration Mode";}else{echo $this->manager_model->getClusterName($userid);} ?></a>
+        <a href="../" class="navbar-brand"><img src="<?php echo base_url();?>images/logo.png" class="m-r-sm"><?php if($userid==1){ echo "Administration Mode";}else{echo $this->admin_model->getClusterName($userid);} ?></a>
         <a class="btn btn-link visible-xs" data-toggle="dropdown" data-target=".user">
           <i class="fa fa-cog"></i>
         </a>
@@ -19,7 +19,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <span class="thumb-sm avatar pull-left">
               <img src="<?php echo base_url();?>images/a0.png">
             </span>
-            <?php echo $this->manager_model->getFullName($userid); ?><b class="caret"></b>
+            <?php echo $this->admin_model->getFullName($userid); ?><b class="caret"></b>
           </a>
             
           <ul class="dropdown-menu animated fadeInRight">
@@ -54,7 +54,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </span>
             <span class="hidden-nav-xs clear">
               <span class="block m-t-xs">
-                <strong class="font-bold text-lt"><?php echo $this->manager_model->getFullName($userid)?></strong> 
+                <strong class="font-bold text-lt"><?php echo $this->admin_model->getFullName($userid)?></strong> 
                 <b class="caret"></b>
               </span>
               <span class="text-muted text-xs block"><?php if($userLevel==2){echo "Site Manager";}else{echo "Root Admin";} ?></span>
@@ -557,7 +557,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="col-sm-6">
                       <h3 class="m-b-xs text-black">Manager's Attendance List</h3>
                       <!--<div class="well well-sm">All about your profile. You can edit all through here.</div>-->
-                       <small>Welcome back,<?php echo $this->manager_model->getFullName($userid)?>, <?php echo $this->manager_model->getClusterName($userid); ?><!--<i class="fa fa-map-marker fa-lg text-primary"></i>--> </small>
+                       <small>Welcome back,<?php echo $this->admin_model->getFullName($userid)?>, <?php echo $this->admin_model->getClusterName($userid); ?><!--<i class="fa fa-map-marker fa-lg text-primary"></i>--> </small>
                     </div>
                   </section>
                   
@@ -588,7 +588,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <a href="#" class="font-bold">Activities</a>
                         </div>
                           <div class="table-responsive">
-                              <table id="table" class="table table-striped m-b-none" data-ride="datatables">
+                              <table id="tableAdmin" class="table table-striped m-b-none" data-ride="datatables">
                               <!--<table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">-->
                                 <thead>
                                   <tr>
