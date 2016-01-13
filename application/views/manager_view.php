@@ -17,7 +17,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <span style="font-size:30px;padding-right: 10px; padding-top: 5px;color: #B4B9BC;">Attendance Management</span>
         </li>
         <li>
-          <a onclick="return true;" href="http://www.celcom1cbc.com/dashboard" target="_blank" style="border-left:1px dashed #CECECE;color: #8B8B8B;letter-spacing: 1px"><span class="btn btn-success">Go to Pi1M <span class="not-connected-text"></span></span></a>
+          <a onclick="return true;" href="../dashboard" target="_self" style="border-left:1px dashed #CECECE;color: #8B8B8B;letter-spacing: 1px"><span class="btn btn-success">Go to Pi1M <span class="not-connected-text"></span></span></a>
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right m-n hidden-xs nav-user user">
@@ -683,7 +683,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       <section class="panel b-a">
                         <div class="panel-heading b-b">
                          
-                          <a href="#" class="font-bold">Activities</a>
+                          <a href="#" class="font-bold">Recent Activities</a>
                         </div>
                           <div ><!--class="table-responsive"-->
                               <table id="table" class="table table-striped m-b-none" data-ride="datatables">

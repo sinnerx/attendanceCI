@@ -17,7 +17,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <span style="font-size:30px;padding-right: 10px; padding-top: 5px;color: #B4B9BC;">Attendance Management</span>
         </li>
         <li>
-          <a onclick="return true;" href="http://www.celcom1cbc.com/dashboard" target="_blank" style="border-left:1px dashed #CECECE;color: #8B8B8B;letter-spacing: 1px"><span class="btn btn-success">Go to Pi1M <span class="not-connected-text"></span></span></a>
+          <a onclick="return true;" href="../dashboard" target="_self" style="border-left:1px dashed #CECECE;color: #8B8B8B;letter-spacing: 1px"><span class="btn btn-success">Go to Pi1M <span class="not-connected-text"></span></span></a>
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right m-n hidden-xs nav-user user">
@@ -32,14 +32,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <ul class="dropdown-menu animated fadeInRight">
             <span class="arrow top"></span>
             <li>
-              <a href="../../dashboard/user/profile">My Profile</a>
+              <a href="../dashboard/user/profile">My Profile</a>
             </li>
             <li>
-              <a href="../../dashboard/user/changePassword">Change Password</a>
+              <a href="../dashboard/user/changePassword">Change Password</a>
             </li>
             <li class="divider"></li>
             <li>
-              <a href="../../dashboard/logout">Logout</a>
+              <a href="../dashboard/logout">Logout</a>
             </li>
           </ul>
         </li>
@@ -70,14 +70,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           <ul class="dropdown-menu animated fadeInRight m-t-xs">
             <span class="arrow top hidden-nav-xs"></span>
             <li>
-              <a href="../../dashboard/user/profile">My Profile</a>
+              <a href="../dashboard/user/profile">My Profile</a>
             </li>
             <li>
-              <a href="../../dashboard/user/changePassword">Change Password</a>
+              <a href="../dashboard/user/changePassword">Change Password</a>
             </li>
             <li class="divider"></li>
             <li>
-              <a href="../../dashboard/logout">Logout</a>
+              <a href="../dashboard/logout">Logout</a>
             </li>
           </ul>
         </div>
@@ -86,7 +86,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                 <!-- nav -->                 
                 <nav class="nav-primary hidden-xs">
-                  <!--<div class="text-muted text-sm hidden-nav-xs padder m-t-sm m-b-sm">Start</div>-->
                   <ul class="nav nav-main" data-ride="collapse">
                     <li>
                       <a href="../dashboard/site/overview/" class="auto">
