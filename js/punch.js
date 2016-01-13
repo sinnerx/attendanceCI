@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
+var id = $("#valManagerID").val();
 function setCookie(cname,cvalue,exdays) {
     var d = new Date();
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
@@ -26,9 +26,9 @@ function getCookie(cname) {
 
 function checkCookie() {
     //alert($("#valManagerID").val());
-    var punch = getCookie("punchStatus"+$("#valManagerID").val());
+    var punch = getCookie("punchStatus"+id);
     if(punch === ""){
-        setCookie("punchStatus"+$("#valManagerID").val(), "in", 30);
+        setCookie("punchStatus"+id, "in", 30);
         //alert("$( \"#punch-in\" ): " + $( "#punch-in" ));
         $( "#punch-in" ).show();
         $( "#punch-out" ).hide();
@@ -44,23 +44,26 @@ function checkCookie() {
 }
 checkCookie();//run for the first time/cycle
 //alert("getCookie(\"punchStatus\");"+getCookie("punchStatus"));
+
 $( "#punch-in" ).click(function() {
-    var punch__= getCookie("punchStatus"+$("#valManagerID").val());
+    var punch__= getCookie("punchStatus"+id);
     if(punch__ === "in"){
     $( "#punch-in" ).hide();
     $( "#punch-out" ).show();
-     setCookie("punchStatus"+$("#valManagerID").val(), "out", 30);
+     setCookie("punchStatus"+id, "out", 30);
     }
+    //alert("punch-in ID"+$("#valManagerID").val());
 });
 
 $( "#punch-out" ).click(function() {
-    var punch_=getCookie("punchStatus"+$("#valManagerID").val());
+    var punch_=getCookie("punchStatus"+id.val());
     if(punch_ === "out"){
     $( "#punch-out" ).hide();
     $( "#punch-in" ).show();
-         setCookie("punchStatus"+$("#valManagerID").val(), "in", 30);
+         setCookie("punchStatus"+id, "in", 30);
 
     }
+    //alert("punch-out ID"+$("#valManagerID").val());
 });
 
 
