@@ -149,7 +149,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <a href="#" class="font-bold">Activities</a>
                         </div>
                           <div class="table-responsive">
-                              <table id="tableAdmin" class="table table-striped m-b-none" data-ride="datatables">
+                              <table id="tableAdmin" class="table table-striped m-b-none">
                               <!--<table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">-->
                                 <thead>
                                   <tr>
