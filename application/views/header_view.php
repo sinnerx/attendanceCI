@@ -13,9 +13,7 @@ defined ('BASEPATH') or exit('No direct access allowed!');
             header("location: ../dashboard");
             //header('location:'.base_url().'dashboard');
     }
-            //echo "\$_SESSION\[\'userLevel\']: ".$_SESSION['userLevel'];
-   // echo $userid;
-    //echo base_url();
+           
    if(($_SESSION['userLevel']) > 3){
         //echo $userid;
         header("location: ".base_url()."admin");
@@ -23,29 +21,7 @@ defined ('BASEPATH') or exit('No direct access allowed!');
         //echo "Admin is here";
    } 
    
-   /*$userSessionLevel = $_SESSION['userLevel'];
-   switch ($userSessionLevel) {
-    case 1:
-        //echo $userSessionLevel;
-        break;
-    //manager
-    case 2:
-        header("location: ./");
-        break;
-    //cluster lead
-    case 3:
-        header("location: ./");
-        break;
-    //operation manager
-    case 4:
-        header("location: ".base_url()."admin");
-        break;
-    case 99:
-        header("location: ".base_url()."admin");
-        break;
-        default:
-       //echo $userSessionLevel;
-    }*/
+   
 ?>
 <head>  
   <meta charset="utf-8" />
@@ -79,6 +55,9 @@ $(document).ready(function() {
     //reload_table();
        //punch-in   
       $( "#punch-in" ).click(function(event) {
+          $( "#punch-out" ).addClass('disabled');
+           // $( "#punch-out" ).disable(true);
+           //alert(this);
             //reload_table();  
            // alert("reload_table"+ reload_table());
             event.preventDefault();
@@ -113,6 +92,7 @@ $(document).ready(function() {
         });
     //punch-out
     $( "#punch-out" ).click(function(event) {
+        $( "#punch-in" ).addClass('disabled');
         event.preventDefault();
         var managerID = $("#valManagerID").val();
         var managerName = $("#valManagerName").val();
@@ -179,10 +159,12 @@ function notify(){
             div.innerHTML += 'Data successfully submitted!';
            function f() { 
             div.innerHTML = "";
+            $( "#punch-in" ).removeClass('disabled');
+            $( "#punch-out" ).removeClass('disabled');
     }
     setTimeout(f, 3000);        
 }
-    
+ 
 
 </script>
 
