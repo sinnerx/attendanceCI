@@ -147,6 +147,22 @@ $(document).ready(function() {
         //alert($userid);
     });
     
+    $("#canceloutstation").click(function() {
+            //alert("cancel");
+        if($("#outstationStatusTxt").val()) != ""){
+
+            alert($("#outstationStatusTxt").val());
+    }
+      alert($("#outstationStatusTxt").val());      
+    
+    });
+     $('input,textarea').focus(function () {
+        $(this).data('placeholder', $(this).attr('placeholder'))
+               .attr('placeholder', '');
+    }).blur(function () {
+        $(this).attr('placeholder', $(this).data('placeholder'));
+    });
+    
  });
  
 function reload_table(){
@@ -164,7 +180,8 @@ function notify(){
     }
     setTimeout(f, 3000);        
 }
- 
+
+
 
 </script>
 

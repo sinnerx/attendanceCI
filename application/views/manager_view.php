@@ -204,7 +204,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                             <input type="hidden" value="" id="valOutStationStatus">
 <!--                                        </div>
                                         <div class="modal-footer">-->
-                                            <a href="#" class="btn" data-dismiss="modal" id="canceloutstation">Cancel</a>
+                                            <a id="canceloutstation" href="#" class="btn" data-dismiss="modal" >Cancel</a>
                                             <a href="#" class="btn btn-primary" id="saveoutstation">Save</a>
                                         </div>
                                     </div>
