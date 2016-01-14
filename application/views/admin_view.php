@@ -64,7 +64,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <strong class="font-bold text-lt"><?php echo $this->admin_model->getFullName($userid)?></strong> 
                 <b class="caret"></b>
               </span>
-              <span class="text-muted text-xs block"><?php if($userLevel==2){echo "Site Manager";}else{echo "Root Admin";} ?></span>
+              <span class="text-muted text-xs block">
+                  <?php if($userLevel==99){ 
+                    echo "Administration Mode";
+                    }else if($userLevel == 3 ){ 
+                        echo "Cluster Lead"; 
+                    }else if($userLevel == 4 ){ 
+                        echo "Operation Manager"; 
+                    }else{
+                       echo $this->admin_model->getClusterName($userid);
+                    } ?></span>
             </span>
           </a>
           <ul class="dropdown-menu animated fadeInRight m-t-xs">

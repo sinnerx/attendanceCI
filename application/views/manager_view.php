@@ -7,7 +7,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <a class="btn btn-link visible-xs" data-toggle="class:nav-off-screen" data-target="#nav">
           <i class="fa fa-bars"></i>
         </a>
-        <a href="../" class="navbar-brand"><img src="<?php echo base_url();?>images/logo.png" class="m-r-sm"><?php if($userid==1){ echo "Administration Mode";}else{echo $this->manager_model->getClusterName($userid);} ?></a>
+        <a href="../" class="navbar-brand"><img src="<?php echo base_url();?>images/logo.png" class="m-r-sm">
+            
+            <?php if($userLevel==99){ 
+                echo "Administration Mode";
+            }else if($userLevel == 3 ){ 
+                echo "Cluster Lead"; 
+            }else if($userLevel == 4 ){ 
+                echo "Operation Manager"; 
+            }else{
+                 echo $this->manager_model->getClusterName($userid);
+            } ?></a>
         <a class="btn btn-link visible-xs" data-toggle="dropdown" data-target=".user">
           <i class="fa fa-cog"></i>
         </a>
@@ -64,7 +74,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <strong class="font-bold text-lt"><?php echo $this->manager_model->getFullName($userid)?></strong> 
                 <b class="caret"></b>
               </span>
-              <span class="text-muted text-xs block"><?php if($userLevel==2){echo "Site Manager";}else{echo "Root Admin";} ?></span>
+              <span class="text-muted text-xs block">
+                  <?php if($userLevel==2){
+                      echo "Site Manager";
+                  }else if($userLevel==3){
+                      echo "Cluster Lead";
+                  }else if($userLevel==4){
+                      echo "Operation Manager";
+                  }else{
+                      echo "Root Admin";
+                  } ?></span>
             </span>
           </a>
           <ul class="dropdown-menu animated fadeInRight m-t-xs">
@@ -118,7 +137,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <section class="scrollable padder">              
                   <section class="row m-b-md">
                     <div class="col-sm-6">
-                      <h3 class="m-b-xs text-black">Manager's Attendance</h3>
+                      <h3 class="m-b-xs text-black">
+                       <?php if($userLevel==2){
+                        echo "Manager's Attendance";
+                      }else if($userLevel==3){
+                          echo "Cluster Lead's Attendance";
+                      }else{
+                          echo "Administration Attendance";
+                      } ?></h3>
                       <!--<div class="well well-sm">All about your profile. You can edit all through here.</div>-->
                        <small>Welcome back,<?php echo $this->manager_model->getFullName($userid)?>, <?php echo $this->manager_model->getClusterName($userid); ?><!--<i class="fa fa-map-marker fa-lg text-primary"></i>--> </small>
                       
