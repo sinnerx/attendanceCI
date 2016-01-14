@@ -147,16 +147,17 @@ $(document).ready(function() {
         //alert($userid);
     });
     
-    $("#canceloutstation").click(function() {
-            //alert("cancel");
-        if($("#outstationStatusTxt").val()) != ""){
-
-            alert($("#outstationStatusTxt").val());
-    }
-      alert($("#outstationStatusTxt").val());      
+//    $("#canceloutstation").click(function() {
+//            //alert("cancel");
+//             //alert($("#outstationStatusTxt").val());    
+//        if($("#outstationStatusTxt").val()) != ""){
+//
+//           // alert($("#outstationStatusTxt").val());
+//        }
+//    });
+   
     
-    });
-     $('input,textarea').focus(function () {
+    $('input,textarea').focus(function () {
         $(this).data('placeholder', $(this).attr('placeholder'))
                .attr('placeholder', '');
     }).blur(function () {
