@@ -16,12 +16,33 @@ defined ('BASEPATH') or exit('No direct access allowed!');
             //echo "\$_SESSION\[\'userLevel\']: ".$_SESSION['userLevel'];
    // echo $userid;
     //echo base_url();
-    if(($_SESSION['userLevel']) == 99){
+   /*if(($_SESSION['userLevel']) == 99){
         //echo $userid;
         header("location: ".base_url()."admin");
         //if ($_SERVER['PHP_SELF'] != "") header("Location: admin/");
         //echo "Admin is here";
-   } 
+   } */
+   
+   $userSessionLevel = $_SESSION['userLevel'];
+   switch ($userSessionLevel) {
+    case 1:
+        echo $userSessionLevel;
+        break;
+    case 2:
+       echo $userSessionLevel;
+        break;
+    case 3:
+        echo $userSessionLevel;
+        break;
+    case 4:
+        echo $userSessionLevel;
+        break;
+    case 99:
+        echo $userSessionLevel;
+        break;
+    default:
+       echo $userSessionLevel;
+}
 ?>
 <head>  
   <meta charset="utf-8" />

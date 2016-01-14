@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 var id = $("#valManagerID").val();
+//alert(id);
 function setCookie(cname,cvalue,exdays) {
     var d = new Date();
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
@@ -56,7 +57,7 @@ $( "#punch-in" ).click(function() {
 });
 
 $( "#punch-out" ).click(function() {
-    var punch_=getCookie("punchStatus"+id.val());
+    var punch_= getCookie("punchStatus"+id);
     if(punch_ === "out"){
     $( "#punch-out" ).hide();
     $( "#punch-in" ).show();
