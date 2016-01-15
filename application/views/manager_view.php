@@ -235,7 +235,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                           echo "run-in";
                                       }
                                       
-                                      ?>;;">
+                                      ?>;">
                                   <i class="fa fa-minus"></i> Punch OUT</a>
                               </p>
                           <!--</div>-->

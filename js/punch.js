@@ -33,11 +33,7 @@ $('#outstation').click(function () {
 });
  $('#canceloutstation').click(function () {
      $('#outstation').prop('checked', false);
-    /*. if($('#outstationStatusTxt').html() != " Please state your reason..."){
-       alert("not rite txt");
-
-     }*/
-
+     $('#outstationStatusTxt').val("");
  });
  $('#saveoutstation').click(function () {
      //alert("OSTxt: "+$('#outstationStatusTxt').val());
