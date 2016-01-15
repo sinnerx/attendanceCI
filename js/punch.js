@@ -7,7 +7,7 @@
 $( "#punch-in" ).click(function() {
     $( "#punch-in" ).hide();
     $( "#punch-out" ).show();
-
+});
 
 $( "#punch-out" ).click(function() {
     $( "#punch-out" ).hide();

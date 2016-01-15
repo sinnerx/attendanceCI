@@ -6,7 +6,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       <div class="navbar-header aside-md dk">
         <a class="btn btn-link visible-xs" data-toggle="class:nav-off-screen" data-target="#nav">
           <i class="fa fa-bars"></i>
-        </a> <?php echo $this->manager_model->getLastPunchStatus($userid); ?>
+        </a>
         <a href="../" class="navbar-brand"><img src="<?php echo base_url();?>images/logo.png" class="m-r-sm">
             
             <?php if($userLevel==99){ 
