@@ -6,7 +6,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       <div class="navbar-header aside-md dk">
         <a class="btn btn-link visible-xs" data-toggle="class:nav-off-screen" data-target="#nav">
           <i class="fa fa-bars"></i>
-        </a>
+        </a> <?php echo $this->manager_model->getLastPunchStatus($userid); ?>
         <a href="../" class="navbar-brand"><img src="<?php echo base_url();?>images/logo.png" class="m-r-sm">
             
             <?php if($userLevel==99){ 
@@ -213,7 +213,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <div>
                           <!--<div  id='punch-in'>-->
                               <p style="text-align: center">
-                                  <a id="punch-in" href="#" class="btn btn-default btn-lg" style="display: none;">
+                                  <a id="punch-in" href="#" class="btn btn-default btn-lg" style="display: 
+                                      <?php if(($this->manager_model->getLastPunchStatus($userid)) == "IN"){
+                                          echo "none";
+                                      } else {
+                                          echo "run-in";
+                                      }
+                                      
+                                      ?>;">
                                   <i class="fa fa-plus"></i> Punch IN</a>
                                   <input type="hidden" value="" id="valActivityStatus">
                               <!--</p>
@@ -221,7 +228,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           
                           <!--<div  id='punch-out'>
                               <p style="text-align: center">-->
-                              <a id="punch-out" href="#" class="btn btn-danger btn-lg" style="display: none;">
+                              <a id="punch-out" href="#" class="btn btn-danger btn-lg" style="display: 
+                                  <?php if(($this->manager_model->getLastPunchStatus($userid)) == "OUT" || ($this->manager_model->getLastPunchStatus($userid)) == ""){
+                                          echo "none";
+                                      } else{
+                                          echo "run-in";
+                                      }
+                                      
+                                      ?>;;">
                                   <i class="fa fa-minus"></i> Punch OUT</a>
                               </p>
                           <!--</div>-->

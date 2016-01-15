@@ -17,7 +17,7 @@ class Manager_model extends CI_Model {
         parent::__construct();
 
     }
-     public function getFullName($userid){
+    public function getFullName($userid){
        $query = $this->db->query("SELECT userProfileFullName FROM user_profile WHERE userID ='$userid'");
         foreach ($query->result() as $row)
         {
@@ -38,6 +38,17 @@ class Manager_model extends CI_Model {
                //return cluster name/siteName to view
                return $row->siteName;
         }
+    }
+    //get latest state of punch
+    public function getLastPunchStatus($userid){
+        $query = $this->db->query("SELECT activityStatus FROM att_attendancedetails WHERE managerID ='$userid'  ORDER BY  attID DESC");
+        foreach ($query->result() as $row)
+        {
+               //return status
+               return $row->activityStatus;
+        }
+        
+                
     }
     
     public function insertAttendance($data){

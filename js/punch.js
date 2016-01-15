@@ -3,68 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-var id = $("#valManagerID").val();
-//alert(id);
-function setCookie(cname,cvalue,exdays) {
-    var d = new Date();
-    d.setTime(d.getTime() + (exdays*24*60*60*1000));
-    var expires = "expires=" + d.toGMTString();
-    document.cookie = cname+"="+cvalue+"; "+expires;
-}
-
-function getCookie(cname) {
-    var name = cname + "=";
-    var ca = document.cookie.split(';');
-    for(var i=0; i<ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0)==' ') c = c.substring(1);
-        if (c.indexOf(name) == 0) {
-            return c.substring(name.length, c.length);
-        }
-    }
-    return "";
-}
-
-function checkCookie() {
-    //alert($("#valManagerID").val());
-    var punch = getCookie("punchStatus"+id);
-    if(punch === ""){
-        setCookie("punchStatus"+id, "in", 30);
-        //alert("$( \"#punch-in\" ): " + $( "#punch-in" ));
-        $( "#punch-in" ).show();
-        $( "#punch-out" ).hide();
-    } else if(punch === "in"){
-        $( "#punch-in" ).show();
-    $( "#punch-out" ).hide();
-       // alert("IN $( \"#punch-in\" ): " + $( "#punch-in" ));
-    } else if (punch === "out"){
-        //alert("OUT $( \"#punch-in\" ): " + $( "#punch-in" ));
-        $( "#punch-in" ).hide();
-        $( "#punch-out" ).show();
-    }
-}
-checkCookie();//run for the first time/cycle
-//alert("getCookie(\"punchStatus\");"+getCookie("punchStatus"));
 
 $( "#punch-in" ).click(function() {
-    var punch__= getCookie("punchStatus"+id);
-    if(punch__ === "in"){
     $( "#punch-in" ).hide();
     $( "#punch-out" ).show();
-     setCookie("punchStatus"+id, "out", 30);
-    }
-    //alert("punch-in ID"+$("#valManagerID").val());
-});
+
 
 $( "#punch-out" ).click(function() {
-    var punch_= getCookie("punchStatus"+id);
-    if(punch_ === "out"){
     $( "#punch-out" ).hide();
     $( "#punch-in" ).show();
-         setCookie("punchStatus"+id, "in", 30);
-
-    }
-    //alert("punch-out ID"+$("#valManagerID").val());
 });
 
 
