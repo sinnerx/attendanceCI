@@ -16,7 +16,7 @@ $( "#punch-out" ).click(function() {
 
 
 $('#outstation').click(function () {
-//alert("click check?");
+alert("click check?");
     if ($(this).is(':checked')) {
         $("#outstationStatus").modal({
             backdrop: 'static',

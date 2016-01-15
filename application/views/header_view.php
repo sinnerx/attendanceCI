@@ -164,6 +164,8 @@ $(document).ready(function() {
         $(this).attr('placeholder', $(this).data('placeholder'));
     });
     
+    
+    
  });
  
 function reload_table(){
@@ -178,6 +180,9 @@ function notify(){
             div.innerHTML = "";
             $( "#punch-in" ).removeClass('disabled');
             $( "#punch-out" ).removeClass('disabled');
+            //reset check box
+            $('#outstationStatusTxt').val("");
+            outstationTxt.innerHTML = '<label><input id=\"outstation\" type=\"checkbox\"><i></i> Add Notes</label>' ;
     }
     setTimeout(f, 3000);        
 }
