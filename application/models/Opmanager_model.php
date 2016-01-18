@@ -29,7 +29,7 @@ class Opmanager_model extends CI_Model{
        //userLevel
    // }
     
-    public function getClusterName ($userid){
+    public function getClusterName($userid){
         //get clustername from IRIS (siteName)
         $query = $this->db->query("SELECT siteName FROM site JOIN site_manager WHERE userID ='$userid' AND site.siteID = site_manager.siteID");
         foreach ($query->result() as $row)

@@ -7,7 +7,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <a class="btn btn-link visible-xs" data-toggle="class:nav-off-screen" data-target="#nav">
           <i class="fa fa-bars"></i>
         </a>
-        <a href="index.html" class="navbar-brand"><img src="<?php echo base_url();?>images/logo.png" class="m-r-sm">Scale</a>
+        <a href="index.html" class="navbar-brand"><img src="<?php echo base_url();?>images/logo.png" class="m-r-sm"><?php echo $this->clusterlead_model->getClusterGroup($userid); ?></a>
         <a class="btn btn-link visible-xs" data-toggle="dropdown" data-target=".user">
           <i class="fa fa-cog"></i>
         </a>
@@ -651,7 +651,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <section class="scrollable padder">              
                   <section class="row m-b-md">
                     <div class="col-sm-6">
-                      <h3 class="m-b-xs text-black">Cluster Lead's Dashboard <?php echo getClusterGroup ($userid); ?></h3>
+                      <h3 class="m-b-xs text-black"><?php echo $this->clusterlead_model->getClusterGroup($userid); ?>'s Dashboard</h3>
                       <small>Welcome back, John Smith, <i class="fa fa-map-marker fa-lg text-primary"></i> New York City</small>
                     </div>
                     <div class="col-sm-6 text-right text-left-xs m-t-md">

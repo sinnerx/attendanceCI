@@ -7,11 +7,31 @@
  */
 
 class Clusterlead extends CI_Controller {
+    public $userid;
+    public $userLevel;
+    public function __construct()
+	{
+		parent::__construct();
+                //userID/userLevel from nativesession from IRIS/main system session
+                $this->userid = $this->nativesession->get( 'userid' );
+                $this->userLevel = $this->nativesession->get( 'userLevel' );
+                //load manager model aliases with 'manager'
+		$this->load->model('clusterlead_model','manager');
+	}
     public function index(){
-        
-        //page title
-        $data['title'] = "Cluster Lead Site";
-        
+         $data = array(
+		    'userid' => $this->userid,
+		    'userLevel' => $this->userLevel,
+		    'message' => 'My Message',
+                    'title' => 'Cluster Lead\'s Attendance Site',
+                    
+		);
+       
+        $this->load->model('clusterlead_model');
+        //pass userid to model->method
+        //$this->clusterlead_model->getFullName($this->userid);
+        //$this->clusterlead_model->getUserLevel($this->userLevel);
+        $this->clusterlead_model->getClusterGroup($this->userid);
         //load view
         $this->load->view('clusterleadHeader_view',$data);
         //$this->load->view('nav_view');
