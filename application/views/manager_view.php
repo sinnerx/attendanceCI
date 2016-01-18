@@ -240,37 +240,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               </p>
                           <!--</div>-->
                           </div><div id="success" style="text-align: center; color: green; font-weight: bold"></div>
-                          <!--<div class="col-lg-offset-2 col-lg-10">-->
-                          <!--<div class="alert alert-success">
-                            <button type="button" class="close" data-dismiss="alert">&times;</button>
-                            <i class="fa fa-ok-sign"></i><strong>Well done!</strong> You successfully read <a href="#" class="alert-link">this important alert message</a>.
-                          </div>-->
-                          
-                          
-                          
-                          <!--</div>-->
                       </div>
                   </section>
                 <?php echo form_close(); ?><br/>
-                      
                   <div class='row'>
-                    <!--<div class="col-md-4">
-                      <section class="panel b-a">
-                        <header class="panel-heading"><strong>Calendar</strong></header>
-                        <div id="calendar" class="bg-light dker m-l-n-xxs m-r-n-xxs"></div>
-                        <div class="list-group">
-                          <a href="#" class="list-group-item text-ellipsis">
-                            <span class="badge bg-warning">7:30</span> 
-                            Soft-launch
-                          </a>
-                          <a href="#" class="list-group-item text-ellipsis"> 
-                            <span class="badge bg-success">9:30</span> 
-                            Kick off meeting with Fulkrum
-                          </a>
-                        </div>
-                      </section>                  
-                    </div>-->
-                      
                       <div class="col-md-12">
                       <section class="panel b-a">
                         <div class="panel-heading b-b">
@@ -279,7 +252,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </div>
                           <div ><!--class="table-responsive"-->
                               <table id="table" class="table table-striped m-b-none" data-ride="datatables">
-                              
                                 <thead>
                                   <tr>
                                     <th width="15%">Date</th>
@@ -287,51 +259,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <th width="10%">Activites</th>
                                     <th width="20%">Status</th>
                                     <th width="18%">Location (Lat, Long)</th>
-                                    
                                   </tr>
                                 </thead>
                                 <tbody>
                                 </tbody>
-                                
                              </table>
-                             
                             </div>
-                      
-                      
-                      
-                        <!--<div class="panel-body">
-                          <a href="#" class="block h4 font-bold m-b text-black">Get started with Bootstrap</a>                          
-                          <div class="r b bg-warning-ltest wrapper m-b">
-                            There are a few easy ways to quickly get started with Bootstrap...
-                          </div>
-                          <div class="m-b">
-                            <a href="#" class="avatar thumb-sm">
-                              <img src="../images/a0.png">
-                              <i class="on b-white"></i>
-                            </a>
-                            <a href="#" class="avatar thumb-sm">
-                              <img src="../images/a1.png">
-                              <i class="busy b-white"></i>
-                            </a>
-                            <a href="#" class="avatar thumb-sm">
-                              <img src="../images/a2.png">
-                              <i class="away b-white"></i>
-                            </a>
-                            <a href="#" class="avatar thumb-sm">
-                              <img src="../images/a3.png">
-                              <i class="off b-white"></i>
-                            </a>
-                            <a href="#" class="btn btn-info btn-rounded font-bold">
-                              +152
-                            </a>
-                          </div>
-                          <p class="text-sm">Start at 2:00 PM, 12/5/2016</p>
-                          <a href="#" class="btn btn-default btn-sm btn-rounded m-b-xs"><i class="fa fa-plus"></i> Take me in</a>
-                        </div>-->
-                        
-                       <!--<div class="clearfix panel-footer">
-                           
-                        </div>--->
                       </section>
                     </div>
                   </div>
