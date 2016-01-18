@@ -185,7 +185,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       <div class="row">
                           <div id="outstationTxt" class="checkbox i-checks" style="text-align: center">
                               <label>
-                                <input id="outstation" type="checkbox"><i></i> Add Notes
+                                  <input id="outstation" type="checkbox"><i></i><span id="outstationspan"> Add Notes</span>
                               </label>
                             </div>
                           

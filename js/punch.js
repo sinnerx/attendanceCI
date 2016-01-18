@@ -16,7 +16,7 @@ $( "#punch-out" ).click(function() {
 
 
 $('#outstation').click(function () {
-alert("click check?");
+//alert("click check?");
     if ($(this).is(':checked')) {
         $("#outstationStatus").modal({
             backdrop: 'static',
@@ -39,7 +39,8 @@ alert("click check?");
      //alert("OSTxt: "+$('#outstationStatusTxt').val());
      console.log("$('#outstationStatusTxt').val(): " + $('#outstationStatusTxt').val().length);
     if($('#outstationStatusTxt').val().length !==0){
-     outstationTxt.innerHTML = '<label><input id=\"outstation\" type=\"checkbox\"><i></i>' + $('#outstationStatusTxt').val() + '</label>' ;
+     //outstationTxt.innerHTML = '<label><input id=\"outstation\" type=\"checkbox\"><i></i>' + $('#outstationStatusTxt').val() + '</label>' ;
+     $('#outstationspan').text($('#outstationStatusTxt').val());
  }else{
      alert("You need to fill-in your reason before save or cancel to exit.");
      return;

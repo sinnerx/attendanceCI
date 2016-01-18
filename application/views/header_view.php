@@ -182,7 +182,10 @@ function notify(){
             $( "#punch-out" ).removeClass('disabled');
             //reset check box
             $('#outstationStatusTxt').val("");
-            outstationTxt.innerHTML = '<label><input id=\"outstation\" type=\"checkbox\"><i></i> Add Notes</label>' ;
+            $('#outstationspan').text(" Add Notes");
+            $('#outstation').prop('checked', false);
+
+        //outstationTxt.innerHTML = '<label><input id=\"outstation\" type=\"checkbox\"><i></i> Add Notes</label>' ;
     }
     setTimeout(f, 3000);        
 }
