@@ -16,4 +16,37 @@ class Clusterlead_model extends CI_Model{
         //$this->load->database();
     }
     
+    public function getClusterName ($userid){
+        //get clustername from IRIS (siteName)
+        $query = $this->db->query("SELECT siteName FROM site JOIN site_manager WHERE userID ='$userid' AND site.siteID = site_manager.siteID");
+        foreach ($query->result() as $row)
+        {
+               //return cluster name/siteName to view
+               return $row->siteName;
+        }
+    }
+    public function getClusterGroup ($userid){
+        //get clustername from IRIS (siteName)
+        //$query = $this->db->query("SELECT clusterName FROM cluster JOIN site_manager WHERE userID ='$userid' AND site.siteID = site_manager.siteID");
+        $this->db->select('clusterName');
+            $this->db->from('cluster'); 
+            $this->db->join('site_manager', 'cluster.siteID=site_manager.siteID', 'left');
+            $this->db->join('cluster_site', 'cluster_site.clusterID=site_manager.clusterID', 'left');
+            $this->db->where('cluster_site.clusterID',$userid);
+                    
+            $query = $this->db->get(); 
+            /*if($query->num_rows() != 0)
+            {
+                return $query->result_array();
+            }
+            else
+            {
+                return false;
+            }*/
+        foreach ($query->result() as $row)
+        {
+               //return cluster name/siteName to view
+               return $row->clusterName;
+        }
+    }
 }

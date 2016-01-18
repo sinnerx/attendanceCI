@@ -40,7 +40,7 @@ $('#outstation').click(function () {
      console.log("$('#outstationStatusTxt').val(): " + $('#outstationStatusTxt').val().length);
     if($('#outstationStatusTxt').val().length !==0){
      //outstationTxt.innerHTML = '<label><input id=\"outstation\" type=\"checkbox\"><i></i>' + $('#outstationStatusTxt').val() + '</label>' ;
-     $('#outstationspan').text($('#outstationStatusTxt').val());
+     $('#outstationspan').text(" "+$('#outstationStatusTxt').val());
  }else{
      alert("You need to fill-in your reason before save or cancel to exit.");
      return;

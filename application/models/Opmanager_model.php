@@ -24,10 +24,10 @@ class Opmanager_model extends CI_Model{
                return $row->userProfileFullName;
         }
     }
-    
-    public function getUserLevel($userLevel){
+    //userlevel already exist in global session
+    //public function getUserLevel($userLevel){
        //userLevel
-    }
+   // }
     
     public function getClusterName ($userid){
         //get clustername from IRIS (siteName)

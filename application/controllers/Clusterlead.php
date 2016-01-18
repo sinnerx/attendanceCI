@@ -13,10 +13,10 @@ class Clusterlead extends CI_Controller {
         $data['title'] = "Cluster Lead Site";
         
         //load view
-        $this->load->view('header_view',$data);
-        $this->load->view('nav_view');
+        $this->load->view('clusterleadHeader_view',$data);
+        //$this->load->view('nav_view');
         $this->load->view('clusterlead_view');
-        $this->load->view('footer_view');
+        $this->load->view('clusterleadFooter_view');
     }
     
 }
