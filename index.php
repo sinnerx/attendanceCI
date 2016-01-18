@@ -98,7 +98,7 @@ switch (ENVIRONMENT)
 		{
 			$GLOBALS['server_conf'] = array(
 				'db' => require_once '/var/www/html/.credentials/db.pro',
-				'base_url' => 'http://pro.celcom1cbc.com/attendance'
+				'base_url' => 'http://www.celcom1cbc.com/attendance'
 				);
 		}
 	break;
