@@ -93,10 +93,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       </div>                
                 <!-- nav -->                 
                 <nav class="nav-primary hidden-xs">
-                  <ul class="nav nav-main" data-ride="collapse">                
-                    <?php 
-                    if($userLevel == 4){ ?>
-                    
+                  <?php if($userLevel == 4){ ?>
+                   <ul class="nav nav-main" data-ride="collapse">                
                     <li class='active'><a href="javascript:void(0);" class="auto">
                         <span class="pull-right text-muted">
                           <i class="i i-circle-sm-o text"></i>
