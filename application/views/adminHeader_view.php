@@ -34,8 +34,10 @@ defined ('BASEPATH') or exit('No direct access allowed!');
   <link rel="stylesheet" href="<?php echo base_url();?>css/font.css" type="text/css" />
   <link rel="stylesheet" href="<?php echo base_url();?>css/app.css" type="text/css" />  
   <link rel="stylesheet" href="<?php echo base_url();?>js/calendar/bootstrap_calendar.css" type="text/css" />
-  <link rel="stylesheet" href="<?php echo base_url();?>js/datatables/datatables.css" type="text/css"/>
-  <!---->
+  <link rel="stylesheet" href="<?php echo base_url();?>js/datatables/dataTables.bootstrap.css" type="text/css"/>
+
+  <!--<link rel="stylesheet" href="<?php echo base_url();?>js/datatables/datatables.css" type="text/css"/>
+  -->
   <!--[if lt IE 9]>
     <script src="<?php echo base_url();?>js/ie/html5shiv.js"></script>
     <script src="<?php echo base_url();?>js/ie/respond.min.js"></script>

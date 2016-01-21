@@ -156,7 +156,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                          <!-- <span class="badge pull-right">12</span>
                           <span class="label bg-success">New</span> -->
                           <a href="#" class="font-bold">Activities</a>
-                        </div>
+                        </div><br>
                           <div class="table-responsive">
                               <table id="tableAdmin" class="table table-striped m-b-none">
                               <!--<table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">-->
