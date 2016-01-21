@@ -249,7 +249,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <div class="panel-heading b-b">
                          
                           <a href="#" class="font-bold">Recent Activities</a>
-                        </div>
+                        </div><br>
                           <div ><!--class="table-responsive"-->
                               <table id="table" class="table table-striped m-b-none" data-ride="datatables">
                                 <thead>

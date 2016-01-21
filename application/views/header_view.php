@@ -145,7 +145,9 @@ $(document).ready(function() {
          //Set column definition initialisation properties.
         "columnDefs": [
         { 
-            "targets": [ -1 ], //last column
+            
+        //"targets": [ -1 ], //disable last column
+        "targets": [ 0,1,2,3,4 ], //disable sorting all column
             "orderable": false, //set not orderable
         },
         ],

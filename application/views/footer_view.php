@@ -23,6 +23,7 @@ defined('BASEPATH') OR exit('No direct access allowed!');
   <script src="<?php echo base_url();?>js/charts/flot/jquery.flot.grow.js"></script>
   <script src="<?php echo base_url();?>js/charts/flot/demo.js"></script>-->
   <!-- datatables -->
+ 
   <script src="<?php echo base_url();?>js/datatables/jquery.dataTables.min.js"></script>
   <script src="<?php echo base_url();?>js/datatables/dataTables.bootstrap.js"></script>
   <script src="<?php echo base_url();?>js/datatables/jquery.csv-0.71.min.js"></script>
