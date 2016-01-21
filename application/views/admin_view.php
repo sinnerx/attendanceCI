@@ -93,14 +93,36 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       </div>                
                 <!-- nav -->                 
                 <nav class="nav-primary hidden-xs">
-                  <ul class="nav nav-main" data-ride="collapse">
-                      <li class="active">
-                      <a href="#" class="auto">
-                        <i class="i i-statistics icon">
+                  <ul class="nav nav-main" data-ride="collapse">                
+                    <?php 
+                    if($userLevel == 4){ ?>
+                    
+                    <li class='active'><a href="javascript:void(0);" class="auto">
+                        <span class="pull-right text-muted">
+                          <i class="i i-circle-sm-o text"></i>
+                          <i class="i i-circle-sm text-active"></i>
+                        </span>
+                        <i class="i i-stack icon">
                         </i>
                         <span class="font-bold">Attendance</span>
-                      </a>
-                    </li>                  
+                      </a><ul class='nav dk'>
+                          <li >
+                          <a href="./" class="auto">                                                        
+                            <i class="i i-dot"></i>
+                            <span>Punch IN/OUT</span>
+                          </a>
+                        </li>
+                        <li class='active'>
+                          <a href="#" class="auto">                                                        
+                            <i class="i i-dot"></i>
+                            <span>View All</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                   <?php }
+                    ?>  
                 </nav>
                 <!-- / nav -->
               </div>
@@ -125,7 +147,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <section class="scrollable padder">              
                   <section class="row m-b-md">
                     <div class="col-sm-6">
-                      <h3 class="m-b-xs text-black">Manager's Attendance List</h3>
+                      <h3 class="m-b-xs text-black">All Attendance List</h3>
                       <!--<div class="well well-sm">All about your profile. You can edit all through here.</div>-->
                        <small>Welcome back,<?php echo $this->admin_model->getFullName($userid)?>, <?php echo $this->admin_model->getClusterName($userid); ?><!--<i class="fa fa-map-marker fa-lg text-primary"></i>--> </small>
                     </div>
