@@ -42,8 +42,8 @@ defined ('BASEPATH') or exit('No direct access allowed!');
     <script src="<?php echo base_url();?>js/ie/respond.min.js"></script>
     <script src="<?php echo base_url();?>js/ie/excanvas.js"></script>
   <![endif]-->
-  <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>-->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+ <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+   <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>-->
   <!--<script src="<?php echo base_url();?>js/jquery.min.js"></script>-->
   <script type="text/javascript">
       
@@ -55,6 +55,8 @@ $(document).ready(function() {
     //reload_table();
        //punch-in   
       $( "#punch-in" ).click(function(event) {
+          $( "#punch-in" ).hide();
+          $( "#punch-out" ).show();
           $( "#punch-out" ).addClass('disabled');
            // $( "#punch-out" ).disable(true);
            //alert(this);
@@ -92,6 +94,8 @@ $(document).ready(function() {
         });
     //punch-out
     $( "#punch-out" ).click(function(event) {
+        $( "#punch-out" ).hide();
+        $( "#punch-in" ).show();
         $( "#punch-in" ).addClass('disabled');
         event.preventDefault();
         var managerID = $("#valManagerID").val();
@@ -125,19 +129,20 @@ $(document).ready(function() {
     //reload_table();
     });
     
+
     table = $('#table').DataTable({ 
         
         "processing": true, //Feature control the processing indicator.
         "serverSide": true, //Feature control DataTables' server-side processing mode.
         "order": [], //Initial no order.
-
+        //"pagingType": "full_numbers",
+        
         // Load data for the table's content from an Ajax source
         "ajax": {
             "url": "<?php echo base_url();?>manager/ajax_list",
             "type": "POST"
         },
-
-        //Set column definition initialisation properties.
+         //Set column definition initialisation properties.
         "columnDefs": [
         { 
             "targets": [ -1 ], //last column
@@ -174,6 +179,7 @@ function reload_table(){
 }
 
 function notify(){
+    //alert("datetime: "activityDate + activityTime);
            var div = document.getElementById('success');
             div.innerHTML += 'Data successfully submitted!';
            function f() { 

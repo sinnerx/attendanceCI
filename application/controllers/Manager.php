@@ -29,24 +29,7 @@ class Manager extends CI_Controller {
                     'title' => 'Manager\'s Attendance Site',
                     
 		);
-   /**//* $dataAtt = array(
 
-                 //attendance
-                'managerID' => $this->input->post('managerID'),
-                'attID' => $this->input->post('fieldnameid'),
-                'activityDate' => $this->input->post('fieldnameid'),
-                'activityTime' => $this->input->post('fieldnameid'),
-                'activityStatus' => $this->input->post('fieldnameid'),
-                'outStationStatus' => $this->input->post('outstationStatusTxt'),
-                'attendanceStatus' => $this->input->post('fieldnameid'),
-                'latLongIn' => $this->input->post('valLatLong'),
-                'latLongOut' => $this->input->post('curLatLong')
-                 //camera disabled v0.1
-                //'imgIn' => $this->input->post("fieldnameid"),
-               // 'imgOut' => $this->input->post('fieldnameid'),
-            );*/
-        
-        //echo json_encode($dataAtt);
         //load model for manager
         $this->load->model('manager_model');
         //pass userid to model->method
@@ -134,6 +117,8 @@ class Manager extends CI_Controller {
                 
 		//output to json format
 		echo json_encode($output);
+                 //echo "json";
 	}
+       
     
 }

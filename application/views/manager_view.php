@@ -102,8 +102,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
       </div>                
 
-
-                                <!-- nav -->                 
+ 
+                               <!-- nav -->                 
                 <nav class="nav-primary hidden-xs">
                   <ul class="nav nav-main" data-ride="collapse">
                       <li class="active">
@@ -261,8 +261,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <th width="18%">Location (Lat, Long)</th>
                                   </tr>
                                 </thead>
-                                <tbody>
-                                </tbody>
+                                <!--<tbody>
+                                </tbody>-->
                              </table>
                             </div>
                       </section>
