@@ -88,7 +88,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             });
             // Upload image to sever 
             document.getElementById("upload").addEventListener("click", function(){
-                var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
+                var dataUrl = canvas.toDataURL("image/jpeg", 0.1);
                 $("#uploading").show();
                 $.ajax({
                   type: "POST",

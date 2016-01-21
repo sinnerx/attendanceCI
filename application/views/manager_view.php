@@ -132,7 +132,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         <!-- /.aside -->
         <section id="content">
           <section class="hbox stretch">
-            <section>
+            <!--<section>-->
               <section class="vbox">
                 <section class="scrollable padder">              
                   <section class="row m-b-md">
@@ -270,7 +270,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   </div>
                 </section>
               </section>
-            </section>            
+            <!--</section>-->            
           </section>
           <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen" data-target="#nav"></a>
         </section>

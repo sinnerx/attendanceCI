@@ -35,7 +35,8 @@ defined ('BASEPATH') or exit('No direct access allowed!');
   <link rel="stylesheet" href="<?php echo base_url();?>css/font.css" type="text/css" />
   <link rel="stylesheet" href="<?php echo base_url();?>css/app.css" type="text/css" />  
   <link rel="stylesheet" href="<?php echo base_url();?>js/calendar/bootstrap_calendar.css" type="text/css" />
-  <link rel="stylesheet" href="<?php echo base_url();?>js/datatables/datatables.css" type="text/css"/>
+  <link rel="stylesheet" href="<?php echo base_url();?>js/datatables/dataTables.bootstrap.css" type="text/css"/>
+  <!--<link rel="stylesheet" href="<?php echo base_url();?>js/datatables/datatables.css" type="text/css"/>-->
   <!---->
   <!--[if lt IE 9]>
     <script src="<?php echo base_url();?>js/ie/html5shiv.js"></script>
@@ -55,20 +56,19 @@ $(document).ready(function() {
     //reload_table();
        //punch-in   
       $( "#punch-in" ).click(function(event) {
+          //alert("time: "+currentDateTime().substr(-6) +"| date: "+currentDateTime().substr(0,10));
           $( "#punch-in" ).hide();
           $( "#punch-out" ).show();
           $( "#punch-out" ).addClass('disabled');
-           // $( "#punch-out" ).disable(true);
-           //alert(this);
-            //reload_table();  
-           // alert("reload_table"+ reload_table());
             event.preventDefault();
             var managerID = $("#valManagerID").val();
             var managerName = $("#valManagerName").val();
             var siteName = $("#valSiteName").val();
             //var  attID = $("#valAttID").val();
-            var  activityTime = $("#valTime").val();
-            var  activityDate = $("#valDate").val();
+            //var  activityTime = $("#valTime").val();
+            //var  activityDate = $("#valDate").val();
+            var  activityTime = currentDateTime().substr(-6);
+            var  activityDate = currentDateTime().substr(0,10);
             //var  activityStatus = $("#valActivityStatus").val();
             var  activityStatus = 'IN';
             var  outstationStatus = $("#outstationStatusTxt").val();
@@ -87,7 +87,6 @@ $(document).ready(function() {
             error: function (jqXHR, textStatus, errorThrown)
             {
                 alert("Error: jqXHR: "+jqXHR+" | textStatus: "+textStatus+" | errorThrown: "+errorThrown);
-                //reload_table();
             }
             });
      //reload_table();
@@ -102,13 +101,14 @@ $(document).ready(function() {
         var managerName = $("#valManagerName").val();
         var siteName = $("#valSiteName").val();
         //var  attID = $("#valAttID").val();
-        var  activityTime = $("#valTime").val();
-        var  activityDate = $("#valDate").val();
+        //var  activityTime = $("#valTime").val();
+        //var  activityDate = $("#valDate").val();
+        var  activityTime = currentDateTime().substr(-6);
+        var  activityDate = currentDateTime().substr(0,10);
         //var  activityStatus = $("#valActivityStatus").val();
         var  activityStatus = 'OUT';
         var  outstationStatus = $("#outstationStatusTxt").val();
         var  latLongIn = $("#valLatLong").val();
-
         jQuery.ajax({
         type: "POST",
         url: "<?php echo base_url(); ?>manager/saveAttendance",
@@ -119,8 +119,8 @@ $(document).ready(function() {
                 console.log(data);
                 reload_table();
                 notify();
-      },
-       error: function (jqXHR, textStatus, errorThrown)
+        },
+        error: function (jqXHR, textStatus, errorThrown)
             {
                 alert("Error: jqXHR: "+jqXHR+" | textStatus: "+textStatus+" | errorThrown: "+errorThrown);
                 //reload_table();
@@ -196,7 +196,25 @@ function notify(){
     setTimeout(f, 3000);        
 }
 
-
+function currentDateTime() {
+            var d = new Date();
+            //('0' + d.getHours()).slice(-2);
+            var day = ('0' + d.getDate()).slice(-2);
+            var month = ( '0' + (d.getMonth() + 1)).slice(-2);
+            var year = d.getFullYear();
+            //var hour = d.getHours();
+            var hour = ('0' + d.getHours()).slice(-2);
+            //var mins = d.getMinutes();
+            //get minutes by 00 digits 
+            var mins = ('0' + d.getMinutes()).slice(-2);
+            /*var secs = d.getSeconds();*/
+            //get seconds by 00 digits (2 digits e.g: 01,02,...09)
+            var secs = ('0' + d.getSeconds()).slice(-2);
+            //alert("secs :"+secs);
+            var msec = d.getMilliseconds();
+            return day + "-" + month + "-" + year + " " + hour + ":" + mins/* + ":" + secs + "," + msec*/;
+ }
+    
 
 </script>
 

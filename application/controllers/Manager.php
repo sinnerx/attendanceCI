@@ -82,7 +82,7 @@ class Manager extends CI_Controller {
     public function ajax_list()
 	{
                 //get the assign userid attendance list
-                $this->db->where('managerID',$this->userid);
+                //$this->db->where('managerID',$this->userid);
                 //list the db
 		$list = $this->manager->get_datatables();
 		$data = array();

@@ -8,6 +8,7 @@ defined ('BASEPATH') OR exit ('No direct access allowed!');
 
 class Manager_model extends CI_Model {
     //declare for att tables
+    //public $userid;
     var $table = 'att_attendancedetails';
     var $column = array('attID','managerID','managerName','siteName','activityDate','activityTime','activityStatus','outstationStatus', 'latLongIn'); //set column field database for order and search
     var $order = array('attID' => 'desc'); // default order 
@@ -61,8 +62,8 @@ class Manager_model extends CI_Model {
 		//print_r($_POST);
                 
 		$this->db->from($this->table);
-                //$this->db->where('managerID',$userid);
-                //$this->db->where('managerID',134);
+                //$this->db->where('managerID',$this->userid);
+                $this->db->where('managerID',$this->userid);
                 //print_r($_POST['search']['value']);
 		$i = 0;
 	
@@ -102,6 +103,7 @@ class Manager_model extends CI_Model {
 	function get_datatables()
 	{
                 //$this->db->where('managerID',134);
+                //$this->db->where('managerID',$this->userid);
                 $this->_get_datatables_query();
 		if($_POST['length'] != -1)
 		$this->db->limit($_POST['length'], $_POST['start']);
@@ -121,6 +123,8 @@ class Manager_model extends CI_Model {
 	public function count_all()
 	{
 		$this->db->from($this->table);
+                //limit to userid
+                $this->db->where('managerID',$this->userid);
 		return $this->db->count_all_results();
 	}
 
