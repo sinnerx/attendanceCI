@@ -16,7 +16,7 @@ class Clusterlead extends CI_Controller {
                 $this->userid = $this->nativesession->get( 'userid' );
                 $this->userLevel = $this->nativesession->get( 'userLevel' );
                 //load manager model aliases with 'manager'
-		$this->load->model('clusterlead_model','manager');
+		$this->load->model('clusterlead_model','clusterlead');
 	}
     public function index(){
          $data = array(
