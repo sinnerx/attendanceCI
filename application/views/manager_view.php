@@ -105,7 +105,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  
                                <!-- nav -->                 
                 <nav class="nav-primary hidden-xs">
-                  <?php if($userLevel < 3 ){ ?>
+                    <!-- ops manager menu-->
+                  <?php if($userLevel == 2 ){ ?>
                   <ul class="nav nav-main" data-ride="collapse">
                       <li class="active">
                       <a href="#" class="auto">
@@ -114,7 +115,35 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <span class="font-bold">Attendance</span>
                       </a>
                     </li> 
-                  
+                    <!-- cluster lead menu-->
+                    <?php } else if($userLevel == 3){ ?>
+                   <ul class="nav nav-main" data-ride="collapse">                
+                    <li class='active'><a href="javascript:void(0);" class="auto">
+                        <span class="pull-right text-muted">
+                          <i class="i i-circle-sm-o text"></i>
+                          <i class="i i-circle-sm text-active"></i>
+                        </span>
+                        <i class="i i-stack icon">
+                        </i>
+                        <span class="font-bold">Attendance</span>
+                      </a><ul class='nav dk'>
+                          <li class='active'>
+                          <a href="#" class="auto">                                                        
+                            <i class="i i-dot"></i>
+                            <span>Punch IN/OUT</span>
+                          </a>
+                        </li>
+                        <li >
+                          <a href="./clusterlead" class="auto">                                                        
+                            <i class="i i-dot"></i>
+                            <span>View Cluster</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                   
+                  <!-- ops manager menu-->
                   <?php } else if($userLevel == 4){ ?>
                    <ul class="nav nav-main" data-ride="collapse">                
                     <li class='active'><a href="javascript:void(0);" class="auto">
