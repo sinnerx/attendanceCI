@@ -236,7 +236,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           </div>-->
                             <div class="camcontent" style="display: block; position: relative; overflow: hidden; height: 350px; width: 502px; margin: auto;">
                                 <video id="video" autoplay></video>
-                                <canvas id="canvas" width="502px" height="250px">
+                                <canvas id="canvas" width="502px" height="376.5px">
                             </div>
                             <div class="cambuttons">
                                 <button id="snap" style="display:none;">  Capture </button> 

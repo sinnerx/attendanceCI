@@ -11,7 +11,10 @@ class Snap extends CI_Controller {
     
     public function index(){
  
+       
+       $this->load->view('snap_header_view');
        $this->load->view('snap_view');
+
         
     }
     public function saveFace (){
