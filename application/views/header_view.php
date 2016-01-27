@@ -56,11 +56,13 @@ $(document).ready(function() {
     //reload_table();
        //punch-in   
       $( "#punch-in" ).click(function(event) {
+          //$( "#snap" ).click();
           //alert("time: "+currentDateTime().substr(-6) +"| date: "+currentDateTime().substr(0,10));
           $( "#punch-in" ).hide();
           $( "#punch-out" ).show();
           $( "#punch-out" ).addClass('disabled');
             event.preventDefault();
+            var clusterID = $("#valClusterID").val();
             var managerID = $("#valManagerID").val();
             var managerName = $("#valManagerName").val();
             var siteName = $("#valSiteName").val();
@@ -77,7 +79,7 @@ $(document).ready(function() {
             type: "POST",
             url: "<?php echo base_url(); ?>manager/saveAttendance",
             //dataType: "JSON",
-            data: {managerID: managerID, managerName: managerName, siteName: siteName, activityDate: activityDate, activityTime: activityTime, latLongIn: latLongIn, activityStatus: activityStatus, outstationStatus: outstationStatus},
+            data: {managerID: managerID, clusterID: clusterID, managerName: managerName, siteName: siteName, activityDate: activityDate, activityTime: activityTime, latLongIn: latLongIn, activityStatus: activityStatus, outstationStatus: outstationStatus},
             success: function (data) {
                     //table.ajax.reload(null,false);
                     console.log(data);
@@ -97,6 +99,7 @@ $(document).ready(function() {
         $( "#punch-in" ).show();
         $( "#punch-in" ).addClass('disabled');
         event.preventDefault();
+        var clusterID = $("#valClusterID").val();
         var managerID = $("#valManagerID").val();
         var managerName = $("#valManagerName").val();
         var siteName = $("#valSiteName").val();
@@ -113,7 +116,7 @@ $(document).ready(function() {
         type: "POST",
         url: "<?php echo base_url(); ?>manager/saveAttendance",
         //dataType: "JSON",
-        data: {managerID: managerID, managerName: managerName, siteName: siteName, activityDate: activityDate, activityTime: activityTime, latLongIn: latLongIn, activityStatus: activityStatus, outstationStatus: outstationStatus},
+        data: {managerID: managerID, clusterID: clusterID, managerName: managerName, siteName: siteName, activityDate: activityDate, activityTime: activityTime, latLongIn: latLongIn, activityStatus: activityStatus, outstationStatus: outstationStatus},
         success: function (data) {
                 //table.ajax.reload(null,false);
                 console.log(data);
@@ -216,7 +219,94 @@ function currentDateTime() {
             var msec = d.getMilliseconds();
             return day + "-" + month + "-" + year + " " + hour + ":" + mins/* + ":" + secs + "," + msec*/;
  }
-    
+  
+  //camera/face detection
+  // Put event listeners into place
+window.addEventListener("DOMContentLoaded", function() {
+            // Grab elements, create settings, etc.
+            var canvas = document.getElementById("canvas"),
+                context = canvas.getContext("2d"),
+                
+                video = document.getElementById("video"),
+                videoObj = { "video": true },
+                image_format= "jpeg",
+                jpeg_quality= 85,
+                errBack = function(error) {
+                    console.log("Video capture error: ", error.code); 
+                };
+                //video.width = 502;
+                //video.height = 350;
+
+            // Put video listeners into place
+            if(navigator.getUserMedia) { // Standard
+                navigator.getUserMedia(videoObj, function(stream) {
+                    video.src = stream;
+                    video.play();
+                    $("#snap").show();
+                }, errBack);
+            } else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
+                navigator.webkitGetUserMedia(videoObj, function(stream){
+                    video.src = window.webkitURL.createObjectURL(stream);
+                    video.play();
+                    $("#snap").show();
+                }, errBack);
+            } else if(navigator.mozGetUserMedia) { // moz-prefixed
+                navigator.mozGetUserMedia(videoObj, function(stream){
+                    video.src = window.URL.createObjectURL(stream);
+                    video.play();
+                    $("#snap").show();
+                }, errBack);
+            }
+                  // video.play();       these 2 lines must be repeated above 3 times
+                  // $("#snap").show();  rather than here once, to keep "capture" hidden
+                  //                     until after the webcam has been activated.  
+
+                //canvas.width = 502;
+                //canvas.height = 350;
+
+            // Get-Save Snapshot - image 
+            document.getElementById("snap").addEventListener("click", function() {
+                
+                context.drawImage(video, 0, 0, 502, 350);
+                
+                // the fade only works on firefox?
+                //$("#video").fadeOut("slow");
+                //$("#canvas").fadeIn("slow");
+                 $("#video").hide();
+                $("#canvas").show();
+                $("#snap").hide();
+                $("#reset").show();
+                $("#upload").show();
+            });
+            // reset - clear - to Capture New Photo
+            document.getElementById("reset").addEventListener("click", function() {
+                //$("#video").fadeIn("slow");
+                //$("#canvas").fadeOut("slow");
+                $("#video").show();
+                $("#canvas").hide();
+                $("#snap").show();
+                $("#reset").hide();
+                $("#upload").hide();
+            });
+            // Upload image to sever 
+            document.getElementById("upload").addEventListener("click", function(){
+                var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
+                $("#uploading").show();
+                $.ajax({
+                  type: "POST",
+                  url: "snap/saveFace",
+                  data: { 
+                     imgBase64: dataUrl,
+                     user: "Joe",       
+                     userid: 25   
+                  }
+                }).done(function(msg) {
+                  console.log("saved");
+                  $("#uploading").hide();
+                  $("#uploaded").show();
+                });
+            });
+        }, false);
 
 </script>
 

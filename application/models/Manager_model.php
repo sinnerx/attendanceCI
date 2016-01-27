@@ -10,7 +10,7 @@ class Manager_model extends CI_Model {
     //declare for att tables
     //public $userid;
     var $table = 'att_attendancedetails';
-    var $column = array('attID','managerID','managerName','siteName','activityDate','activityTime','activityStatus','outstationStatus', 'latLongIn'); //set column field database for order and search
+    var $column = array('attID','clusterID','managerID','managerName','siteName','activityDate','activityTime','activityStatus','outstationStatus', 'latLongIn'); //set column field database for order and search
     var $order = array('attID' => 'desc'); // default order 
         
     //construct
@@ -50,6 +50,83 @@ class Manager_model extends CI_Model {
         }
         
                 
+    }
+    
+    public function getClusterGroup ($userid){
+        //get clustername from IRIS (siteName)
+        //$query = $this->db->query("SELECT clusterName FROM cluster JOIN site_manager WHERE userID ='$userid' AND site.siteID = site_manager.siteID");
+        $this->db->select('clusterName');
+        $this->db->from('cluster'); 
+        $this->db->join('cluster_site', 'cluster_site.clusterID = cluster.clusterID');
+        $this->db->join('site_manager', 'cluster_site.siteID = site_manager.siteID');
+        //$this->db->where('site_manager.userID = $userid',$userid);
+        $this->db->where('site_manager.userID', $userid);
+        $query = $this->db->get(); 
+           
+        foreach ($query->result() as $row)
+        {
+               //return cluster name/siteName to view
+               return $row->clusterName;
+        }
+    }
+    
+    public function getClusterLeadGroup ($userid){
+        //get cluster group name from IRIS (cluster/cluster_lead)
+        $query = $this->db->query("SELECT clusterName FROM cluster JOIN cluster_lead WHERE userID = '$userid' AND cluster.clusterID = cluster_lead.clusterID");
+        //$this->db->select('clusterName');
+        //$this->db->from('cluster'); 
+        //$this->db->join('clusterlead');
+        //$this->db->where('userID', $userid);
+        //$this->db->where('cluster.clusterID', 'cluster_lead.clusterID');
+        //$where = "userID = '$userid' AND cluster.clusterID = cluster_lead.clusterID";
+        //$this->db-where($where);
+                
+        //$query = $this->db->get(); 
+           
+        foreach ($query->result() as $row)
+        {
+               //return cluster name/siteName to view
+               return $row->clusterName;
+        }
+    }
+    
+    public function getClusterGroupID ($userid){
+        //get cluster group name from IRIS (cluster/cluster_lead)
+        $query = $this->db->query("SELECT cluster.clusterID FROM cluster JOIN site_manager JOIN cluster_site WHERE userID = '$userid' AND cluster.clusterID = cluster_site.clusterID AND cluster_site.siteID = site_manager.siteID");
+        //$this->db->select('clusterName');
+        //$this->db->from('cluster'); 
+        //$this->db->join('clusterlead');
+        //$this->db->where('userID', $userid);
+        //$this->db->where('cluster.clusterID', 'cluster_lead.clusterID');
+        //$where = "userID = '$userid' AND cluster.clusterID = cluster_lead.clusterID";
+        //$this->db-where($where);
+                
+        //$query = $this->db->get(); 
+           
+        foreach ($query->result() as $row)
+        {
+               //return cluster name/siteName to view
+               return $row->clusterID;
+        }
+    }
+    public function getClusterLeadGroupID ($userid){
+        //get cluster group name from IRIS (cluster/cluster_lead)
+        $query = $this->db->query("SELECT cluster.clusterID FROM cluster JOIN cluster_lead WHERE userID = '$userid' AND cluster.clusterID = cluster_lead.clusterID");
+        //$this->db->select('clusterName');
+        //$this->db->from('cluster'); 
+        //$this->db->join('clusterlead');
+        //$this->db->where('userID', $userid);
+        //$this->db->where('cluster.clusterID', 'cluster_lead.clusterID');
+        //$where = "userID = '$userid' AND cluster.clusterID = cluster_lead.clusterID";
+        //$this->db-where($where);
+                
+        //$query = $this->db->get(); 
+           
+        foreach ($query->result() as $row)
+        {
+               //return cluster name/siteName to view
+               return $row->clusterID;
+        }
     }
     
     public function insertAttendance($data){

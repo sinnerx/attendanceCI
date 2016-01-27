@@ -36,10 +36,10 @@ defined('BASEPATH') OR exit('No direct access allowed!');
   <script src="<?php echo base_url();?>js/maps/demo.js"></script>
   <script src="<?php echo base_url();?>js/sortable/jquery.sortable.js"></script>
   <script src="<?php echo base_url();?>js/app.plugin.js"></script>
-  <!-- punch -->
+  <!-- punch 
   <script src="<?php echo base_url();?>js/punch.js"></script>
-  <!-- geolocation -->
-  <script src="<?php echo base_url();?>js/geolocation/geolocation.js"></script>
+  <!-- geolocation 
+  <script src="<?php echo base_url();?>js/geolocation/geolocation.js"></script>-->
   
 </body>
 </html>

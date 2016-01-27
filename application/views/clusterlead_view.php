@@ -1,7 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
-  <section class="vbox">
+
+  <section class="vbox"><?php //echo "clusterid: ".$this->clusterlead_model->getClusterLeadGroupID($userid); ?>
     <header class="bg-white header header-md navbar navbar-fixed-top-xs box-shadow">
       <div class="navbar-header aside-md dk">
         <a class="btn btn-link visible-xs" data-toggle="class:nav-off-screen" data-target="#nav">
@@ -142,9 +143,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <section class="scrollable padder">              
                   <section class="row m-b-md">
                     <div class="col-sm-6">
-                      <h3 class="m-b-xs text-black">All Attendance List</h3>
+                      <h3 class="m-b-xs text-black"><?php echo $this->clusterlead_model->getClusterLeadGroup($userid); ?> Attendance List</h3>
                       <!--<div class="well well-sm">All about your profile. You can edit all through here.</div>-->
-                       <small>Welcome back,<?php echo $this->clusterlead_model->getFullName($userid)?>, <?php echo $this->clusterlead_model->getClusterName($userid); ?><!--<i class="fa fa-map-marker fa-lg text-primary"></i>--> </small>
+                       <small>Welcome back, <?php echo $this->clusterlead_model->getFullName($userid)?>, <?php echo $this->clusterlead_model->getClusterLeadGroup($userid); ?><!--<i class="fa fa-map-marker fa-lg text-primary"></i>--> </small>
                     </div>
                   </section>
                   

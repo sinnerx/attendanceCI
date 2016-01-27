@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
-  <section class="vbox">
+  <section class="vbox"><?php //if($userLevel == 3){echo "clusterid: ".$this->manager_model->getClusterLeadGroupID($userid);} else if($userLevel == 2){echo "clusterid: ".$this->manager_model->getClusterGroupID($userid);} ?>
     <header class="bg-white header header-md navbar navbar-fixed-top-xs box-shadow">
       <div class="navbar-header aside-md dk">
         <a class="btn btn-link visible-xs" data-toggle="class:nav-off-screen" data-target="#nav">
@@ -12,7 +12,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <?php if($userLevel==99){ 
                 echo "Administration Mode";
             }else if($userLevel == 3 ){ 
-                echo "Cluster Lead"; 
+                echo $this->manager_model->getClusterLeadGroup($userid); 
             }else if($userLevel == 4 ){ 
                 echo "Operation Manager"; 
             }else{
@@ -208,7 +208,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           echo "Administration Attendance";
                       } ?></h3>
                       <!--<div class="well well-sm">All about your profile. You can edit all through here.</div>-->
-                       <small>Welcome back,<?php echo $this->manager_model->getFullName($userid)?>, <?php echo $this->manager_model->getClusterName($userid); ?><!--<i class="fa fa-map-marker fa-lg text-primary"></i>--> </small>
+                       <small>Welcome back, <?php echo $this->manager_model->getFullName($userid)?>, <?php if($userLevel == 2 ){ echo $this->manager_model->getClusterName($userid); } else if($userLevel == 3) { echo $this->manager_model->getClusterLeadGroup($userid);} ?><!--<i class="fa fa-map-marker fa-lg text-primary"></i>--> </small>
                       
                     </div>
                   </section>
@@ -226,21 +226,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                            <input type="hidden" value="" id="valDateTime">
                            <input type="hidden" value="" id="valDate">
                            <input type="hidden" value="" id="valTime">
+                           <input type="hidden" value="<?php if($userLevel == 3){echo $this->manager_model->getClusterLeadGroupID($userid);} else if($userLevel == 2){echo $this->manager_model->getClusterGroupID($userid);} ?>" id="valClusterID">
                            <!--<input type="hidden" value=$userid id="valManagerID">-->
                            
                             </div>
-                            <div class="r b bg-warning-ltest wrapper m-b">
+                            <!--<div class="r b bg-warning-ltest wrapper m-b">
                               <p style="text-align: center"><img src="<?php echo base_url();?>images/camera-512.png" height="180" width="180"></p>
                               <p style="text-align: center"> Disabled for Attendance V0.1</p>
-                          </div>
+                          </div>-->
+                            <div class="camcontent" style="display: block; position: relative; overflow: hidden; height: 350px; width: 502px; margin: auto;">
+                                <video id="video" autoplay></video>
+                                <canvas id="canvas" width="502px" height="250px">
+                            </div>
+                            <div class="cambuttons">
+                                <button id="snap" style="display:none;">  Capture </button> 
+                                <button id="reset" style="display:none;">  Reset  </button>     
+                                <button id="upload" style="display:none;"> Upload </button> 
+                                <br> <span id=uploading style="display:none;"> Uploading has begun . . .  </span> 
+                                <span id=uploaded  style="display:none;"> Success, your photo has been uploaded! 
+                                </span> 
+                            </div>
                     </div>
                     <div class="col-md-6">
                         <div class="panel-heading b-b">
                             <p style="text-align: center"><a name="curLatLong" id="curLatLong" href="#" class="block h4 font-bold m-b text-black">Current Location:<br> ...calculating </a></p>                          
                          <input type="hidden" value="" id="valLatLong">
                         </div>
-                            <section id="map" style="min-height:250px;"></section>
-                            <div id="map"></div>
+                            <section id="map" style="min-height:350px;"></section>
+                            <div id="map"></div><br>
                     </div>
                   </div>
                       <div class="clearfix panel-footer"></div>

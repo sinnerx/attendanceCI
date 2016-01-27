@@ -60,6 +60,7 @@ class Manager extends CI_Controller {
                 //'latLongIn' => $this->input->post('latLongIn'),
                  
                 'managerID' => $this->input->post('managerID'),
+                'clusterID' => $this->input->post('clusterID'),
                 'managerName' => $this->input->post('managerName'),
                 'siteName' => $this->input->post('siteName'),
                 'activityDate' => $this->input->post('activityDate'),

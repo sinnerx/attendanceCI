@@ -7,8 +7,13 @@ defined ('BASEPATH') OR exit('No direct access allowed!');
  */
 
 class Clusterlead_model extends CI_Model{
+    public $clusterID;
     //declare variable
-    
+    var $table = 'att_attendancedetails';
+    var $column = array('attID','clusterID','managerID','managerName','siteName','activityDate','activityTime','activityStatus','outstationStatus', 'latLongIn'); //set column field database for order and search
+    var $order = array('attID' => 'desc'); // default order 
+    //public $clusterLeadID = '';
+        
     //construct
     public function __construct() {
         parent::__construct();
@@ -55,7 +60,11 @@ class Clusterlead_model extends CI_Model{
         //$this->db->select('clusterName');
         //$this->db->from('cluster'); 
         //$this->db->join('clusterlead');
-        //$this->db->where('cluster_lead.clusterID', $userid);
+        //$this->db->where('userID', $userid);
+        //$this->db->where('cluster.clusterID', 'cluster_lead.clusterID');
+        //$where = "userID = '$userid' AND cluster.clusterID = cluster_lead.clusterID";
+        //$this->db-where($where);
+                
         //$query = $this->db->get(); 
            
         foreach ($query->result() as $row)
@@ -64,4 +73,111 @@ class Clusterlead_model extends CI_Model{
                return $row->clusterName;
         }
     }
+    public function getClusterLeadGroupID ($userid){
+        //get cluster group name from IRIS (cluster/cluster_lead)
+        $query = $this->db->query("SELECT cluster.clusterID FROM cluster JOIN cluster_lead WHERE userID = '$userid' AND cluster.clusterID = cluster_lead.clusterID");
+        //$query = $this->db->get(); 
+          
+        foreach ($query->result() as $row)
+        {
+               //return cluster name/siteName to view
+               return $row->clusterID;
+        }
+         
+    }
+   
+   // public function setClusterLeadGroupID ($userid)
+    //{
+       // $query = $this->db->query("SELECT cluster.clusterID FROM cluster JOIN cluster_lead WHERE userID = '$userid' AND cluster.clusterID = cluster_lead.clusterID");
+       // $query->getresult();
+    //}
+//    public function _get_clusterID(){
+//                //$clusterID = $this->
+//                        //select siteID from cluster_site where clusterID = 1
+//                $this->db->select("siteID");
+//                $this->db->from('cluster_site');
+//                $this->db->where('clusterID',  1);
+//                $subQueryClusterSite = $this->db->get_compiled_select();
+//                //var_dump($subQueryClusterSite);
+//                //select userID from site_manager where siteID
+//                $this->db->select("userID");
+//                $this->db->from('site_manager');
+//                $this->db->where('siteID IN ('.$subQueryClusterSite. ')', NULL, FALSE);
+//                $subQuerySiteManager = $this->db->get_compiled_select();
+//                
+//                //select managerID from att_attendancedetails where managerID
+//                $this->db->select("managerID");
+//                $this->db->from('att_attendancedetails');
+//                $this->db->where('managerID IN ('.$subQuerySiteManager.')', NULL, FALSE);
+//                $subQuerySiteManager = $this->db->get()->result(); 
+//                //$subQuerySiteManager = $this->db->last_query();
+//                return $subQuerySiteManager;
+//    }
+    private function _get_datatables_query()
+	{
+                $this->db->from($this->table);
+                $this->db->where('clusterID', $this->getClusterLeadGroupID($this->userid));
+ 
+		$i = 0;
+	
+		foreach ($this->column as $item) // loop column 'attID','managerID','managerName','siteName','activityDate','activityTime','activityStatus','outstationStatus', 'latLongIn'
+
+		{
+			if($_POST['search']['value']) // if datatable send POST for search
+			{
+				
+				if($i===0) // first loop
+				{
+					$this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
+                                        $this->db->like($item, $_POST['search']['value']);
+				}
+				else
+				{
+					$this->db->or_like($item, $_POST['search']['value']);
+				}
+
+				if(count($this->column) - 1 == $i) //last loop
+					$this->db->group_end(); //close bracket
+			}
+			$column[$i] = $item; // set column array variable to order processing
+			$i++;
+		}
+		
+		if(isset($_POST['order'])) // here order processing
+		{
+			$this->db->order_by($column[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+		} 
+		else if(isset($this->order))
+		{
+			$order = $this->order;
+			$this->db->order_by(key($order), $order[key($order)]);
+		}
+	}
+
+	function get_datatables()
+	{
+                //$this->db->where('managerID',134);
+               $this->_get_datatables_query();
+                //$this->db->query(select managerID from att_attendancedetails where managerID in (SELECT userID FROM site_manager WHERE siteID IN (SELECT siteID FROM cluster_site WHERE clusterID = 1)));
+		if($_POST['length'] != -1)
+		$this->db->limit($_POST['length'], $_POST['start']);
+                //$this->db->from($this->table);
+		//$this->db->where('managerID',$id);
+                //$query = $this->db->query("select managerID from att_attendancedetails where managerID in (select userID from site_manager where siteID in (select siteID from cluster_site where clusterID = 1))");
+		$query = $this->db->get();
+		return $query->result();
+	}
+
+	function count_filtered()
+	{
+		$this->_get_datatables_query();
+		$query = $this->db->get();
+		return $query->num_rows();
+	}
+
+	public function count_all()
+	{
+		$this->db->from($this->table);
+		return $this->db->count_all_results();
+	}
 }
