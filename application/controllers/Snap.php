@@ -27,14 +27,14 @@ class Snap extends CI_Controller {
         $userid  = $_POST['userid'] ;
         $punchStatus  = $_POST['punchStatus'];
         // name & save the image file 
-        $fp = fopen('images/'.$punchStatus.'-'.$datime.'-'.$userid.'.jpg', 'w');
+        $fp = fopen('images/attendance/'.$datime.'-'.$userid.'-'.$punchStatus.'.jpg', 'w');
         fwrite($fp, $unencoded);
         fclose($fp);
     }
     
     public function viewFace (){
         
-        $filelist = opendir('images') ;
+        $filelist = opendir('images/attendance') ;
         $photos = array();
 
         while ($campic = readdir($filelist)) 
@@ -46,7 +46,7 @@ class Snap extends CI_Controller {
         rsort($photos);  # to display the most recent photo first, see part 3 above.
 
         foreach ($photos AS $photo ) 
-            { echo  ' <img width=640 height=480 src="../images/'.$photo.'"> 
+            { echo  ' <img width=64 height=48 src="../images/attendance/'.$photo.'"> 
                       <br> '.$photo.'<br> <br> <br>' ; }
     }
 }
