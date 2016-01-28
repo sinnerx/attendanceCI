@@ -25,10 +25,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $config['base_url'] = 'http://localhost/digitalgaia/iris/attendance/';
 
-if(isset($GLOBALS['server_conf']['base_url']))
-	$config['base_url'] = $GLOBALS['server_conf']['base_url'];
-
-
 /*
 |--------------------------------------------------------------------------
 | Index File

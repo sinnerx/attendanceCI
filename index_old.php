@@ -53,10 +53,7 @@
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-if(getcwd() != '/var/www/html/pro/attendance')
-	define('ENVIRONMENT', 'development');
-else
-	define('ENVIRONMENT', 'production');
+	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
 
 /*
  *---------------------------------------------------------------
@@ -71,15 +68,6 @@ switch (ENVIRONMENT)
 	case 'development':
 		error_reporting(-1);
 		ini_set('display_errors', 1);
-		
-		if(file_exists('/var/www/html/.credentials/db.dev'))
-		{
-			$GLOBALS['server_conf'] = array(
-				'db' => require_once '/var/www/html/.credentials/db.dev',
-				'base_url' => 'http://dev.celcom1cbc.com/attendance'
-				);
-		}
-	
 	break;
 
 	case 'testing':
@@ -92,14 +80,6 @@ switch (ENVIRONMENT)
 		else
 		{
 			error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT & ~E_USER_NOTICE);
-		}
-
-		if(file_exists('/var/www/html/.credentials/db.pro'))
-		{
-			$GLOBALS['server_conf'] = array(
-				'db' => require_once '/var/www/html/.credentials/db.pro',
-				'base_url' => 'http://www.celcom1cbc.com/attendance'
-				);
 		}
 	break;
 

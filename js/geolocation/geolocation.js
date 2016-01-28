@@ -52,8 +52,8 @@ if (navigator.geolocation) {
             curDateTime.innerHTML = '<p style="text-align: center"><a href="#" class="block h4 font-bold m-b text-black">Current Date/Time:<br>' + parseTimestamp(position.timestamp) + '</a></p>';
             $("#valLatLong").val(latitude.toFixed(7)  + '°, ' + longitude.toFixed(7) + '°');
             $("#valDateTime").val(parseTimestamp(position.timestamp));
-            $("#valDate").val(parseTimestamp(position.timestamp).substr(0,9));
-            $("#valTime").val(parseTimestamp(position.timestamp).substr(-9));
+            $("#valDate").val(parseTimestamp(position.timestamp).substr(0,10));
+            $("#valTime").val(parseTimestamp(position.timestamp).substr(-6));
              
            // $("#valActivityStatus").val('IN');
             //console.log("parseTimestamp(timestamp): "+parseTimestamp(timestamp));
@@ -70,8 +70,9 @@ if (navigator.geolocation) {
     }
     function parseTimestamp(timestamp) {
             var d = new Date(timestamp);
-            var day = d.getDate();
-            var month = d.getMonth() + 1;
+            //('0' + d.getHours()).slice(-2);
+            var day = ('0' + d.getDate()).slice(-2);
+            var month = ( '0' + (d.getMonth() + 1)).slice(-2);
             var year = d.getFullYear();
             //var hour = d.getHours();
             var hour = ('0' + d.getHours()).slice(-2);
@@ -83,37 +84,6 @@ if (navigator.geolocation) {
             var secs = ('0' + d.getSeconds()).slice(-2);
             //alert("secs :"+secs);
             var msec = d.getMilliseconds();
-            return day + "-" + month + "-" + year + " " + hour + ":" + mins + ":" + secs/* + "," + msec*/;
+            return day + "-" + month + "-" + year + " " + hour + ":" + mins/* + ":" + secs + "," + msec*/;
     }
-//    function parseTime(time_) {
-//            var d = new Date(time_);
-//            //var day = d.getDate();
-//            //var month = d.getMonth() + 1;
-//            //var year = d.getFullYear();
-//            var hour = d.getHours();
-//            //var mins = d.getMinutes();
-//            //get minutes by 00 digits 
-//            var mins = ('0' + d.getMinutes()).slice(-2);
-//            /*var secs = d.getSeconds();*/
-//            //get seconds by 00 digits (2 digits e.g: 01,02,...09)
-//            var secs = ('0' + d.getSeconds()).slice(-2);
-//            //alert("secs :"+secs);
-//            //var msec = d.getMilliseconds();
-//            return hour + ":" + mins + ":" + secs;
-//    }
-//    function parseDate(date_) {
-//            var d = new Date(date_);
-//            var day = d.getDate();
-//            var month = d.getMonth() + 1;
-//            var year = d.getFullYear();
-//            //var hour = d.getHours();
-//            //var mins = d.getMinutes();
-//            //get minutes by 00 digits 
-//            //var mins = ('0' + d.getMinutes()).slice(-2);
-//            /*var secs = d.getSeconds();*/
-//            //get seconds by 00 digits (2 digits e.g: 01,02,...09)
-//            //var secs = ('0' + d.getSeconds()).slice(-2);
-//            //alert("secs :"+secs);
-//            //var msec = d.getMilliseconds();
-//            return day + "-" + month + "-" + year;
-//    }
+

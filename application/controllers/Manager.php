@@ -5,50 +5,37 @@
  * and open the template in the editor.
  */
 class Manager extends CI_Controller {
-    
+    public $userid;
+    public $userLevel;
     public function __construct()
 	{
 		parent::__construct();
+                //userID/userLevel from nativesession from IRIS/main system session
+                $this->userid = $this->nativesession->get( 'userid' );
+                $this->userLevel = $this->nativesession->get( 'userLevel' );
+                //load manager model aliases with 'manager'
 		$this->load->model('manager_model','manager');
 	}
 
     public function index() {
         //$this->load->helper('url');
-        //userID/userLevel from nativesession from IRIS/main system session
-        $userid = $this->nativesession->get( 'userid' );
-        $userLevel = $this->nativesession->get( 'userLevel' );
+        
+        
 
         $data = array(
-		    'userid' => $userid,
-		    'userLevel' => $userLevel,
+		    'userid' => $this->userid,
+		    'userLevel' => $this->userLevel,
 		    'message' => 'My Message',
                     'title' => 'Manager\'s Attendance Site',
                     
 		);
-   /**//* $dataAtt = array(
 
-                 //attendance
-                'managerID' => $this->input->post('managerID'),
-                'attID' => $this->input->post('fieldnameid'),
-                'activityDate' => $this->input->post('fieldnameid'),
-                'activityTime' => $this->input->post('fieldnameid'),
-                'activityStatus' => $this->input->post('fieldnameid'),
-                'outStationStatus' => $this->input->post('outstationStatusTxt'),
-                'attendanceStatus' => $this->input->post('fieldnameid'),
-                'latLongIn' => $this->input->post('valLatLong'),
-                'latLongOut' => $this->input->post('curLatLong')
-                 //camera disabled v0.1
-                //'imgIn' => $this->input->post("fieldnameid"),
-               // 'imgOut' => $this->input->post('fieldnameid'),
-            );*/
-        
-        //echo json_encode($dataAtt);
         //load model for manager
         $this->load->model('manager_model');
         //pass userid to model->method
-        $this->manager_model->getFullName($userid);
-        $this->manager_model->getUserLevel($userLevel);
-        $this->manager_model->getClusterName($userid);
+        $this->manager_model->getFullName($this->userid);
+        $this->manager_model->getUserLevel($this->userLevel);
+        $this->manager_model->getClusterName($this->userid);
         
         //attendance
         //$this->manager_model->insertAttendance($dataAtt);
@@ -71,7 +58,11 @@ class Manager extends CI_Controller {
         $data = array(
                  //attendance
                 //'latLongIn' => $this->input->post('latLongIn'),
+                 
                 'managerID' => $this->input->post('managerID'),
+                'clusterID' => $this->input->post('clusterID'),
+                'managerName' => $this->input->post('managerName'),
+                'siteName' => $this->input->post('siteName'),
                 'activityDate' => $this->input->post('activityDate'),
                 'activityTime' => $this->input->post('activityTime'),
                 'activityStatus' => $this->input->post('activityStatus'),
@@ -91,14 +82,19 @@ class Manager extends CI_Controller {
     //tables
     public function ajax_list()
 	{
+                //get the assign userid attendance list
+                //$this->db->where('managerID',$this->userid);
+                //list the db
 		$list = $this->manager->get_datatables();
 		$data = array();
 		$no = $_POST['start'];
 		foreach ($list as $manager) {
 			$no++;
 			$row = array();
-                        $row[] = $manager->attID;
-			$row[] = $manager->managerID;
+                        //$row[] = $manager->attID;
+			//$row[] = $manager->managerID;
+                        //$row[] = $manager->managerName;
+                        //$row[] = $manager->siteName;
 			$row[] = $manager->activityDate;
                         $row[] = $manager->activityTime;
 			$row[] = $manager->activityStatus;
@@ -122,6 +118,8 @@ class Manager extends CI_Controller {
                 
 		//output to json format
 		echo json_encode($output);
+                 //echo "json";
 	}
+       
     
 }

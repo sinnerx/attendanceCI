@@ -11,7 +11,7 @@ defined('BASEPATH') OR exit('No direct access allowed!');
   <!-- Bootstrap -->
   <script src="<?php echo base_url();?>js/bootstrap.js"></script>
   <!-- App -->
-  <!--<script src="<?php echo base_url();?>js/app.js"></script> --> 
+  <script src="<?php echo base_url();?>js/app.js"></script>  
   <script src="<?php echo base_url();?>js/slimscroll/jquery.slimscroll.min.js"></script>
   <!--<script src="<?php echo base_url();?>js/charts/easypiechart/jquery.easy-pie-chart.js"></script>
   <script src="<?php echo base_url();?>js/charts/sparkline/jquery.sparkline.min.js"></script>
@@ -23,7 +23,6 @@ defined('BASEPATH') OR exit('No direct access allowed!');
   <script src="<?php echo base_url();?>js/charts/flot/jquery.flot.grow.js"></script>
   <script src="<?php echo base_url();?>js/charts/flot/demo.js"></script>-->
   <!-- datatables -->
- 
   <script src="<?php echo base_url();?>js/datatables/jquery.dataTables.min.js"></script>
   <script src="<?php echo base_url();?>js/datatables/dataTables.bootstrap.js"></script>
   <script src="<?php echo base_url();?>js/datatables/jquery.csv-0.71.min.js"></script>
@@ -40,7 +39,7 @@ defined('BASEPATH') OR exit('No direct access allowed!');
   <!-- punch -->
   <script src="<?php echo base_url();?>js/punch.js"></script>
   <!-- geolocation -->
-  <script src="<?php echo base_url();?>js/geolocation/geolocation.js"></script>
+  <!--<script src="<?php echo base_url();?>js/geolocation/geolocation.js"></script>-->
   
 </body>
 </html>

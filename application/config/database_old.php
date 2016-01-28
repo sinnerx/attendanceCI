@@ -94,11 +94,3 @@ $db['default'] = array(
 	'failover' => array(),
 	'save_queries' => TRUE
 );
-
-if(isset($GLOBALS['server_conf']['db']))
-{
-	$db['default']['hostname'] = $GLOBALS['server_conf']['db']['host'];
-	$db['default']['username'] = $GLOBALS['server_conf']['db']['user'];
-	$db['default']['password'] = $GLOBALS['server_conf']['db']['pass'];
-	$db['default']['database'] = $GLOBALS['server_conf']['db']['db'];
-}

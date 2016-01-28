@@ -13,17 +13,15 @@ defined ('BASEPATH') or exit('No direct access allowed!');
             header("location: ../dashboard");
             //header('location:'.base_url().'dashboard');
     }
-            //echo "\$_SESSION\[\'userLevel\']: ".$_SESSION['userLevel'];
-//    if($_SESSION['userid'] == 1){
-//        //$this->load->helper('url');
-//        //redirect('admin');
-//        //header("location: admin");
-//        //if ($_SERVER['PHP_SELF'] != "") header("Location: admin/");
-//        //echo "Admin is here";
-//   } //else {
-        
-        // header("location: admin");
-   // }
+           
+   if(($_SESSION['userLevel']) > 4){
+        //echo $userid;
+        header("location: ".base_url()."admin");
+        //if ($_SERVER['PHP_SELF'] != "") header("Location: admin/");
+        //echo "Admin is here";
+   } 
+   
+   
 ?>
 <head>  
   <meta charset="utf-8" />
@@ -37,108 +35,256 @@ defined ('BASEPATH') or exit('No direct access allowed!');
   <link rel="stylesheet" href="<?php echo base_url();?>css/font.css" type="text/css" />
   <link rel="stylesheet" href="<?php echo base_url();?>css/app.css" type="text/css" />  
   <link rel="stylesheet" href="<?php echo base_url();?>js/calendar/bootstrap_calendar.css" type="text/css" />
-  <link rel="stylesheet" href="<?php echo base_url();?>js/datatables/datatables.css" type="text/css"/>
+  <link rel="stylesheet" href="<?php echo base_url();?>js/datatables/dataTables.bootstrap.css" type="text/css"/>
+  <!--<link rel="stylesheet" href="<?php echo base_url();?>js/datatables/datatables.css" type="text/css"/>-->
   <!---->
   <!--[if lt IE 9]>
     <script src="<?php echo base_url();?>js/ie/html5shiv.js"></script>
     <script src="<?php echo base_url();?>js/ie/respond.min.js"></script>
     <script src="<?php echo base_url();?>js/ie/excanvas.js"></script>
   <![endif]-->
-  <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>-->
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+ <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+   <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>-->
   <!--<script src="<?php echo base_url();?>js/jquery.min.js"></script>-->
   <script type="text/javascript">
       
     //table
       var save_method; //for save method string
       var table;
+      var punchStatus;
 
 $(document).ready(function() {
     //reload_table();
        //punch-in   
       $( "#punch-in" ).click(function(event) {
-            //reload_table();  
-           // alert("reload_table"+ reload_table());
+          $( "#snap" ).click();
+          //alert("time: "+currentDateTime().substr(-6) +"| date: "+currentDateTime().substr(0,10));
+          $( "#punch-in" ).hide();
+          $( "#punch-out" ).show();
+          $( "#punch-out" ).addClass('disabled');
             event.preventDefault();
+            var clusterID = $("#valClusterID").val();
             var managerID = $("#valManagerID").val();
+            var managerName = $("#valManagerName").val();
+            var siteName = $("#valSiteName").val();
             //var  attID = $("#valAttID").val();
-            var  activityTime = $("#valTime").val();
-            var  activityDate = $("#valDate").val();
+            //var  activityTime = $("#valTime").val();
+            //var  activityDate = $("#valDate").val();
+            var  activityTime = currentDateTime().substr(-6);
+            var  activityDate = currentDateTime().substr(0,10);
             //var  activityStatus = $("#valActivityStatus").val();
-            var  activityStatus = 'IN';
+            var  activityStatus = punchStatus = 'IN';
             var  outstationStatus = $("#outstationStatusTxt").val();
             var  latLongIn = $("#valLatLong").val();
             jQuery.ajax({
             type: "POST",
             url: "<?php echo base_url(); ?>manager/saveAttendance",
             //dataType: "JSON",
-            data: {managerID: managerID, activityDate: activityDate, activityTime: activityTime, latLongIn: latLongIn, activityStatus: activityStatus, outstationStatus: outstationStatus},
+            data: {managerID: managerID, clusterID: clusterID, managerName: managerName, siteName: siteName, activityDate: activityDate, activityTime: activityTime, latLongIn: latLongIn, activityStatus: activityStatus, outstationStatus: outstationStatus},
             success: function (data) {
                     //table.ajax.reload(null,false);
                     console.log(data);
                     reload_table();
+                    notify();
+                    $("#upload").click();
+
                 },
             error: function (jqXHR, textStatus, errorThrown)
             {
-                //alert("Error: jqXHR: "+jqXHR+" | textStatus: "+textStatus+" | errorThrown: "+errorThrown);
-                //reload_table();
+                alert("Error: jqXHR: "+jqXHR+" | textStatus: "+textStatus+" | errorThrown: "+errorThrown);
             }
             });
      //reload_table();
         });
     //punch-out
     $( "#punch-out" ).click(function(event) {
+        $("#snap").click();
+        $( "#punch-out" ).hide();
+        $( "#punch-in" ).show();
+        $( "#punch-in" ).addClass('disabled');
         event.preventDefault();
+        var clusterID = $("#valClusterID").val();
         var managerID = $("#valManagerID").val();
+        var managerName = $("#valManagerName").val();
+        var siteName = $("#valSiteName").val();
         //var  attID = $("#valAttID").val();
-        var  activityTime = $("#valTime").val();
-        var  activityDate = $("#valDate").val();
+        //var  activityTime = $("#valTime").val();
+        //var  activityDate = $("#valDate").val();
+        var  activityTime = currentDateTime().substr(-6);
+        var  activityDate = currentDateTime().substr(0,10);
         //var  activityStatus = $("#valActivityStatus").val();
-        var  activityStatus = 'OUT';
+        var  activityStatus = punchStatus = 'OUT';
         var  outstationStatus = $("#outstationStatusTxt").val();
         var  latLongIn = $("#valLatLong").val();
-
         jQuery.ajax({
         type: "POST",
         url: "<?php echo base_url(); ?>manager/saveAttendance",
         //dataType: "JSON",
-        data: {managerID: managerID, activityDate: activityDate, activityTime: activityTime, latLongIn: latLongIn, activityStatus: activityStatus, outstationStatus: outstationStatus},
+        data: {managerID: managerID, clusterID: clusterID, managerName: managerName, siteName: siteName, activityDate: activityDate, activityTime: activityTime, latLongIn: latLongIn, activityStatus: activityStatus, outstationStatus: outstationStatus},
         success: function (data) {
                 //table.ajax.reload(null,false);
                 console.log(data);
                 reload_table();
-      },
-       error: function (jqXHR, textStatus, errorThrown)
+                notify();
+                $("#upload").click();
+
+        },
+        error: function (jqXHR, textStatus, errorThrown)
             {
-                //alert("Error: jqXHR: "+jqXHR+" | textStatus: "+textStatus+" | errorThrown: "+errorThrown);
+                alert("Error: jqXHR: "+jqXHR+" | textStatus: "+textStatus+" | errorThrown: "+errorThrown);
                 //reload_table();
             }
      });
     //reload_table();
     });
     
-    table = $('#table').DataTable({ 
 
+    table = $('#table').DataTable({ 
+        
         "processing": true, //Feature control the processing indicator.
         "serverSide": true, //Feature control DataTables' server-side processing mode.
         "order": [], //Initial no order.
-
+        //"pagingType": "full_numbers",
+        
         // Load data for the table's content from an Ajax source
         "ajax": {
             "url": "<?php echo base_url();?>manager/ajax_list",
             "type": "POST"
         },
-
-        //Set column definition initialisation properties.
+         //Set column definition initialisation properties.
         "columnDefs": [
         { 
-            "targets": [ -1 ], //last column
+            
+        //"targets": [ -1 ], //disable last column
+        "targets": [ 0,1,2,3,4 ], //disable sorting all column
             "orderable": false, //set not orderable
         },
         ],
-
+        //alert($userid);
     });
     
+//    $("#canceloutstation").click(function() {
+//            //alert("cancel");
+//             //alert($("#outstationStatusTxt").val());    
+//        if($("#outstationStatusTxt").val()) != ""){
+//
+//           // alert($("#outstationStatusTxt").val());
+//        }
+//    });
+   
+    
+    $('input,textarea').focus(function () {
+        $(this).data('placeholder', $(this).attr('placeholder'))
+               .attr('placeholder', '');
+    }).blur(function () {
+        $(this).attr('placeholder', $(this).data('placeholder'));
+    });
+    
+    //camera
+    loadCamera();
+    function loadCamera() {
+
+            // Grab elements, create settings, etc.
+            var canvas = document.getElementById("canvas"),
+                context = canvas.getContext("2d"),
+                
+                video = document.getElementById("video"),
+                videoObj = { "video": true },
+                image_format= "jpeg",
+                jpeg_quality= 85,
+                errBack = function(error) {
+                    console.log("Video capture error: ", error.code); 
+                };
+                //ratio 4:3
+                canvas.width = 502;
+                canvas.height = 376.5;
+
+            // Put video listeners into place
+            if(navigator.getUserMedia) { // Standard
+                navigator.getUserMedia(videoObj, function(stream) {
+                    video.src = stream;
+                    //ratio 4:3
+                    video.width = 502;
+                    video.height = 376.5;
+                    video.play();
+                    
+                    //$("#snap").show();
+                }, errBack);
+            } else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
+                navigator.webkitGetUserMedia(videoObj, function(stream){
+                    //video.src = window.webkitURL.createObjectURL(stream);
+                    video.src = window.URL.createObjectURL(stream);
+                    //ratio 4:3
+                    video.width = 502;
+                    video.height = 376.5;
+                    video.play();
+                    //$("#snap").show();
+                }, errBack);
+            } else if(navigator.mozGetUserMedia) { // moz-prefixed
+                navigator.mozGetUserMedia(videoObj, function(stream){
+                    video.src = window.URL.createObjectURL(stream);
+                    //ratio 4:3
+                    video.width = 502;
+                    video.height = 376.5;
+                    video.play();
+                    //$("#snap").show();
+                }, errBack);
+            }
+                  // video.play();       these 2 lines must be repeated above 3 times
+                  // $("#snap").show();  rather than here once, to keep "capture" hidden
+                  //                     until after the webcam has been activated.  
+
+                //canvas.width = 502;
+                //canvas.height = 350;
+
+            // Get-Save Snapshot - image 
+           // document.getElementById("snap").addEventListener("click", function() {
+              $( "#snap" ).click(function(event) {
+                context.drawImage(video, 0, 0, 502, 376.5);
+                
+                // the fade only works on firefox?
+                //$("#video").fadeOut("slow");
+                //$("#canvas").fadeIn("slow");
+                 $("#video").hide();
+                $("#canvas").show();
+                //$("#snap").hide();
+                //$("#reset").show();
+                //$("#upload").show();
+            });
+            // reset - clear - to Capture New Photo
+            //document.getElementById("reset").addEventListener("click", function() {
+             $( "#reset" ).click(function(event) {
+                //$("#video").fadeIn("slow");
+                //$("#canvas").fadeOut("slow");
+                $("#video").show();
+                $("#canvas").hide();
+                //$("#snap").show();
+                //$("#reset").hide();
+                //$("#upload").hide();
+            });
+            // Upload image to sever 
+            //document.getElementById("upload").addEventListener("click", function(){
+             $( "#upload" ).click(function(event) {
+                var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
+                $("#uploading").show();
+                $.ajax({
+                  type: "POST",
+                  url: "snap/saveFace",
+                  data: { 
+                     imgBase64: dataUrl,
+                     //user: "Joe",       
+                     //userid: 25   
+                     userid: $("#valManagerID").val(),
+                     punchStatus: punchStatus
+                  }
+                }).done(function(msg) {
+                  console.log("saved");
+                  $("#uploading").hide();
+                  $("#uploaded").show();
+                });
+            });
+        }
+    //false;
  });
  
 function reload_table(){
@@ -146,6 +292,46 @@ function reload_table(){
       table.ajax.reload(null,false); //reload datatable ajax 
 }
 
+function notify(){
+    //alert("datetime: "activityDate + activityTime);
+           var div = document.getElementById('success');
+            div.innerHTML += 'Data successfully submitted!';
+           function f() { 
+            div.innerHTML = "";
+            $( "#punch-in" ).removeClass('disabled');
+            $( "#punch-out" ).removeClass('disabled');
+            //reset check box
+            $('#outstationStatusTxt').val("");
+            $('#outstationspan').text(" Add Notes");
+            $('#outstation').prop('checked', false);
+            $("#reset").click();
+            $("#uploading").hide();
+            $("#uploaded").hide();
+
+        //outstationTxt.innerHTML = '<label><input id=\"outstation\" type=\"checkbox\"><i></i> Add Notes</label>' ;
+    }
+    setTimeout(f, 3000);        
+}
+
+function currentDateTime() {
+            var d = new Date();
+            //('0' + d.getHours()).slice(-2);
+            var day = ('0' + d.getDate()).slice(-2);
+            var month = ( '0' + (d.getMonth() + 1)).slice(-2);
+            var year = d.getFullYear();
+            //var hour = d.getHours();
+            var hour = ('0' + d.getHours()).slice(-2);
+            //var mins = d.getMinutes();
+            //get minutes by 00 digits 
+            var mins = ('0' + d.getMinutes()).slice(-2);
+            /*var secs = d.getSeconds();*/
+            //get seconds by 00 digits (2 digits e.g: 01,02,...09)
+            var secs = ('0' + d.getSeconds()).slice(-2);
+            //alert("secs :"+secs);
+            var msec = d.getMilliseconds();
+            return day + "-" + month + "-" + year + " " + hour + ":" + mins/* + ":" + secs + "," + msec*/;
+ }
+  
 </script>
 
 </head>
