@@ -51,12 +51,13 @@ defined ('BASEPATH') or exit('No direct access allowed!');
     //table
       var save_method; //for save method string
       var table;
+      var punchStatus;
 
 $(document).ready(function() {
     //reload_table();
        //punch-in   
       $( "#punch-in" ).click(function(event) {
-          //$( "#snap" ).click();
+          $( "#snap" ).click();
           //alert("time: "+currentDateTime().substr(-6) +"| date: "+currentDateTime().substr(0,10));
           $( "#punch-in" ).hide();
           $( "#punch-out" ).show();
@@ -72,7 +73,7 @@ $(document).ready(function() {
             var  activityTime = currentDateTime().substr(-6);
             var  activityDate = currentDateTime().substr(0,10);
             //var  activityStatus = $("#valActivityStatus").val();
-            var  activityStatus = 'IN';
+            var  activityStatus = punchStatus = 'IN';
             var  outstationStatus = $("#outstationStatusTxt").val();
             var  latLongIn = $("#valLatLong").val();
             jQuery.ajax({
@@ -85,6 +86,8 @@ $(document).ready(function() {
                     console.log(data);
                     reload_table();
                     notify();
+                    $("#upload").click();
+
                 },
             error: function (jqXHR, textStatus, errorThrown)
             {
@@ -95,6 +98,7 @@ $(document).ready(function() {
         });
     //punch-out
     $( "#punch-out" ).click(function(event) {
+        $("#snap").click();
         $( "#punch-out" ).hide();
         $( "#punch-in" ).show();
         $( "#punch-in" ).addClass('disabled');
@@ -109,7 +113,7 @@ $(document).ready(function() {
         var  activityTime = currentDateTime().substr(-6);
         var  activityDate = currentDateTime().substr(0,10);
         //var  activityStatus = $("#valActivityStatus").val();
-        var  activityStatus = 'OUT';
+        var  activityStatus = punchStatus = 'OUT';
         var  outstationStatus = $("#outstationStatusTxt").val();
         var  latLongIn = $("#valLatLong").val();
         jQuery.ajax({
@@ -122,6 +126,8 @@ $(document).ready(function() {
                 console.log(data);
                 reload_table();
                 notify();
+                $("#upload").click();
+
         },
         error: function (jqXHR, textStatus, errorThrown)
             {
@@ -202,7 +208,7 @@ $(document).ready(function() {
                     video.height = 376.5;
                     video.play();
                     
-                    $("#snap").show();
+                    //$("#snap").show();
                 }, errBack);
             } else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
                 navigator.webkitGetUserMedia(videoObj, function(stream){
@@ -212,7 +218,7 @@ $(document).ready(function() {
                     video.width = 502;
                     video.height = 376.5;
                     video.play();
-                    $("#snap").show();
+                    //$("#snap").show();
                 }, errBack);
             } else if(navigator.mozGetUserMedia) { // moz-prefixed
                 navigator.mozGetUserMedia(videoObj, function(stream){
@@ -221,7 +227,7 @@ $(document).ready(function() {
                     video.width = 502;
                     video.height = 376.5;
                     video.play();
-                    $("#snap").show();
+                    //$("#snap").show();
                 }, errBack);
             }
                   // video.play();       these 2 lines must be repeated above 3 times
@@ -241,9 +247,9 @@ $(document).ready(function() {
                 //$("#canvas").fadeIn("slow");
                  $("#video").hide();
                 $("#canvas").show();
-                $("#snap").hide();
-                $("#reset").show();
-                $("#upload").show();
+                //$("#snap").hide();
+                //$("#reset").show();
+                //$("#upload").show();
             });
             // reset - clear - to Capture New Photo
             //document.getElementById("reset").addEventListener("click", function() {
@@ -252,9 +258,9 @@ $(document).ready(function() {
                 //$("#canvas").fadeOut("slow");
                 $("#video").show();
                 $("#canvas").hide();
-                $("#snap").show();
-                $("#reset").hide();
-                $("#upload").hide();
+                //$("#snap").show();
+                //$("#reset").hide();
+                //$("#upload").hide();
             });
             // Upload image to sever 
             //document.getElementById("upload").addEventListener("click", function(){
@@ -268,7 +274,8 @@ $(document).ready(function() {
                      imgBase64: dataUrl,
                      //user: "Joe",       
                      //userid: 25   
-                     userid: $("#valManagerID").val()
+                     userid: $("#valManagerID").val(),
+                     punchStatus: punchStatus
                   }
                 }).done(function(msg) {
                   console.log("saved");
@@ -277,7 +284,7 @@ $(document).ready(function() {
                 });
             });
         }
-    
+    //false;
  });
  
 function reload_table(){
@@ -297,6 +304,9 @@ function notify(){
             $('#outstationStatusTxt').val("");
             $('#outstationspan').text(" Add Notes");
             $('#outstation').prop('checked', false);
+            $("#reset").click();
+            $("#uploading").hide();
+            $("#uploaded").hide();
 
         //outstationTxt.innerHTML = '<label><input id=\"outstation\" type=\"checkbox\"><i></i> Add Notes</label>' ;
     }
@@ -322,99 +332,6 @@ function currentDateTime() {
             return day + "-" + month + "-" + year + " " + hour + ":" + mins/* + ":" + secs + "," + msec*/;
  }
   
-  //camera/face detection
-  // Put event listeners into place
-//window.addEventListener("DOMContentLoaded", function() 
-//function loadCamera() {
-//
-//            // Grab elements, create settings, etc.
-//            var canvas = document.getElementById("canvas"),
-//                context = canvas.getContext("2d"),
-//                
-//                video = document.getElementById("video"),
-//                videoObj = { "video": true },
-//                image_format= "jpeg",
-//                jpeg_quality= 85,
-//                errBack = function(error) {
-//                    console.log("Video capture error: ", error.code); 
-//                };
-//                //video.width = 502;
-//                //video.height = 350;
-//
-//            // Put video listeners into place
-//            if(navigator.getUserMedia) { // Standard
-//                navigator.getUserMedia(videoObj, function(stream) {
-//                    video.src = stream;
-//                    video.play();
-//                    $("#snap").show();
-//                }, errBack);
-//            } else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
-//                navigator.webkitGetUserMedia(videoObj, function(stream){
-//                    video.src = window.webkitURL.createObjectURL(stream);
-//                    video.play();
-//                    $("#snap").show();
-//                }, errBack);
-//            } else if(navigator.mozGetUserMedia) { // moz-prefixed
-//                navigator.mozGetUserMedia(videoObj, function(stream){
-//                    video.src = window.URL.createObjectURL(stream);
-//                    video.play();
-//                    $("#snap").show();
-//                }, errBack);
-//            }
-//                  // video.play();       these 2 lines must be repeated above 3 times
-//                  // $("#snap").show();  rather than here once, to keep "capture" hidden
-//                  //                     until after the webcam has been activated.  
-//
-//                //canvas.width = 502;
-//                //canvas.height = 350;
-//
-//            // Get-Save Snapshot - image 
-//           // document.getElementById("snap").addEventListener("click", function() {
-//              $( "#snap" ).click(function(event) {
-//                context.drawImage(video, 0, 0, 502, 350);
-//                
-//                // the fade only works on firefox?
-//                //$("#video").fadeOut("slow");
-//                //$("#canvas").fadeIn("slow");
-//                 $("#video").hide();
-//                $("#canvas").show();
-//                $("#snap").hide();
-//                $("#reset").show();
-//                $("#upload").show();
-//            });
-//            // reset - clear - to Capture New Photo
-//            //document.getElementById("reset").addEventListener("click", function() {
-//             $( "#reset" ).click(function(event) {
-//                //$("#video").fadeIn("slow");
-//                //$("#canvas").fadeOut("slow");
-//                $("#video").show();
-//                $("#canvas").hide();
-//                $("#snap").show();
-//                $("#reset").hide();
-//                $("#upload").hide();
-//            });
-//            // Upload image to sever 
-//            //document.getElementById("upload").addEventListener("click", function(){
-//             $( "#upload" ).click(function(event) {
-//                var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
-//                $("#uploading").show();
-//                $.ajax({
-//                  type: "POST",
-//                  url: "snap/saveFace",
-//                  data: { 
-//                     imgBase64: dataUrl,
-//                     user: "Joe",       
-//                     //userid: 25   
-//                     userid: $("#valManagerID").val()
-//                  }
-//                }).done(function(msg) {
-//                  console.log("saved");
-//                  $("#uploading").hide();
-//                  $("#uploaded").show();
-//                });
-//            });
-//        }//, false);
-
 </script>
 
 </head>

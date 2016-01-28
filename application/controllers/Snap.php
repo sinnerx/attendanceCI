@@ -25,9 +25,9 @@ class Snap extends CI_Controller {
         $datime = date("d-m-Y-H.i", time() ) ; # - 3600*7
         
         $userid  = $_POST['userid'] ;
-
+        $punchStatus  = $_POST['punchStatus'];
         // name & save the image file 
-        $fp = fopen('images/'.$datime.'-'.$userid.'.jpg', 'w');
+        $fp = fopen('images/'.$punchStatus.'-'.$datime.'-'.$userid.'.jpg', 'w');
         fwrite($fp, $unencoded);
         fclose($fp);
     }

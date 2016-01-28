@@ -235,16 +235,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <p style="text-align: center"> Disabled for Attendance V0.1</p>
                           </div>-->
                             <div class="camcontent" style="display: block; position: relative; overflow: hidden; height: 350px; width: 502px; margin: auto;">
+                                <span align="center" id="uploading" style="position: absolute;color: red;font-weight: bold; display:none; z-index:300000;"> Processing . . .  </span> 
+                                <span align="center" id="uploaded"  style="position: absolute;color: greenyellow;font-weight: bold; display:none; z-index:300000;"> Success, your photo has been uploaded!</span> 
                                 <video id="video" autoplay></video>
                                 <canvas id="canvas" width="502px" height="376.5px">
+                                
                             </div>
                             <div class="cambuttons">
-                                <button id="snap" style="display:none;">  Capture </button> 
-                                <button id="reset" style="display:none;">  Reset  </button>     
-                                <button id="upload" style="display:none;"> Upload </button> 
-                                <br> <span id=uploading style="display:none;"> Uploading has begun . . .  </span> 
-                                <span id=uploaded  style="display:none;"> Success, your photo has been uploaded! 
-                                </span> 
+                                <button type="button" id="snap" style="display:none;">  Capture </button> 
+                                <button type="button" id="reset" style="display:none;">  Reset  </button>     
+                                <button type="button" id="upload" style="display:none;"> Upload </button> 
+                                <br> 
+                                <!--<span id="uploading" style="display:none;"> Uploading has begun . . .  </span> 
+                                <span id="uploaded"  style="display:none;"> Success, your photo has been uploaded!</span> -->
                             </div>
                     </div>
                     <div class="col-md-6">
