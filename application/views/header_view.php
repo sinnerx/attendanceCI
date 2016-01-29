@@ -234,22 +234,11 @@ $(document).ready(function() {
                   // $("#snap").show();  rather than here once, to keep "capture" hidden
                   //                     until after the webcam has been activated.  
 
-                //canvas.width = 502;
-                //canvas.height = 350;
-
             // Get-Save Snapshot - image 
-           // document.getElementById("snap").addEventListener("click", function() {
               $( "#snap" ).click(function(event) {
                 context.drawImage(video, 0, 0, 502, 376.5);
-                
-                // the fade only works on firefox?
-                //$("#video").fadeOut("slow");
-                //$("#canvas").fadeIn("slow");
                  $("#video").hide();
                 $("#canvas").show();
-                //$("#snap").hide();
-                //$("#reset").show();
-                //$("#upload").show();
             });
             // reset - clear - to Capture New Photo
             //document.getElementById("reset").addEventListener("click", function() {
@@ -315,19 +304,12 @@ function notify(){
 
 function currentDateTime() {
             var d = new Date();
-            //('0' + d.getHours()).slice(-2);
             var day = ('0' + d.getDate()).slice(-2);
             var month = ( '0' + (d.getMonth() + 1)).slice(-2);
             var year = d.getFullYear();
-            //var hour = d.getHours();
             var hour = ('0' + d.getHours()).slice(-2);
-            //var mins = d.getMinutes();
-            //get minutes by 00 digits 
             var mins = ('0' + d.getMinutes()).slice(-2);
-            /*var secs = d.getSeconds();*/
-            //get seconds by 00 digits (2 digits e.g: 01,02,...09)
             var secs = ('0' + d.getSeconds()).slice(-2);
-            //alert("secs :"+secs);
             var msec = d.getMilliseconds();
             return day + "-" + month + "-" + year + " " + hour + ":" + mins/* + ":" + secs + "," + msec*/;
  }

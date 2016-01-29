@@ -26,7 +26,7 @@ class Admin extends CI_Controller {
 		    'userid' => $this->userid,
 		    'userLevel' => $this->userLevel,
 		    'message' => 'My Message',
-                    'title' => 'Manager\'s Attendance Site',
+                    'title' => 'All Attendance List',
                     
 		);
         //load model for manager

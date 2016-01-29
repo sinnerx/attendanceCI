@@ -199,7 +199,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <th>Time</th>
                                     <th>Activites</th>
                                     <th>Status</th>
-                                    <th>Location (Lat, Long)</th>
+                                    <th width="10%">Geolocation</th>
                                     <!--<th>Action</th>-->
                                   </tr>
                                 </thead>
@@ -238,16 +238,38 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <a href="#" class="btn btn-default btn-sm btn-rounded m-b-xs"><i class="fa fa-plus"></i> Take me in</a>
                         </div>-->
                         
-                       <div class="clearfix panel-footer">
-                           <!--<small class="text-muted pull-right">5m ago</small>
+                        <!-- map modal -->
+                        
+                        <div id="locateMap" class="modal fade" tabindex="-1" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="checkbox" class="close" data-dismiss="modal" id="canceloutstation_X">×</button>
+                                            <h4 style="text-align: center">Geolocation (Latitute, Longitute)</h4>
+                                        </div>
+                                        
+                                        <div class="modal-body">
+                                            <div id="map" class="" style="width:560px; height:350px;"></div>
+                                            
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a href="#" class="btn btn-primary" data-dismiss="modal" >Close</a>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                        <!-- end map modal-->
+                        
+                       <!--<div class="clearfix panel-footer">
+                           <small class="text-muted pull-right">5m ago</small>
                           <a href="#" class="thumb-sm pull-left m-r">
                             <img src="../images/a0.png" class="img-circle">
                           </a>
                           <div class="clear">
                             <a href="#"><strong>Jonathan Omish</strong></a>
                             <small class="block text-muted">San Francisco, USA</small>
-                          </div>-->
-                        </div>
+                          </div>
+                        </div>-->
                       </section>
                     </div>
                   </div>
