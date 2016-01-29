@@ -109,7 +109,9 @@ $(document).ready(function() {
     var str_array = toDisplayLatLong.split(',');
     for(var i = 0; i < str_array.length; i++) {
        // Trim the excess whitespace.
-       str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "");
+       //str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "");/\x{00B0}/
+       //clean up empty spaces and degree symbol (old records)
+       str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "").replace(/°/,"");
        // Add additional code
       // alert(str_array[i]);
     }
