@@ -199,8 +199,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <th>Time</th>
                                     <th>Activites</th>
                                     <th>Status</th>
-                                    <th width="10%">Geolocation</th>
-                                    <th width="5%">Img</th>
+                                    <th width="8%">Location</th>
+                                    <th width="3%">Img</th>
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -270,8 +270,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                         </div>
                                         
                                         <div class="modal-body">
-                                            <div class="" style="width:560px; height:376px; back; display: block; margin: 0 auto;">
-                                                <img id="imgView" src="images/camera-512.png">
+                                            <div class="" style="width:560px; height:376px; display: block; margin: 0 auto;">
+                                                <img id="imgView" src="images/camera-376.png">
                                             </div>
                                             
                                         </div>
