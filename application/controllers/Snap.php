@@ -8,6 +8,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 
 class Snap extends CI_Controller {
+//    function __construct() {
+//    parent::__construct();
+//    }
+//}
     
     public function index(){
  
@@ -30,6 +34,10 @@ class Snap extends CI_Controller {
         $fp = fopen('images/attendance/'.$datime.'-'.$userid.'-'.$punchStatus.'.jpg', 'w');
         fwrite($fp, $unencoded);
         fclose($fp);
+        //$this->db->insert('imgIn', $data);
+        $imgPath = 'images/attendance/'.$datime.'-'.$userid.'-'.$punchStatus.'.jpg';
+        //$this->db->insert('imgIn', $imgPath);
+        echo 'imgIn'.$imgPath;
     }
     
     public function viewFace (){

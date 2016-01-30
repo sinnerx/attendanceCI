@@ -60,6 +60,7 @@ defined ('BASEPATH') or exit('No direct access allowed!');
         var toDisplayActivities;
         var toDisplayStatus;
         var toDisplayLatLong;
+        var toDisplayImgIn;
         
 $(document).ready(function() {
    
@@ -77,15 +78,22 @@ $(document).ready(function() {
 
         //Set column definition initialisation properties.
         "columnDefs": [{ 
-            "targets": [ -1 ], //last column
+            "targets": [ -1, -2 ], //last column
             "orderable": false //set not orderable
+        },
+         {
+           "targets": -2,
+           "data": null,
+           "defaultContent": "<a href=\"#locateMap\" class=\"btn btn-default btn-xs\" data-toggle=\"modal\"><i class=\"fa fa-map-marker\"></i> Locate!</a>"
+            
         },
          {
            "targets": -1,
            "data": null,
-           "defaultContent": "<a href=\"#locateMap\" class=\"btn btn-default btn-xs\" data-toggle=\"modal\"><i class=\"fa fa-map-marker\"></i> Locate!</a>"
+           "defaultContent": "<a href=\"#seeImg\" class=\"btn btn-default btn-xs\" data-toggle=\"modal\"><i class=\"fa fa-eye\"></i></a>"
             
-        } ]
+        }
+        ]
     });
      $('#tableAdmin tbody').on( 'click', 'a', function () {
         var data = table.row( $(this).parents('tr') ).data();
@@ -99,7 +107,9 @@ $(document).ready(function() {
         toDisplayActivities = data[4];
         toDisplayStatus = data[5];
         toDisplayLatLong = data[6];
+        toDisplayImgIn = data[7];
         displayMap();
+        displayImg();
     } );
  });
  
@@ -168,6 +178,15 @@ $(document).ready(function() {
        displayMap();
     }
  }
+ 
+function displayImg(){
+    //if(toDisplayImgIn.length !== 0)  {
+      $("#imgView").attr('src', toDisplayImgIn);
+  //}
+  if(toDisplayImgIn.length === 0){
+      $("#imgView").attr('src', 'images/camera-376.png');
+  }
+}
 /*
 function reload_table(){
      // alert("reloaded!");

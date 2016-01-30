@@ -10,7 +10,7 @@ class Manager_model extends CI_Model {
     //declare for att tables
     //public $userid;
     var $table = 'att_attendancedetails';
-    var $column = array('attID','clusterID','managerID','managerName','siteName','activityDate','activityTime','activityStatus','outstationStatus', 'latLongIn'); //set column field database for order and search
+    var $column = array('attID','clusterID','managerID','managerName','siteName','activityDate','activityTime','activityStatus','outstationStatus', 'latLongIn','imgIn'); //set column field database for order and search
     var $order = array('attID' => 'desc'); // default order 
         
     //construct
