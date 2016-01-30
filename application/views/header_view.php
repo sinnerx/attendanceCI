@@ -52,6 +52,8 @@ defined ('BASEPATH') or exit('No direct access allowed!');
       var save_method; //for save method string
       var table;
       var punchStatus;
+      var activityDateData;
+      var activityTimeData;
 
 $(document).ready(function() {
     //reload_table();
@@ -112,8 +114,8 @@ $(document).ready(function() {
         //var  attID = $("#valAttID").val();
         //var  activityTime = $("#valTime").val();
         //var  activityDate = $("#valDate").val();
-        var  activityTime = currentDateTime().substr(-6);
-        var  activityDate = currentDateTime().substr(0,10);
+        var  activityTime = activityTimeData = currentDateTime().substr(-6);
+        var  activityDate = activityDateData = currentDateTime().substr(0,10);
         //var  activityStatus = $("#valActivityStatus").val();
         var  activityStatus = punchStatus = 'OUT';
         var  outstationStatus = $("#outstationStatusTxt").val();
@@ -268,7 +270,9 @@ $(document).ready(function() {
                      //user: "Joe",       
                      //userid: 25   
                      userid: $("#valManagerID").val(),
-                     punchStatus: punchStatus
+                     punchStatus: punchStatus,
+                     activityDateData: activityDateData,
+                     activityTimeData: activitytimeData
                   }
                 }).done(function(msg) {
                   console.log("saved");

@@ -265,7 +265,7 @@ class Manager_model extends CI_Model {
              
         }
         
-        public function isLastOutToday(){
+        public function isLastOutYesterday(){
         $this->db->from('att_attendancedetails');
         
         $this->db->where('managerID', $this->userid);
@@ -273,7 +273,9 @@ class Manager_model extends CI_Model {
         //isnnotdate
         //$this->db->where('activityDate !=', date('d-m-Y'));
         //isdate
-        $this->db->where('activityDate', date('d-m-Y'));
+        $yesterdayDate = date('d-m-Y', strtotime('-1 days'));
+        $this->db->where('activityDate', $yesterdayDate);
+        
         //test on 29 jan 2016
         //$this->db->where('activityDate', '29-01-2016');
         $query = $this->db->get();
@@ -283,15 +285,39 @@ class Manager_model extends CI_Model {
             }
         $num = $query->num_rows();
         //var_dump(empty($query));
-            echo 'isLastOut'.$num; 
+            //echo 'isLastOut[$num]'.$num; 
             if ($num < 2){
-                $isLastOut = FALSE;
-                $isAnomaly = TRUE;
+                $isLastOut = TRUE;
+                $isAnomaly = FALSE;
                 echo '$isLastOut'.$isLastOut;
                 }else{
-                    $isLastOut = TRUE;
+                    $isLastOut = FALSE;
                     echo '$isLastOut'.$isLastOut;
             }
         }
-    
+        
+        public function hoursPerDay(){
+        $this->db->from('att_attendancedetails');
+        
+        $this->db->where('managerID', $this->userid);
+        $this->db->where('activityStatus', 'OUT');
+        //isnnotdate
+        //$this->db->where('activityDate !=', date('d-m-Y'));
+        //isdate
+        $yesterdayDate = date('d-m-Y', strtotime('-1 days'));
+        $this->db->where('activityDate', $yesterdayDate);
+        
+        //test on 29 jan 2016
+        //$this->db->where('activityDate', '29-01-2016');
+        $query = $this->db->get();
+        foreach ($query->result() as $row)
+            {
+                $row->activityTime;
+            }
+        $num = $query->num_rows();
+        
+        //var_dump(empty($query));
+            //echo 'isLastOut[$num]'.$num; 
+            
+        }
 }

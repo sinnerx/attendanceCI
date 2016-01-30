@@ -38,7 +38,8 @@ class Manager extends CI_Controller {
         $this->manager_model->getUserLevel($this->userLevel);
         $this->manager_model->getClusterName($this->userid);
         $this->manager_model->isFirstInToday($this->userid);
-        $this->manager_model->isLastOutToday($this->userid);
+        $this->manager_model->isLastOutYesterday($this->userid);
+        $this->manager_model->hoursPerDay($this->userid);
         //$this->manager_model->last();
         
         //attendance

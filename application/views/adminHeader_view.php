@@ -181,11 +181,13 @@ $(document).ready(function() {
  
 function displayImg(){
   //img exist
-  $("#imgView").attr('src', toDisplayImgIn);
+  
   //}
   //img dont exist
   if(toDisplayImgIn.length === 0){
       $("#imgView").attr('src', 'images/camera-376.png');
+  }else{
+      $("#imgView").attr('src', toDisplayImgIn);
   }
 }
 /*
