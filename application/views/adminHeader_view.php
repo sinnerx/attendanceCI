@@ -180,9 +180,10 @@ $(document).ready(function() {
  }
  
 function displayImg(){
-    //if(toDisplayImgIn.length !== 0)  {
-      $("#imgView").attr('src', toDisplayImgIn);
+  //img exist
+  $("#imgView").attr('src', toDisplayImgIn);
   //}
+  //img dont exist
   if(toDisplayImgIn.length === 0){
       $("#imgView").attr('src', 'images/camera-376.png');
   }

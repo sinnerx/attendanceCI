@@ -29,6 +29,7 @@ class Manager extends CI_Controller {
                     'title' => 'Manager\'s Attendance Site',
                     
 		);
+                
 
         //load model for manager
         $this->load->model('manager_model');
@@ -36,6 +37,9 @@ class Manager extends CI_Controller {
         $this->manager_model->getFullName($this->userid);
         $this->manager_model->getUserLevel($this->userLevel);
         $this->manager_model->getClusterName($this->userid);
+        $this->manager_model->isFirstInToday($this->userid);
+        $this->manager_model->isLastOutToday($this->userid);
+        //$this->manager_model->last();
         
         //attendance
         //$this->manager_model->insertAttendance($dataAtt);
@@ -122,5 +126,8 @@ class Manager extends CI_Controller {
                  //echo "json";
 	}
        
-    
+        //public function last(){
+        //  $test = $this->db->insert_id();
+        //  echo $test;
+        //}
 }

@@ -21,7 +21,7 @@ defined ('BASEPATH') or exit('No direct access allowed!');
         //echo "Admin is here";
    } 
    
-   
+
 ?>
 <head>  
   <meta charset="utf-8" />

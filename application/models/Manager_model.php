@@ -12,6 +12,10 @@ class Manager_model extends CI_Model {
     var $table = 'att_attendancedetails';
     var $column = array('attID','clusterID','managerID','managerName','siteName','activityDate','activityTime','activityStatus','outstationStatus', 'latLongIn','imgIn'); //set column field database for order and search
     var $order = array('attID' => 'desc'); // default order 
+    var $isFirstIn;
+    var $isLastOut;
+    var $isLate;
+    var $isEarly;
         
     //construct
     public function __construct() {
@@ -231,5 +235,63 @@ class Manager_model extends CI_Model {
 		$this->db->where('id', $id);
 		$this->db->delete($this->table);
 	}
+        public function isFirstInToday(){
+        //$this->db->select('activityDate');
+        $this->db->from('att_attendancedetails');
+        
+        $this->db->where('managerID', $this->userid);
+        $this->db->where('activityStatus !=', 'IN');
+        //isnnotdate
+        //$this->db->where('activityDate !=', date('d-m-Y'));
+        //isdate
+        $this->db->where('activityDate', date('d-m-Y'));
+        $query = $this->db->get();
+
+        
+        foreach ($query->result() as $row)
+            {
+                $row->activityDate;
+            }
+        $num = $query->num_rows();
+        //var_dump(empty($query));
+            if ($num === 0){
+                $isFirstIn = TRUE;
+                echo 'empty'.$isFirstIn;
+                }else{
+                    $isFirstIn = FALSE;
+                    echo 'not empty'.$isFirstIn;
+            } 
+        //echo ' | '.date('H:i'); 
+             
+        }
+        
+        public function isLastOutToday(){
+        $this->db->from('att_attendancedetails');
+        
+        $this->db->where('managerID', $this->userid);
+        $this->db->where('activityStatus', 'OUT');
+        //isnnotdate
+        //$this->db->where('activityDate !=', date('d-m-Y'));
+        //isdate
+        $this->db->where('activityDate', date('d-m-Y'));
+        //test on 29 jan 2016
+        //$this->db->where('activityDate', '29-01-2016');
+        $query = $this->db->get();
+        foreach ($query->result() as $row)
+            {
+                $row->activityDate;
+            }
+        $num = $query->num_rows();
+        //var_dump(empty($query));
+            echo 'isLastOut'.$num; 
+            if ($num < 2){
+                $isLastOut = FALSE;
+                $isAnomaly = TRUE;
+                echo '$isLastOut'.$isLastOut;
+                }else{
+                    $isLastOut = TRUE;
+                    echo '$isLastOut'.$isLastOut;
+            }
+        }
     
 }
