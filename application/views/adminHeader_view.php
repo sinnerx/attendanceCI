@@ -120,7 +120,7 @@ $(document).ready(function() {
     for(var i = 0; i < str_array.length; i++) {
        // Trim the excess whitespace.
        //str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "");/\x{00B0}/
-       //clean up empty spaces and degree symbol (old records)
+       //Trim the excess whitespace and degree symbol for old records
        str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "").replace(/°/,"");
        // Add additional code
       // alert(str_array[i]);
@@ -189,6 +189,10 @@ function displayImg(){
   }else{
       $("#imgView").attr('src', toDisplayImgIn);
   }
+  $('#imgView').error(function() {
+  //alert('Image does not exist !!');
+  $("#imgView").attr('src', 'images/camera-376.png');
+  });
 }
 /*
 function reload_table(){
