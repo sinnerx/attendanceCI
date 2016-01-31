@@ -73,12 +73,12 @@ $(document).ready(function() {
             //var  activityTime = $("#valTime").val();
             //var  activityDate = $("#valDate").val();
             var  activityTime = currentDateTime().substr(-6);
-            var  activityDate = currentDateTime().substr(0,10);
+            var  activityDate = activityDateData = currentDateTime().substr(0,10);
             //var  activityStatus = $("#valActivityStatus").val();
             var  activityStatus = punchStatus = 'IN';
             var  outstationStatus = $("#outstationStatusTxt").val();
             var  latLongIn = $("#valLatLong").val();
-            var newActvityTime = activityTime.replace(/:/,".").replace(/^\s*/, "");
+            var newActvityTime = activityTimeData = activityTime.replace(/:/,".").replace(/^\s*/, "");
             var  imgIn = 'images/attendance/'+activityDate+'-'+newActvityTime+'-'+managerID+'-'+activityStatus+'.jpg';
             jQuery.ajax({
             type: "POST",
@@ -114,13 +114,13 @@ $(document).ready(function() {
         //var  attID = $("#valAttID").val();
         //var  activityTime = $("#valTime").val();
         //var  activityDate = $("#valDate").val();
-        var  activityTime = activityTimeData = currentDateTime().substr(-6);
+        var  activityTime  = currentDateTime().substr(-6);
         var  activityDate = activityDateData = currentDateTime().substr(0,10);
         //var  activityStatus = $("#valActivityStatus").val();
         var  activityStatus = punchStatus = 'OUT';
         var  outstationStatus = $("#outstationStatusTxt").val();
         var  latLongIn = $("#valLatLong").val();
-        var newActvityTime = activityTime.replace(/:/,".").replace(/^\s*/, "");
+        var newActvityTime = activityTimeData = activityTime.replace(/:/,".").replace(/^\s*/, "");
         var  imgIn = 'images/attendance/'+activityDate+'-'+newActvityTime+'-'+managerID+'-'+activityStatus+'.jpg';
         jQuery.ajax({
         type: "POST",
@@ -272,9 +272,11 @@ $(document).ready(function() {
                      userid: $("#valManagerID").val(),
                      punchStatus: punchStatus,
                      activityDateData: activityDateData,
-                     activityTimeData: activitytimeData
+                     activityTimeData: activityTimeData
+                     
                   }
                 }).done(function(msg) {
+                  console.log(activityDateData+" | "+activityTimeData+" | "+punchStatus);
                   console.log("saved");
                   $("#uploading").hide();
                   $("#uploaded").show();

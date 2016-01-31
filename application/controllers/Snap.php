@@ -37,9 +37,9 @@ class Snap extends CI_Controller {
         fwrite($fp, $unencoded);
         fclose($fp);
         //$this->db->insert('imgIn', $data);
-        //$imgPath = 'images/attendance/'.$datime.'-'.$userid.'-'.$punchStatus.'.jpg';
+        $imgPath = 'images/attendance/'.$activityDateData.'-'.$activityTimeData.'-'.$userid.'-'.$punchStatus.'.jpg';
         //$this->db->insert('imgIn', $imgPath);
-        //echo 'imgIn'.$imgPath;
+        echo 'imgIn'.$imgPath;
     }
     
     public function viewFace (){
