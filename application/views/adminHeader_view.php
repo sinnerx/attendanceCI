@@ -189,6 +189,7 @@ function displayImg(){
   }else{
       $("#imgView").attr('src', toDisplayImgIn);
   }
+  //catch non-exist img on database
   $('#imgView').error(function() {
   //alert('Image does not exist !!');
   $("#imgView").attr('src', 'images/camera-376.png');

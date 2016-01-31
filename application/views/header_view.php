@@ -69,6 +69,7 @@ $(document).ready(function() {
             var managerID = $("#valManagerID").val();
             var managerName = $("#valManagerName").val();
             var siteName = $("#valSiteName").val();
+            var userEmail = $("#valUserEmail").val();
             //var  attID = $("#valAttID").val();
             //var  activityTime = $("#valTime").val();
             //var  activityDate = $("#valDate").val();
@@ -84,7 +85,7 @@ $(document).ready(function() {
             type: "POST",
             url: "<?php echo base_url(); ?>manager/saveAttendance",
             //dataType: "JSON",
-            data: {managerID: managerID, clusterID: clusterID, managerName: managerName, siteName: siteName, activityDate: activityDate, activityTime: activityTime, latLongIn: latLongIn, activityStatus: activityStatus, outstationStatus: outstationStatus, imgIn: imgIn},
+            data: {managerID: managerID, clusterID: clusterID, managerName: managerName, siteName: siteName, userEmail: userEmail, activityDate: activityDate, activityTime: activityTime, latLongIn: latLongIn, activityStatus: activityStatus, outstationStatus: outstationStatus, imgIn: imgIn},
             success: function (data) {
                     //table.ajax.reload(null,false);
                     console.log(data);
@@ -111,6 +112,7 @@ $(document).ready(function() {
         var managerID = $("#valManagerID").val();
         var managerName = $("#valManagerName").val();
         var siteName = $("#valSiteName").val();
+        var userEmail = $("#valUserEmail").val();
         //var  attID = $("#valAttID").val();
         //var  activityTime = $("#valTime").val();
         //var  activityDate = $("#valDate").val();
@@ -126,7 +128,7 @@ $(document).ready(function() {
         type: "POST",
         url: "<?php echo base_url(); ?>manager/saveAttendance",
         //dataType: "JSON",
-        data: {managerID: managerID, clusterID: clusterID, managerName: managerName, siteName: siteName, activityDate: activityDate, activityTime: activityTime, latLongIn: latLongIn, activityStatus: activityStatus, outstationStatus: outstationStatus, imgIn: imgIn},
+        data: {managerID: managerID, clusterID: clusterID, managerName: managerName, siteName: siteName, userEmail: userEmail, activityDate: activityDate, activityTime: activityTime, latLongIn: latLongIn, activityStatus: activityStatus, outstationStatus: outstationStatus, imgIn: imgIn},
         success: function (data) {
                 //table.ajax.reload(null,false);
                 console.log(data);

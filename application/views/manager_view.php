@@ -223,6 +223,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                            <input type="hidden" value="<?php echo $userid?>" id="valManagerID">
                            <input type="hidden" value="<?php echo $this->manager_model->getFullName($userid)?>" id="valManagerName">
                            <input type="hidden" value="<?php echo $this->manager_model->getClusterName($userid); ?>" id="valSiteName">
+                           <input type="hidden" value="<?php echo $this->manager_model->getUserEmail($userid); ?>" id="valUserEmail">
                            <input type="hidden" value="" id="valDateTime">
                            <input type="hidden" value="" id="valDate">
                            <input type="hidden" value="" id="valTime">

@@ -44,6 +44,16 @@ class Manager_model extends CI_Model {
                return $row->siteName;
         }
     }
+    
+    public function getUserEmail ($userid){
+        //get clustername from IRIS (siteName)
+        $query = $this->db->query("SELECT userEmail FROM user WHERE userID ='$userid'");
+        foreach ($query->result() as $row)
+        {
+               //return cluster name/siteName to view
+               return $row->userEmail;
+        }
+    }
     //get latest state of punch
     public function getLastPunchStatus($userid){
         $query = $this->db->query("SELECT activityStatus FROM att_attendancedetails WHERE managerID ='$userid'  ORDER BY  attID DESC");
@@ -272,7 +282,7 @@ class Manager_model extends CI_Model {
         $this->db->where('activityStatus', 'OUT');
         //isnnotdate
         //$this->db->where('activityDate !=', date('d-m-Y'));
-        //isdate
+        //isdate for yesterday
         $yesterdayDate = date('d-m-Y', strtotime('-1 days'));
         $this->db->where('activityDate', $yesterdayDate);
         
@@ -284,16 +294,32 @@ class Manager_model extends CI_Model {
                 $row->activityDate;
             }
         $num = $query->num_rows();
+        //$num2 = $query->row();
+        $row = $query->last_row();
+       // print_r($row);
         //var_dump(empty($query));
-            //echo 'isLastOut[$num]'.$num; 
-            if ($num < 2){
-                $isLastOut = TRUE;
-                $isAnomaly = FALSE;
+            
+            //echo 'isLastOut[$num2]'.$num2;
+            //print_r($num2);
+//            $number = 20;
+//            if ($number % 2 == 0) {
+//                print "It's even";
+//            }
+            echo 'isLastOut[$num]'.$num; 
+            //if out no even and not more than 1
+            if ($num % 2 === 0){
+                $isLastOut = 1;
+                $isAnomaly = 0;
                 echo '$isLastOut'.$isLastOut;
-                }else{
-                    $isLastOut = FALSE;
+                echo '$isAnomaly'.$isAnomaly;
+                }else if($num ){
+                    $isLastOut = 0;
+                    $isAnomaly = 1;
+                    echo '$isAnomaly'.$isAnomaly;
                     echo '$isLastOut'.$isLastOut;
             }
+            
+            
         }
         
         public function hoursPerDay(){
@@ -319,5 +345,9 @@ class Manager_model extends CI_Model {
         //var_dump(empty($query));
             //echo 'isLastOut[$num]'.$num; 
             
+        }
+        
+        public function updateNewRecords(){
+        //for userEmail & clusterID        
         }
 }

@@ -37,6 +37,7 @@ class Manager extends CI_Controller {
         $this->manager_model->getFullName($this->userid);
         $this->manager_model->getUserLevel($this->userLevel);
         $this->manager_model->getClusterName($this->userid);
+        $this->manager_model->getUserEmail($this->userid);
         $this->manager_model->isFirstInToday($this->userid);
         $this->manager_model->isLastOutYesterday($this->userid);
         $this->manager_model->hoursPerDay($this->userid);
@@ -68,6 +69,7 @@ class Manager extends CI_Controller {
                 'clusterID' => $this->input->post('clusterID'),
                 'managerName' => $this->input->post('managerName'),
                 'siteName' => $this->input->post('siteName'),
+                'userEmail' => $this->input->post('userEmail'),
                 'activityDate' => $this->input->post('activityDate'),
                 'activityTime' => $this->input->post('activityTime'),
                 'activityStatus' => $this->input->post('activityStatus'),
