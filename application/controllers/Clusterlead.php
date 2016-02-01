@@ -49,6 +49,7 @@ class Clusterlead extends CI_Controller {
 		$list = $this->clusterlead->get_datatables();
 		$data = array();
 		$no = $_POST['start'];
+		//print_r($no);
 		foreach ($list as $clusterlead) {
 			$no++;
 			$row = array();
@@ -78,6 +79,7 @@ class Clusterlead extends CI_Controller {
 				);
                 
 		//output to json format
+		//print_r($output);
 		echo json_encode($output);
 	}
     

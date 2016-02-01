@@ -1,6 +1,45 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
+  <script type="text/javascript">
+
+//alert(get_post['cluster']+ 'aaaaaa');
+$(document).ready(function() {
+
+	<? $query = http_build_query($_POST); ?>
+	//alert(get_post['cluster']);
+	console.log("<?php echo base_url() . 'reporting/ajax_list/?' . $query;?>");
+	// $.ajax({
+	// 	url : "<?php echo base_url() . 'reporting/ajax_list/?' . $query;?>",
+	// 	success : function (result){
+	// 		//console.log(result);
+	// 	}
+	// });
+$('#tableClusterLeadReport').DataTable({ 
+
+        "processing": true, //Feature control the processing indicator.
+        "serverSide": true, //Feature control DataTables' server-side processing mode.
+        "order": [], //Initial no order.
+
+        // Load data for the table's content from an Ajax source
+        "ajax": {
+            "url": "<?php echo base_url() . 'reporting/ajax_list/?' . $query;?>",
+            "type": "GET"
+        },
+
+        //Set column definition initialisation properties.
+        "columnDefs": [
+        { 
+            "targets": [ -1 ], //last column
+            "orderable": false, //set not orderable
+        },
+        ],
+
+    });
+
+  
+ }); 
+</script>
 
   <section class="vbox"><?php //echo "clusterid: ".$this->clusterlead_model->getClusterLeadGroupID($userid); ?>
     <header class="bg-white header header-md navbar navbar-fixed-top-xs box-shadow">
@@ -164,7 +203,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <a href="#" class="font-bold">Activities</a>
                         </div><br>
                           <div class="table-responsive">
-                              <table id="tableClusterLead" class="table table-striped m-b-none">
+
+                              <table id="tableClusterLeadReport" class="table table-striped m-b-none">
                               <!--<table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">-->
                                 <thead>
                                   <tr>
@@ -196,3 +236,5 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       </section>
     </section>
   </section>
+
+
