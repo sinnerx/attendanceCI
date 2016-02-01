@@ -169,14 +169,60 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <th>Activites</th>
                                     <th>Status</th>
                                     <th>Location (Lat, Long)</th>
-                                    <!--<th>Action</th>-->
+                                    <th width="8%">Location</th>
+                                    <th width="3%">Img</th>
                                   </tr>
                                 </thead>
                                 <tbody>
                                 </tbody>
                               </table>
                             </div>
-                       <div class="clearfix panel-footer">
+                        <!-- map modal -->
+                        
+                        <div id="locateMap" class="modal fade" tabindex="-1" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="checkbox" class="close" data-dismiss="modal" id="canceloutstation_X">×</button>
+                                            <h4 style="text-align: center">Geolocation (Latitute, Longitute)</h4>
+                                        </div>
+                                        
+                                        <div class="modal-body">
+                                            <div id="map" class="" style="width:560px; height:350px;"></div>
+                                            
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a href="#" class="btn btn-primary" data-dismiss="modal" >Close</a>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                        <!-- end map modal-->
+                        <!-- img modal -->
+                        <div id="seeImg" class="modal fade" tabindex="-1" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="checkbox" class="close" data-dismiss="modal" id="canceloutstation_X">×</button>
+                                            <h4 style="text-align: center">Punch Image</h4>
+                                        </div>
+                                        
+                                        <div class="modal-body">
+                                            <div class="" style="width:560px; height:376px; display: block; margin: 0 auto;">
+                                                <img id="imgView" src="images/camera-376.png">
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a href="#" class="btn btn-primary" data-dismiss="modal" >Close</a>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                        <!-- end img modal-->
+                       <!--<div class="clearfix panel-footer">-->
                         </div>
                       </section>
                     </div>

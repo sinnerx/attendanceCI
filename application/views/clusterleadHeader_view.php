@@ -43,8 +43,8 @@ defined ('BASEPATH') or exit('No direct access allowed!');
     <script src="<?php echo base_url();?>js/ie/respond.min.js"></script>
     <script src="<?php echo base_url();?>js/ie/excanvas.js"></script>
   <![endif]-->
-  <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>-->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>-->
   <!--<script src="<?php echo base_url();?>js/jquery.min.js"></script>-->
   <script type="text/javascript">
       
@@ -67,32 +67,131 @@ $(document).ready(function() {
         },
 
         //Set column definition initialisation properties.
-        "columnDefs": [
-        { 
-            "targets": [ -1 ], //last column
-            "orderable": false, //set not orderable
+        "columnDefs": [{ 
+            "targets": [ 0, 1, 2, 3, 4, 5, 6, 7 ], //last column
+            "orderable": false //set not orderable
         },
-        ],
-
+         {
+           "targets": -2,
+           "data": null,
+           "defaultContent": "<a href=\"#locateMap\" class=\"btn btn-default btn-xs\" data-toggle=\"modal\"><i class=\"fa fa-map-marker\"></i> Locate!</a>"
+            
+        },
+         {
+           "targets": -1,
+           "data": null,
+           "defaultContent": "<a href=\"#seeImg\" class=\"btn btn-default btn-xs\" data-toggle=\"modal\"><i class=\"fa fa-eye\"></i></a>"
+            
+        }
+        ]
+//        "dom": 'frtip',
+//        "buttons": [
+//            'copyHtml5',
+//            'excelHtml5',
+//            'csvHtml5',
+//            'pdfHtml5'
+//        ]
     });
-    
+     $('#tableClusterLead tbody').on( 'click', 'a', function () {
+        var data = table.row( $(this).parents('tr') ).data();
+        //alert( data[0] +"'s lat,long is: "+ data[ 6 ] );
+        //$("#locateMap").modal();
+        //alert(data[6]);
+        toDisplayName = data[0];
+        toDisplayCluster = data[1];
+        toDisplayDate = data[2];
+        toDisplayTime = data[3];
+        toDisplayActivities = data[4];
+        toDisplayStatus = data[5];
+        toDisplayLatLong = data[6];
+        toDisplayImgIn = data[7];
+        displayMap();
+        displayImg();
+    } );
  });
  
-/*
-function reload_table(){
-     // alert("reloaded!");
-      table.ajax.reload(null,false); //reload datatable ajax 
-}
-
-function notify(){
-   
-        var div = document.getElementById('success');
-        div.innerHTML += 'Data successfully submitted!';
-        function f() { 
-            div.innerHTML = "";
+ function displayMap(){
+    console.log(toDisplayLatLong);
+    //var  str_array = toDisplayLatLong;
+    var str_array = toDisplayLatLong.split(',');
+    for(var i = 0; i < str_array.length; i++) {
+       // Trim the excess whitespace.
+       //str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "");/\x{00B0}/
+       //Trim the excess whitespace and degree symbol for old records
+       str_array[i] = str_array[i].replace(/^\s*/, "").replace(/\s*$/, "").replace(/°/,"");
+       // Add additional code
+      // alert(str_array[i]);
     }
-    setTimeout(f, 3000);        
-}*/
+    console.log(toDisplayLatLong+" | "+str_array[0]+","+str_array[1]);
+    var displayLat = str_array[0];
+    var displayLong = str_array[1];
+    var pos = new google.maps.LatLng(displayLat, displayLong);
+    var options = {
+            //zoom low - furthest | high - closest
+            zoom: 14,
+            center: pos,
+            //mapTypeId: google.maps.MapTypeId.ROADMAP
+            //styler for map
+            styles: [{"stylers":[{"hue":"#ff1a00"},{"invert_lightness":true},{"saturation":-100},{"lightness":33},{"gamma":0.5}]},{"featureType":"water","elementType":"geometry","stylers":[{"color":"#2D333C"}]}]
+    };
+    var map = new google.maps.Map(document.getElementById("map"), options);
+    var marker = new google.maps.Marker({
+            position: pos,
+            map: map,
+            title: "User location"
+    });
+    var contentString = "<br/><b>Geolocation:</b> " + displayLat +", "+ displayLong + "<br/>";
+    var infowindow = new google.maps.InfoWindow({
+            content: contentString
+    });
+    google.maps.event.addListener(marker, 'click', function() {
+            infowindow.open(map,marker);
+    });
+    //pass value to html/canvas
+    //var latitude  = position.coords.latitude;
+    //var longitude = position.coords.longitude;
+            
+    google.maps.event.addDomListener(window, 'load', displayMap);
+    
+    google.maps.event.addDomListener(window, "resize", resizingMap);
+
+    $('#locateMap').on('show.bs.modal', function() {
+       //Must wait until the render of the modal appear, thats why we use the resizeMap and NOT resizingMap!! ;-)
+       resizeMap();
+    });
+
+    function resizeMap() {
+       if(typeof map == "undefined") return;
+       setTimeout( function(){
+           resizingMap();
+       } , 400);
+    }
+
+    function resizingMap() {
+       if(typeof map == "undefined") return;
+       var center = map.getCenter();
+       google.maps.event.trigger(map, "resize");
+       map.setCenter(center); 
+       displayMap();
+    }
+ }
+ 
+function displayImg(){
+  //img exist
+  
+  //}
+  //img dont exist
+  if(toDisplayImgIn.length === 0){
+      $("#imgView").attr('src', 'images/camera-376.png');
+  }else{
+      $("#imgView").attr('src', toDisplayImgIn);
+  }
+  //catch non-exist img on database
+  $('#imgView').error(function() {
+  //alert('Image does not exist !!');
+  $("#imgView").attr('src', 'images/camera-376.png');
+  });
+}
     
 
 </script>

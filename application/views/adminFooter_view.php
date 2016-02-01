@@ -21,7 +21,6 @@ defined('BASEPATH') OR exit('No direct access allowed!');
   <!--<script src="<?php echo base_url();?>js/calendar/demo.js"></script>-->
   <!-- gmaps -->
   <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
-  <!--<script src="http://maps.googleapis.com/maps/api/js?sensor=false&extension=.js&output=embed"></script>-->
   <script src="<?php echo base_url();?>js/maps/gmaps.js"></script>
   <script src="<?php echo base_url();?>js/maps/demo.js"></script>
   <script src="<?php echo base_url();?>js/sortable/jquery.sortable.js"></script>
@@ -30,6 +29,11 @@ defined('BASEPATH') OR exit('No direct access allowed!');
   <script src="<?php echo base_url();?>js/punch.js"></script>
   <!-- geolocation -->
   <!--<script src="<?php echo base_url();?>js/geolocation/geolocation.js"></script>-->
-  
+  <!-- additional btn-->
+  <script src="https://cdn.datatables.net/buttons/1.1.1/js/dataTables.buttons.min.js"</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"</script>
+<script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"</script>
+<script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"</script>
+<script src="https://cdn.datatables.net/buttons/1.1.1/js/buttons.html5.min.js"</script>
 </body>
 </html>

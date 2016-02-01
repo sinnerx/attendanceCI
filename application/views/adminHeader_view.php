@@ -34,7 +34,8 @@ defined ('BASEPATH') or exit('No direct access allowed!');
   <link rel="stylesheet" href="<?php echo base_url();?>css/font.css" type="text/css" />
   <link rel="stylesheet" href="<?php echo base_url();?>css/app.css" type="text/css" />  
   <link rel="stylesheet" href="<?php echo base_url();?>js/calendar/bootstrap_calendar.css" type="text/css" />
-  <link rel="stylesheet" href="<?php echo base_url();?>js/datatables/dataTables.bootstrap.css" type="text/css"/>
+  <link rel="stylesheet" href="<?php echo base_url();?>js/datatables/dataTables.bootstrap.css" type="text/css" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.1.1/css/buttons.dataTables.min.css" type="text/css" />
 
   <!--<link rel="stylesheet" href="<?php echo base_url();?>js/datatables/datatables.css" type="text/css"/>
   -->
@@ -78,7 +79,7 @@ $(document).ready(function() {
 
         //Set column definition initialisation properties.
         "columnDefs": [{ 
-            "targets": [ -1, -2 ], //last column
+            "targets": [ 0, 1, 2, 3, 4, 5, 6, 7 ], //last column
             "orderable": false //set not orderable
         },
          {
@@ -94,6 +95,13 @@ $(document).ready(function() {
             
         }
         ]
+//        "dom": 'frtip',
+//        "buttons": [
+//            'copyHtml5',
+//            'excelHtml5',
+//            'csvHtml5',
+//            'pdfHtml5'
+//        ]
     });
      $('#tableAdmin tbody').on( 'click', 'a', function () {
         var data = table.row( $(this).parents('tr') ).data();
