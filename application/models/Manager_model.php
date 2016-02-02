@@ -399,6 +399,7 @@ class Manager_model extends CI_Model {
         $rowOut = $query->row_array();
         //echo ' | '.date('H:i'); 
         //print_r($row);
+        //$timeOut = [];
         $totalPunchOut = $num;
             //echo 'totalPunchOut: '.$totalPunchOut;
             //$numOut/In - no of punch out/in

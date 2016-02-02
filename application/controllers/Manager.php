@@ -42,7 +42,7 @@ class Manager extends CI_Controller {
         $this->manager_model->isFirstInToday($this->userid);
         $this->manager_model->isLastOut($this->userid);
         $this->manager_model->isFirstIn($this->userid);
-        $this->manager_model->hoursPerDay($this->userid);
+        //**$this->manager_model->hoursPerDay($this->userid);
         //$this->manager_model->last();
         
         //attendance
