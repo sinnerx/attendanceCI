@@ -68,7 +68,7 @@ $(document).ready(function() {
 
         //Set column definition initialisation properties.
         "columnDefs": [{ 
-            "targets": [ 0, 1, 2, 3, 4, 5, 6, 7 ], //last column
+            "targets": [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ], //last column
             "orderable": false //set not orderable
         },
          {
@@ -80,7 +80,7 @@ $(document).ready(function() {
          {
            "targets": -1,
            "data": null,
-           "defaultContent": "<a href=\"#seeImg\" class=\"btn btn-default btn-xs\" data-toggle=\"modal\"><i class=\"fa fa-eye\"></i></a>"
+           "defaultContent": "<a href=\"#seeImg\" class=\"btn btn-default btn-xs\" data-toggle=\"modal\"><i class=\"fa fa-user\"></i></a>"
             
         }
         ]

@@ -163,14 +163,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <thead>
                                   <tr>
                                     <th>Name</th>
-                                    <th>Cluster</th>
+                                    <th>Site</th>
                                     <th width="12%">Date</th>
                                     <th>Time</th>
                                     <th>Activites</th>
                                     <th>Status</th>
                                     <th>Location (Lat, Long)</th>
                                     <th width="8%">Location</th>
-                                    <th width="3%">Img</th>
+                                    <th width="3%">Image</th>
                                   </tr>
                                 </thead>
                                 <tbody>
