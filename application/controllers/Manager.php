@@ -78,6 +78,7 @@ class Manager extends CI_Controller {
                 'activityStatus' => $this->input->post('activityStatus'),
                 'outstationStatus' => $this->input->post('outstationStatus'),
                 'latLongIn' => $this->input->post('latLongIn'),
+                'accuracy' => $this->input->post('accuracy'),
                 'imgIn' => $this->input->post('imgIn'),
                 //'lateIn' => 1
                  //camera disabled v0.1

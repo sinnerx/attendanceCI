@@ -229,6 +229,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                            <input type="hidden" value="" id="valDate">
                            <input type="hidden" value="" id="valTime">
                            <input type="hidden" value="<?php if($userLevel == 3){echo $this->manager_model->getClusterLeadGroupID($userid);} else if($userLevel == 2){echo $this->manager_model->getClusterGroupID($userid);} ?>" id="valClusterID">
+                           <input type="hidden" value="" id="valAccuracy">
                            <!--<input type="hidden" value=$userid id="valManagerID">-->
                            
                             </div>

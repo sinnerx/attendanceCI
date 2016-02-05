@@ -80,13 +80,14 @@ $(document).ready(function() {
             var  activityStatus = punchStatus = 'IN';
             var  outstationStatus = $("#outstationStatusTxt").val();
             var  latLongIn = $("#valLatLong").val();
+            var  accuracy = $("#valAccuracy").val();
             var newActvityTime = activityTimeData = activityTime.replace(/:/,".").replace(/^\s*/, "");
             var  imgIn = 'images/attendance/'+activityDate+'-'+newActvityTime+'-'+managerID+'-'+activityStatus+'.jpg';
             jQuery.ajax({
             type: "POST",
             url: "<?php echo base_url(); ?>manager/saveAttendance",
             //dataType: "JSON",
-            data: {managerID: managerID, clusterID: clusterID, managerName: managerName, siteID: siteID, siteName: siteName, userEmail: userEmail, activityDate: activityDate, activityTime: activityTime, latLongIn: latLongIn, activityStatus: activityStatus, outstationStatus: outstationStatus, imgIn: imgIn},
+            data: {managerID: managerID, clusterID: clusterID, managerName: managerName, siteID: siteID, siteName: siteName, userEmail: userEmail, activityDate: activityDate, activityTime: activityTime, latLongIn: latLongIn, accuracy: accuracy, activityStatus: activityStatus, outstationStatus: outstationStatus, imgIn: imgIn},
             success: function (data) {
                     //table.ajax.reload(null,false);
                     console.log(data);
@@ -124,13 +125,14 @@ $(document).ready(function() {
         var  activityStatus = punchStatus = 'OUT';
         var  outstationStatus = $("#outstationStatusTxt").val();
         var  latLongIn = $("#valLatLong").val();
+        var  accuracy = $("#valAccuracy").val();
         var newActvityTime = activityTimeData = activityTime.replace(/:/,".").replace(/^\s*/, "");
         var  imgIn = 'images/attendance/'+activityDate+'-'+newActvityTime+'-'+managerID+'-'+activityStatus+'.jpg';
         jQuery.ajax({
         type: "POST",
         url: "<?php echo base_url(); ?>manager/saveAttendance",
         //dataType: "JSON",
-        data: {managerID: managerID, clusterID: clusterID, managerName: managerName, siteID: siteID, siteName: siteName, userEmail: userEmail, activityDate: activityDate, activityTime: activityTime, latLongIn: latLongIn, activityStatus: activityStatus, outstationStatus: outstationStatus, imgIn: imgIn},
+        data: {managerID: managerID, clusterID: clusterID, managerName: managerName, siteID: siteID, siteName: siteName, userEmail: userEmail, activityDate: activityDate, activityTime: activityTime, latLongIn: latLongIn, accuracy: accuracy, activityStatus: activityStatus, outstationStatus: outstationStatus, imgIn: imgIn},
         success: function (data) {
                 //table.ajax.reload(null,false);
                 console.log(data);

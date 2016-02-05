@@ -200,6 +200,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <th>Activites</th>
                                     <th>Status</th>
                                     <th width="8%">Location</th>
+                                    <th>Accuracy</th>
                                     <th width="3%">Image</th>
                                   </tr>
                                 </thead>

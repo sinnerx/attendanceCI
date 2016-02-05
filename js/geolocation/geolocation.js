@@ -38,6 +38,7 @@ if (navigator.geolocation) {
             //pass value to html/canvas
             var latitude  = position.coords.latitude;
             var longitude = position.coords.longitude;
+            var accuracy = position.coords.accuracy;
             
             //check if lat/long & date/time element is ready
            /* if( $('#curLatLong').is(':empty') ) {
@@ -55,6 +56,8 @@ if (navigator.geolocation) {
             $("#valDateTime").val(parseTimestamp(position.timestamp));
             $("#valDate").val(parseTimestamp(position.timestamp).substr(0,10));
             $("#valTime").val(parseTimestamp(position.timestamp).substr(-6));
+            $("#valAccuracy").val(accuracy);
+            console.log(accuracy);
              
            // $("#valActivityStatus").val('IN');
             //console.log("parseTimestamp(timestamp): "+parseTimestamp(timestamp));

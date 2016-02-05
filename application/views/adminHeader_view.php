@@ -79,11 +79,11 @@ $(document).ready(function() {
 
         //Set column definition initialisation properties.
         "columnDefs": [{ 
-            "targets": [ 0, 1, 2, 3, 4, 5, 6, 7 ], //last column
+            "targets": [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ], //last column
             "orderable": false //set not orderable
         },
          {
-           "targets": -2,
+           "targets": -3,
            "data": null,
            "defaultContent": "<a href=\"#locateMap\" class=\"btn btn-default btn-xs\" data-toggle=\"modal\"><i class=\"fa fa-map-marker\"></i> Locate!</a>"
             
@@ -115,9 +115,12 @@ $(document).ready(function() {
         toDisplayActivities = data[4];
         toDisplayStatus = data[5];
         toDisplayLatLong = data[6];
-        toDisplayImgIn = data[7];
+        todDisplayAccuracy = data[7];
+        toDisplayImgIn = data[8];
+        //test = data[8];
         displayMap();
         displayImg();
+        //console.log("test: "+test);
     } );
  });
  
@@ -151,7 +154,7 @@ $(document).ready(function() {
             map: map,
             title: "User location"
     });
-    var contentString = "<br/><b>Geolocation:</b> " + displayLat +", "+ displayLong + "<br/>";
+    var contentString = "<br/><b>Geolocation:</b> " + displayLat +", "+ displayLong + "<br/> <b>Accuracy:</b> "+todDisplayAccuracy+" meters";
     var infowindow = new google.maps.InfoWindow({
             content: contentString
     });

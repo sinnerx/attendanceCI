@@ -97,6 +97,7 @@ class Admin extends CI_Controller {
 			$row[] = $admin->activityStatus;
 			$row[] = $admin->outstationStatus;
 			$row[] = $admin->latLongIn;
+                        $row[] = $admin->accuracy;
                         $row[] = $admin->imgIn;
 			//add html for action
 			//$row[] = '<a class="btn btn-sm btn-primary" href="javascript:void()" title="Edit" onclick="edit_person('."'".$admin->attID."'".')"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
