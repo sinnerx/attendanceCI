@@ -13,7 +13,7 @@ defined ('BASEPATH') or exit('No direct access allowed!');
             header("location: ../dashboard");
             //header('location:'.base_url().'dashboard');
     }
-    if($_SESSION['userLevel'] < 5){
+    if($_SESSION['userLevel'] < 4){
         //echo $userLevel;
        header("location: ./");
        //echo $userid;
@@ -65,7 +65,7 @@ defined ('BASEPATH') or exit('No direct access allowed!');
         
 $(document).ready(function() {
    
-     var table = $('#tableAdmin').DataTable({ 
+     var table = $('#tableOpmanager').DataTable({ 
 
         "processing": true, //Feature control the processing indicator.
         "serverSide": true, //Feature control DataTables' server-side processing mode.
@@ -73,7 +73,7 @@ $(document).ready(function() {
 
         // Load data for the table's content from an Ajax source
         "ajax": {
-            "url": "<?php echo base_url();?>admin/ajax_list",
+            "url": "<?php echo base_url();?>opmanager/ajax_list",
             "type": "POST"
         },
 
@@ -103,7 +103,7 @@ $(document).ready(function() {
 //            'pdfHtml5'
 //        ]
     });
-     $('#tableAdmin tbody').on( 'click', 'a', function () {
+     $('#tableOpmanager tbody').on( 'click', 'a', function () {
         var data = table.row( $(this).parents('tr') ).data();
         //alert( data[0] +"'s lat,long is: "+ data[ 6 ] );
         //$("#locateMap").modal();

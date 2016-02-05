@@ -162,7 +162,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           </a>
                         </li>
                         <li >
-                          <a href="./admin" class="auto">                                                        
+                          <a href="./opmanager" class="auto">                                                        
                             <i class="i i-dot"></i>
                             <span>View All</span>
                           </a>

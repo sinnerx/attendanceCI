@@ -168,7 +168,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <th>Time</th>
                                     <th>Activites</th>
                                     <th>Status</th>
-                                    <th>Location (Lat, Long)</th>
+                                    <!--<th>Location (Lat, Long)</th>-->
                                     <th width="8%">Location</th>
                                     <th width="3%">Image</th>
                                   </tr>
