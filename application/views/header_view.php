@@ -21,7 +21,7 @@ defined ('BASEPATH') or exit('No direct access allowed!');
         //echo "Admin is here";
    } 
    
-   
+
 ?>
 <head>  
   <meta charset="utf-8" />
@@ -52,6 +52,8 @@ defined ('BASEPATH') or exit('No direct access allowed!');
       var save_method; //for save method string
       var table;
       var punchStatus;
+      var activityDateData;
+      var activityTimeData;
 
 $(document).ready(function() {
     //reload_table();
@@ -66,21 +68,26 @@ $(document).ready(function() {
             var clusterID = $("#valClusterID").val();
             var managerID = $("#valManagerID").val();
             var managerName = $("#valManagerName").val();
+            var siteID = $("#valSiteID").val();
             var siteName = $("#valSiteName").val();
+            var userEmail = $("#valUserEmail").val();
             //var  attID = $("#valAttID").val();
             //var  activityTime = $("#valTime").val();
             //var  activityDate = $("#valDate").val();
-            var  activityTime = currentDateTime().substr(-6);
-            var  activityDate = currentDateTime().substr(0,10);
+            var  activityTime = currentDateTime().substr(-5);
+            var  activityDate = activityDateData = currentDateTime().substr(0,10);
             //var  activityStatus = $("#valActivityStatus").val();
             var  activityStatus = punchStatus = 'IN';
             var  outstationStatus = $("#outstationStatusTxt").val();
             var  latLongIn = $("#valLatLong").val();
+            var  accuracy = $("#valAccuracy").val();
+            var newActvityTime = activityTimeData = activityTime.replace(/:/,".").replace(/^\s*/, "");
+            var  imgIn = 'images/attendance/'+activityDate+'-'+newActvityTime+'-'+managerID+'-'+activityStatus+'.jpg';
             jQuery.ajax({
             type: "POST",
             url: "<?php echo base_url(); ?>manager/saveAttendance",
             //dataType: "JSON",
-            data: {managerID: managerID, clusterID: clusterID, managerName: managerName, siteName: siteName, activityDate: activityDate, activityTime: activityTime, latLongIn: latLongIn, activityStatus: activityStatus, outstationStatus: outstationStatus},
+            data: {managerID: managerID, clusterID: clusterID, managerName: managerName, siteID: siteID, siteName: siteName, userEmail: userEmail, activityDate: activityDate, activityTime: activityTime, latLongIn: latLongIn, accuracy: accuracy, activityStatus: activityStatus, outstationStatus: outstationStatus, imgIn: imgIn},
             success: function (data) {
                     //table.ajax.reload(null,false);
                     console.log(data);
@@ -106,21 +113,26 @@ $(document).ready(function() {
         var clusterID = $("#valClusterID").val();
         var managerID = $("#valManagerID").val();
         var managerName = $("#valManagerName").val();
+        var siteID = $("#valSiteID").val();
         var siteName = $("#valSiteName").val();
+        var userEmail = $("#valUserEmail").val();
         //var  attID = $("#valAttID").val();
         //var  activityTime = $("#valTime").val();
         //var  activityDate = $("#valDate").val();
-        var  activityTime = currentDateTime().substr(-6);
-        var  activityDate = currentDateTime().substr(0,10);
+        var  activityTime  = currentDateTime().substr(-5);
+        var  activityDate = activityDateData = currentDateTime().substr(0,10);
         //var  activityStatus = $("#valActivityStatus").val();
         var  activityStatus = punchStatus = 'OUT';
         var  outstationStatus = $("#outstationStatusTxt").val();
         var  latLongIn = $("#valLatLong").val();
+        var  accuracy = $("#valAccuracy").val();
+        var newActvityTime = activityTimeData = activityTime.replace(/:/,".").replace(/^\s*/, "");
+        var  imgIn = 'images/attendance/'+activityDate+'-'+newActvityTime+'-'+managerID+'-'+activityStatus+'.jpg';
         jQuery.ajax({
         type: "POST",
         url: "<?php echo base_url(); ?>manager/saveAttendance",
         //dataType: "JSON",
-        data: {managerID: managerID, clusterID: clusterID, managerName: managerName, siteName: siteName, activityDate: activityDate, activityTime: activityTime, latLongIn: latLongIn, activityStatus: activityStatus, outstationStatus: outstationStatus},
+        data: {managerID: managerID, clusterID: clusterID, managerName: managerName, siteID: siteID, siteName: siteName, userEmail: userEmail, activityDate: activityDate, activityTime: activityTime, latLongIn: latLongIn, accuracy: accuracy, activityStatus: activityStatus, outstationStatus: outstationStatus, imgIn: imgIn},
         success: function (data) {
                 //table.ajax.reload(null,false);
                 console.log(data);
@@ -234,22 +246,11 @@ $(document).ready(function() {
                   // $("#snap").show();  rather than here once, to keep "capture" hidden
                   //                     until after the webcam has been activated.  
 
-                //canvas.width = 502;
-                //canvas.height = 350;
-
             // Get-Save Snapshot - image 
-           // document.getElementById("snap").addEventListener("click", function() {
               $( "#snap" ).click(function(event) {
                 context.drawImage(video, 0, 0, 502, 376.5);
-                
-                // the fade only works on firefox?
-                //$("#video").fadeOut("slow");
-                //$("#canvas").fadeIn("slow");
                  $("#video").hide();
                 $("#canvas").show();
-                //$("#snap").hide();
-                //$("#reset").show();
-                //$("#upload").show();
             });
             // reset - clear - to Capture New Photo
             //document.getElementById("reset").addEventListener("click", function() {
@@ -275,9 +276,13 @@ $(document).ready(function() {
                      //user: "Joe",       
                      //userid: 25   
                      userid: $("#valManagerID").val(),
-                     punchStatus: punchStatus
+                     punchStatus: punchStatus,
+                     activityDateData: activityDateData,
+                     activityTimeData: activityTimeData
+                     
                   }
                 }).done(function(msg) {
+                  console.log(activityDateData+" | "+activityTimeData+" | "+punchStatus);
                   console.log("saved");
                   $("#uploading").hide();
                   $("#uploaded").show();
@@ -315,19 +320,12 @@ function notify(){
 
 function currentDateTime() {
             var d = new Date();
-            //('0' + d.getHours()).slice(-2);
             var day = ('0' + d.getDate()).slice(-2);
             var month = ( '0' + (d.getMonth() + 1)).slice(-2);
             var year = d.getFullYear();
-            //var hour = d.getHours();
             var hour = ('0' + d.getHours()).slice(-2);
-            //var mins = d.getMinutes();
-            //get minutes by 00 digits 
             var mins = ('0' + d.getMinutes()).slice(-2);
-            /*var secs = d.getSeconds();*/
-            //get seconds by 00 digits (2 digits e.g: 01,02,...09)
             var secs = ('0' + d.getSeconds()).slice(-2);
-            //alert("secs :"+secs);
             var msec = d.getMilliseconds();
             return day + "-" + month + "-" + year + " " + hour + ":" + mins/* + ":" + secs + "," + msec*/;
  }

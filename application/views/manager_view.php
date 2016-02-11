@@ -168,7 +168,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           </a>
                         </li>
                         <li >
-                          <a href="./admin" class="auto">                                                        
+                          <a href="./opmanager" class="auto">                                                        
                             <i class="i i-dot"></i>
                             <span>View All</span>
                           </a>
@@ -229,10 +229,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                            <input type="hidden" value="<?php echo $userid?>" id="valManagerID">
                            <input type="hidden" value="<?php echo $this->manager_model->getFullName($userid)?>" id="valManagerName">
                            <input type="hidden" value="<?php echo $this->manager_model->getClusterName($userid); ?>" id="valSiteName">
+                           <input type="hidden" value="<?php echo $this->manager_model->getUserEmail($userid); ?>" id="valUserEmail">
+                           <input type="hidden" value="<?php echo $this->manager_model->getSiteID($userid); ?>" id="valSiteID">
                            <input type="hidden" value="" id="valDateTime">
                            <input type="hidden" value="" id="valDate">
                            <input type="hidden" value="" id="valTime">
                            <input type="hidden" value="<?php if($userLevel == 3){echo $this->manager_model->getClusterLeadGroupID($userid);} else if($userLevel == 2){echo $this->manager_model->getClusterGroupID($userid);} ?>" id="valClusterID">
+                           <input type="hidden" value="" id="valAccuracy">
                            <!--<input type="hidden" value=$userid id="valManagerID">-->
                            
                             </div>

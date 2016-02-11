@@ -38,6 +38,7 @@ if (navigator.geolocation) {
             //pass value to html/canvas
             var latitude  = position.coords.latitude;
             var longitude = position.coords.longitude;
+            var accuracy = position.coords.accuracy;
             
             //check if lat/long & date/time element is ready
            /* if( $('#curLatLong').is(':empty') ) {
@@ -50,10 +51,13 @@ if (navigator.geolocation) {
             
             curLatLong.innerHTML = '<p style="text-align: center"><a href="#" class="block h4 font-bold m-b text-black">Current Location:<br>' + latitude.toFixed(7)  + '°,' + longitude.toFixed(7)  + '°</a></p>';
             curDateTime.innerHTML = '<p style="text-align: center"><a href="#" class="block h4 font-bold m-b text-black">Current Date/Time:<br>' + parseTimestamp(position.timestamp) + '</a></p>';
-            $("#valLatLong").val(latitude.toFixed(7)  + '°, ' + longitude.toFixed(7) + '°');
+           // $("#valLatLong").val(latitude.toFixed(7)  + '°, ' + longitude.toFixed(7) + '°');
+            $("#valLatLong").val(latitude.toFixed(7)  + ', ' + longitude.toFixed(7));
             $("#valDateTime").val(parseTimestamp(position.timestamp));
             $("#valDate").val(parseTimestamp(position.timestamp).substr(0,10));
             $("#valTime").val(parseTimestamp(position.timestamp).substr(-6));
+            $("#valAccuracy").val(accuracy);
+            console.log(accuracy);
              
            // $("#valActivityStatus").val('IN');
             //console.log("parseTimestamp(timestamp): "+parseTimestamp(timestamp));

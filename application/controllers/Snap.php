@@ -8,6 +8,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 
 class Snap extends CI_Controller {
+//    function __construct() {
+//    parent::__construct();
+//    }
+//}
     
     public function index(){
  
@@ -22,14 +26,20 @@ class Snap extends CI_Controller {
         $filteredData = explode(',', $rawData);
         $unencoded = base64_decode($filteredData[1]);
         date_default_timezone_set("Asia/Kuala_Lumpur");
-        $datime = date("d-m-Y-H.i", time() ) ; # - 3600*7
+        //$datime = date("d-m-Y-H.i", time() ) ; # - 3600*7
         
         $userid  = $_POST['userid'] ;
         $punchStatus  = $_POST['punchStatus'];
+        $activityDateData = $_POST['activityDateData'];
+        $activityTimeData = $_POST['activityTimeData'];
         // name & save the image file 
-        $fp = fopen('images/attendance/'.$datime.'-'.$userid.'-'.$punchStatus.'.jpg', 'w');
+        $fp = fopen('images/attendance/'.$activityDateData.'-'.$activityTimeData.'-'.$userid.'-'.$punchStatus.'.jpg', 'w');
         fwrite($fp, $unencoded);
         fclose($fp);
+        //$this->db->insert('imgIn', $data);
+        //$imgPath = 'images/attendance/'.$activityDateData.'-'.$activityTimeData.'-'.$userid.'-'.$punchStatus.'.jpg';
+        //$this->db->insert('imgIn', $imgPath);
+        //echo 'imgIn'.$imgPath;
     }
     
     public function viewFace (){

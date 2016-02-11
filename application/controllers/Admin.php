@@ -26,7 +26,7 @@ class Admin extends CI_Controller {
 		    'userid' => $this->userid,
 		    'userLevel' => $this->userLevel,
 		    'message' => 'My Message',
-                    'title' => 'Manager\'s Attendance Site',
+                    'title' => 'All Attendance List',
                     
 		);
         //load model for manager
@@ -97,7 +97,8 @@ class Admin extends CI_Controller {
 			$row[] = $admin->activityStatus;
 			$row[] = $admin->outstationStatus;
 			$row[] = $admin->latLongIn;
-
+                        $row[] = $admin->accuracy;
+                        $row[] = $admin->imgIn;
 			//add html for action
 			//$row[] = '<a class="btn btn-sm btn-primary" href="javascript:void()" title="Edit" onclick="edit_person('."'".$admin->attID."'".')"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
 				  //<a class="btn btn-sm btn-danger" href="javascript:void()" title="Hapus" onclick="delete_person('."'".$admin->attID."'".')"><i class="glyphicon glyphicon-trash"></i> Delete</a>';

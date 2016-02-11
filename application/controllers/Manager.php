@@ -29,6 +29,7 @@ class Manager extends CI_Controller {
                     'title' => 'Manager\'s Attendance Site',
                     
 		);
+                
 
         //load model for manager
         $this->load->model('manager_model');
@@ -36,6 +37,13 @@ class Manager extends CI_Controller {
         $this->manager_model->getFullName($this->userid);
         $this->manager_model->getUserLevel($this->userLevel);
         $this->manager_model->getClusterName($this->userid);
+        $this->manager_model->getUserEmail($this->userid);
+        $this->manager_model->getSiteID($this->userid);
+        $this->manager_model->isFirstInToday($this->userid);
+        $this->manager_model->isLastOut($this->userid);
+        $this->manager_model->isFirstIn($this->userid);
+        //**$this->manager_model->hoursPerDay($this->userid);
+        //$this->manager_model->last();
         
         //attendance
         //$this->manager_model->insertAttendance($dataAtt);
@@ -62,12 +70,17 @@ class Manager extends CI_Controller {
                 'managerID' => $this->input->post('managerID'),
                 'clusterID' => $this->input->post('clusterID'),
                 'managerName' => $this->input->post('managerName'),
+                'siteID' => $this->input->post('siteID'),
                 'siteName' => $this->input->post('siteName'),
+                'userEmail' => $this->input->post('userEmail'),
                 'activityDate' => $this->input->post('activityDate'),
                 'activityTime' => $this->input->post('activityTime'),
                 'activityStatus' => $this->input->post('activityStatus'),
                 'outstationStatus' => $this->input->post('outstationStatus'),
-                'latLongIn' => $this->input->post('latLongIn')
+                'latLongIn' => $this->input->post('latLongIn'),
+                'accuracy' => $this->input->post('accuracy'),
+                'imgIn' => $this->input->post('imgIn'),
+                //'lateIn' => 1
                  //camera disabled v0.1
                 //'imgIn' => $this->input->post("fieldnameid"),
                // 'imgOut' => $this->input->post('fieldnameid'),
@@ -121,5 +134,8 @@ class Manager extends CI_Controller {
                  //echo "json";
 	}
        
-    
+        //public function last(){
+        //  $test = $this->db->insert_id();
+        //  echo $test;
+        //}
 }

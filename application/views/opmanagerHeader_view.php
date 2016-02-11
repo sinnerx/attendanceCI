@@ -13,7 +13,7 @@ defined ('BASEPATH') or exit('No direct access allowed!');
             header("location: ../dashboard");
             //header('location:'.base_url().'dashboard');
     }
-    if(!($_SESSION['userLevel'] == 3)){
+    if($_SESSION['userLevel'] < 4){
         //echo $userLevel;
        header("location: ./");
        //echo $userid;
@@ -33,11 +33,9 @@ defined ('BASEPATH') or exit('No direct access allowed!');
   <link rel="stylesheet" href="<?php echo base_url();?>css/icon.css" type="text/css" />
   <link rel="stylesheet" href="<?php echo base_url();?>css/font.css" type="text/css" />
   <link rel="stylesheet" href="<?php echo base_url();?>css/app.css" type="text/css" />  
-<!--   <link rel="stylesheet" href="<?php echo base_url();?>css/dropdown.css" type="text/css" />   -->
-  <link rel="stylesheet" href="<?php echo base_url();?>css/jquery-ui.min.css" type="text/css" />  
   <link rel="stylesheet" href="<?php echo base_url();?>js/calendar/bootstrap_calendar.css" type="text/css" />
-  <link rel="stylesheet" href="<?php echo base_url();?>js/datatables/dataTables.bootstrap.css" type="text/css"/>
-  <link rel="stylesheet" href="<?php echo base_url();?>js/datepicker/datepicker.css" type="text/css"/>
+  <link rel="stylesheet" href="<?php echo base_url();?>js/datatables/dataTables.bootstrap.css" type="text/css" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.1.1/css/buttons.dataTables.min.css" type="text/css" />
 
   <!--<link rel="stylesheet" href="<?php echo base_url();?>js/datatables/datatables.css" type="text/css"/>
   -->
@@ -48,19 +46,26 @@ defined ('BASEPATH') or exit('No direct access allowed!');
   <![endif]-->
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
   <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>-->
+  <!--<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>-->
   <!--<script src="<?php echo base_url();?>js/jquery.min.js"></script>-->
-  <script src="<?php echo base_url();?>js/datepicker/bootstrap-datepicker.js"></script>
-  <script src="<?php echo base_url();?>js/jquery-ui.min.js"></script>
-
   <script type="text/javascript">
-      //$('#dateFrom').datepicker();
+      
     //table
-      var save_method; //for save method string
-      var table;
+      //var save_method; //for save method string
+      //var table;
 
+        var toDisplayName;
+        var toDisplayCluster;
+        var toDisplayDate;
+        var toDisplayTime;
+        var toDisplayActivities;
+        var toDisplayStatus;
+        var toDisplayLatLong;
+        var toDisplayImgIn;
+        
 $(document).ready(function() {
-
-    table = $('#tableClusterLead').DataTable({ 
+   
+     var table = $('#tableOpmanager').DataTable({ 
 
         "processing": true, //Feature control the processing indicator.
         "serverSide": true, //Feature control DataTables' server-side processing mode.
@@ -68,7 +73,7 @@ $(document).ready(function() {
 
         // Load data for the table's content from an Ajax source
         "ajax": {
-            "url": "<?php echo base_url();?>clusterlead/ajax_list",
+            "url": "<?php echo base_url();?>opmanager/ajax_list",
             "type": "POST"
         },
 
@@ -98,7 +103,7 @@ $(document).ready(function() {
 //            'pdfHtml5'
 //        ]
     });
-     $('#tableClusterLead tbody').on( 'click', 'a', function () {
+     $('#tableOpmanager tbody').on( 'click', 'a', function () {
         var data = table.row( $(this).parents('tr') ).data();
         //alert( data[0] +"'s lat,long is: "+ data[ 6 ] );
         //$("#locateMap").modal();
@@ -198,12 +203,25 @@ function displayImg(){
   $("#imgView").attr('src', 'images/camera-376.png');
   });
 }
+/*
+function reload_table(){
+     // alert("reloaded!");
+      table.ajax.reload(null,false); //reload datatable ajax 
+}
+
+function notify(){
+   
+        var div = document.getElementById('success');
+        div.innerHTML += 'Data successfully submitted!';
+        function f() { 
+            div.innerHTML = "";
+    }
+    setTimeout(f, 3000);        
+}*/
     
 
 </script>
 
 </head>
-
 <body class="">
-
     

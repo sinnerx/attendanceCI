@@ -35,6 +35,12 @@ class Clusterlead extends CI_Controller {
         $this->clusterlead->getClusterGroup($this->userid);
         $this->clusterlead->getClusterName($this->userid);
         $this->clusterlead->getFullName($this->userid);
+        $this->clusterlead->getUserEmail($this->userid);
+        $this->clusterlead->getSiteID($this->userid);
+        //$this->clusterlead->isFirstInToday($this->userid);
+        //$this->clusterlead->isLastOutYesterday($this->userid);
+        //$this->clusterlead->isFirstInYesterday($this->userid);
+        //$this->clusterlead->hoursPerDay($this->userid);
         //load view
         $this->load->view('clusterleadHeader_view',$data);
         //$this->load->view('nav_view');
@@ -62,7 +68,7 @@ class Clusterlead extends CI_Controller {
 			$row[] = $clusterlead->activityStatus;
 			$row[] = $clusterlead->outstationStatus;
 			$row[] = $clusterlead->latLongIn;
-
+                        $row[] = $clusterlead->imgIn;
 			//add html for action
 			//$row[] = '<a class="btn btn-sm btn-primary" href="javascript:void()" title="Edit" onclick="edit_person('."'".$admin->attID."'".')"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
 				  //<a class="btn btn-sm btn-danger" href="javascript:void()" title="Hapus" onclick="delete_person('."'".$admin->attID."'".')"><i class="glyphicon glyphicon-trash"></i> Delete</a>';
