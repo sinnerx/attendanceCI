@@ -2,7 +2,7 @@
 defined ('BASEPATH') OR exit('No direct access allowed!');
 
 //birds_model.php (Array of Objects)
-class Reporting_Model extends CI_Model{
+class Reporting_model extends CI_Model{
 
   //protected $table = 'site';
   private $datatables;
@@ -394,7 +394,7 @@ class Reporting_Model extends CI_Model{
                       }//else if out2
 
                       $columnArray['note'] = $keyQuery['outstationStatus'];
-                      
+
                       if($keyQuery['anomaly'] == 1)
                         $columnArray['anomaly'] = "x";
                       elseif ($keyQuery['anomaly'] == 0) 
@@ -405,13 +405,7 @@ class Reporting_Model extends CI_Model{
                   
                 }//foreach query
                 //print_r($columnArray);
-
-                //die;
-            }//foreach user
-                //$resultArray[$x]['attrow'] = $columnArray;
-                //$resultArray[$x] = $columnArray;
-
-                //check status flag
+//check status flag
                 if($datapost['category'] != ''){
                   if($datapost['category'] == 1) {
                       // $this->db->where('lateIn', 1);
@@ -442,7 +436,13 @@ class Reporting_Model extends CI_Model{
                       //$this->db->where('anomaly', 0);
                   }
                 }//if category
-                $x++;            
+                $x++;  
+                //die;
+            }//foreach user
+                //$resultArray[$x]['attrow'] = $columnArray;
+                //$resultArray[$x] = $columnArray;
+
+                          
 
         }//foreach date
         //$resultArray = json_encode($resultArray);
