@@ -285,10 +285,10 @@ class Manager_model extends CI_Model {
             if ($num === 0){
                 $isFirstIn = 1;
                 
-               echo 'fisrtIn: '.$isFirstIn;
+               //echo 'fisrtIn: '.$isFirstIn;
                 }else{//is not the first in - possible anomaly
                     $isFirstIn = 0;
-                   echo 'fisrtIn: '.$isFirstIn;
+                   //echo 'fisrtIn: '.$isFirstIn;
             } 
         //echo ' | '.date('H:i'); 
              //**print_r($row);
