@@ -33,8 +33,11 @@ defined ('BASEPATH') or exit('No direct access allowed!');
   <link rel="stylesheet" href="<?php echo base_url();?>css/icon.css" type="text/css" />
   <link rel="stylesheet" href="<?php echo base_url();?>css/font.css" type="text/css" />
   <link rel="stylesheet" href="<?php echo base_url();?>css/app.css" type="text/css" />  
+<!--   <link rel="stylesheet" href="<?php echo base_url();?>css/dropdown.css" type="text/css" />   -->
+  <link rel="stylesheet" href="<?php echo base_url();?>css/jquery-ui.min.css" type="text/css" />  
   <link rel="stylesheet" href="<?php echo base_url();?>js/calendar/bootstrap_calendar.css" type="text/css" />
   <link rel="stylesheet" href="<?php echo base_url();?>js/datatables/dataTables.bootstrap.css" type="text/css"/>
+  <link rel="stylesheet" href="<?php echo base_url();?>js/datepicker/datepicker.css" type="text/css"/>
 
   <!--<link rel="stylesheet" href="<?php echo base_url();?>js/datatables/datatables.css" type="text/css"/>
   -->
@@ -46,14 +49,17 @@ defined ('BASEPATH') or exit('No direct access allowed!');
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
   <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>-->
   <!--<script src="<?php echo base_url();?>js/jquery.min.js"></script>-->
+  <script src="<?php echo base_url();?>js/datepicker/bootstrap-datepicker.js"></script>
+  <script src="<?php echo base_url();?>js/jquery-ui.min.js"></script>
+
   <script type="text/javascript">
-      
+      //$('#dateFrom').datepicker();
     //table
       var save_method; //for save method string
       var table;
 
 $(document).ready(function() {
-   
+
     table = $('#tableClusterLead').DataTable({ 
 
         "processing": true, //Feature control the processing indicator.
@@ -197,5 +203,7 @@ function displayImg(){
 </script>
 
 </head>
+
 <body class="">
+
     

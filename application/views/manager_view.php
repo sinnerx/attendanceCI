@@ -139,6 +139,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <span>View Cluster</span>
                           </a>
                         </li>
+                        <li class='active'>
+                          <a href="./reporting" class="auto">                                                        
+                            <i class="i i-dot"></i>
+                            <span>View Report</span>
+                          </a>
+                        </li>                         
                       </ul>
                     </li>
                   </ul>

@@ -1,6 +1,46 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
+  <script type="text/javascript">
+
+//alert(get_post['cluster']+ 'aaaaaa');
+$(document).ready(function() {
+
+	<? $query = http_build_query($_POST); ?>
+	//alert(get_post['cluster']);
+  console.log("<?php echo base_url() . 'reporting/ajax_list/?' . $query;?>");
+	console.log("<?php echo base_url() . 'reporting/attendance_list/?' . $query;?>");
+	// $.ajax({
+	// 	url : "<?php echo base_url() . 'reporting/ajax_list/?' . $query;?>",
+	// 	success : function (result){
+	// 		//console.log(result);
+	// 	}
+	// });
+$('#tableClusterLeadReport').DataTable({ 
+
+        "processing": true, //Feature control the processing indicator.
+        "serverSide": true, //Feature control DataTables' server-side processing mode.
+        "order": [], //Initial no order.
+
+        // Load data for the table's content from an Ajax source
+        "ajax": {
+            "url": "<?php echo base_url() . 'reporting/ajax_list/?' . $query;?>",
+            "type": "GET"
+        },
+
+        //Set column definition initialisation properties.
+        "columnDefs": [
+        { 
+            "targets": [ -1 ], //last column
+            "orderable": false, //set not orderable
+        },
+        ],
+
+    });
+
+  
+ }); 
+</script>
 
   <section class="vbox"><?php //echo "clusterid: ".$this->clusterlead_model->getClusterLeadGroupID($userid); ?>
     <header class="bg-white header header-md navbar navbar-fixed-top-xs box-shadow">
@@ -117,7 +157,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           </a>
                         </li>
                         <li class='active'>
-                          <a href="./reporting" class="auto">                                                        
+                          <a href="#" class="auto">                                                        
                             <i class="i i-dot"></i>
                             <span>View Report</span>
                           </a>
@@ -164,71 +204,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <a href="#" class="font-bold">Activities</a>
                         </div><br>
                           <div class="table-responsive">
-                              <table id="tableClusterLead" class="table table-striped m-b-none">
+
+                              <table id="tableClusterLeadReport" class="table table-striped m-b-none">
                               <!--<table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">-->
                                 <thead>
                                   <tr>
                                     <th>Name</th>
-                                    <th>Site</th>
-                                    <th width="12%">Date</th>
-                                    <th>Time</th>
+                                    <th>Cluster</th>
+                                    
+                                    <!-- <th>Time</th> -->
                                     <th>Activites</th>
                                     <th>Status</th>
-                                    <!--<th>Location (Lat, Long)</th>-->
-                                    <th width="8%">Location</th>
-                                    <th width="3%">Image</th>
+                                    <th>Location (Lat, Long)</th>
+                                    <th width="12%">Date</th>
+                                    <!--<th>Action</th>-->
                                   </tr>
                                 </thead>
                                 <tbody>
                                 </tbody>
                               </table>
                             </div>
-                        <!-- map modal -->
-                        
-                        <div id="locateMap" class="modal fade" tabindex="-1" role="dialog">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="checkbox" class="close" data-dismiss="modal" id="canceloutstation_X">×</button>
-                                            <h4 style="text-align: center">Geolocation (Latitute, Longitute)</h4>
-                                        </div>
-                                        
-                                        <div class="modal-body">
-                                            <div id="map" class="" style="width:560px; height:350px;"></div>
-                                            
-                                        </div>
-                                        <div class="modal-footer">
-                                            <a href="#" class="btn btn-primary" data-dismiss="modal" >Close</a>
-                                            
-                                        </div>
-                                    </div>
-                                </div>
-                        </div>
-                        <!-- end map modal-->
-                        <!-- img modal -->
-                        <div id="seeImg" class="modal fade" tabindex="-1" role="dialog">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="checkbox" class="close" data-dismiss="modal" id="canceloutstation_X">×</button>
-                                            <h4 style="text-align: center">Punch Image</h4>
-                                        </div>
-                                        
-                                        <div class="modal-body">
-                                            <div class="" style="width:560px; height:376px; display: block; margin: 0 auto;">
-                                                <img id="imgView" src="images/camera-376.png">
-                                            </div>
-                                            
-                                        </div>
-                                        <div class="modal-footer">
-                                            <a href="#" class="btn btn-primary" data-dismiss="modal" >Close</a>
-                                            
-                                        </div>
-                                    </div>
-                                </div>
-                        </div>
-                        <!-- end img modal-->
-                       <!--<div class="clearfix panel-footer">-->
+                       <div class="clearfix panel-footer">
                         </div>
                       </section>
                     </div>
@@ -242,3 +238,5 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       </section>
     </section>
   </section>
+
+
