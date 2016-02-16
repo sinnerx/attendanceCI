@@ -17,7 +17,8 @@ class Reporting extends CI_Controller {
                 $this->userid = $this->nativesession->get( 'userid' );
                 $this->userLevel = $this->nativesession->get( 'userLevel' );
                 //load manager model aliases with 'manager'
-		$this->load->model('clusterlead_model','clusterlead','reporting_model');
+        $this->load->model('clusterlead_model','clusterlead');
+		$this->load->model('reporting_model','reporting_model');
 	}
 
 	public function index(){

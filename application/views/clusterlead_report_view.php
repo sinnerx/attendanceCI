@@ -6,7 +6,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 //alert(get_post['cluster']+ 'aaaaaa');
 $(document).ready(function() {
-<? $query = http_build_query($_POST); ?>
+<?php $query = http_build_query($_POST); ?>
 
 $('#dateFrom').datepicker({ dateFormat: 'dd-mm-yy' });
     $('#dateTo').datepicker({ dateFormat: 'dd-mm-yy' });      
@@ -291,10 +291,16 @@ $('#dateFrom').datepicker({ dateFormat: 'dd-mm-yy' });
                           </a>
                         </li>
                         <li class='active'>
-                          <a href="#" class="auto">                                                        
+                          <a href="./clusterlead" class="auto">                                                        
                             <i class="i i-dot"></i>
                             <span>View Cluster</span>
                           </a>
+                        <li class='active'>
+                          <a href="./reporting" class="auto">                                                        
+                            <i class="i i-dot"></i>
+                            <span>Reporting</span>
+                          </a>
+                        </li>                          
                         </li>
                       </ul>
                     </li>
