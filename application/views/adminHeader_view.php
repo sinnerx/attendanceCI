@@ -63,6 +63,8 @@ defined ('BASEPATH') or exit('No direct access allowed!');
         var toDisplayLatLong;
         var toDisplayImgIn;
         
+        
+        
 $(document).ready(function() {
    
      var table = $('#tableAdmin').DataTable({ 

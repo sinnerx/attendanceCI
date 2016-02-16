@@ -40,8 +40,8 @@ class Manager extends CI_Controller {
         $this->manager_model->getUserEmail($this->userid);
         $this->manager_model->getSiteID($this->userid);
         $this->manager_model->isFirstInToday($this->userid);
-        $this->manager_model->isLastOut($this->userid);
-        $this->manager_model->isFirstIn($this->userid);
+        //$this->manager_model->isLastOut($this->userid);
+        //$this->manager_model->isFirstIn($this->userid);
         //**$this->manager_model->hoursPerDay($this->userid);
         //$this->manager_model->last();
         
@@ -75,6 +75,7 @@ class Manager extends CI_Controller {
                 'userEmail' => $this->input->post('userEmail'),
                 'activityDate' => $this->input->post('activityDate'),
                 'activityTime' => $this->input->post('activityTime'),
+                'activityDateTime' => $this->input->post('activityDateTime'),
                 'activityStatus' => $this->input->post('activityStatus'),
                 'outstationStatus' => $this->input->post('outstationStatus'),
                 'latLongIn' => $this->input->post('latLongIn'),
