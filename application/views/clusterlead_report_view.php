@@ -6,7 +6,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 //alert(get_post['cluster']+ 'aaaaaa');
 $(document).ready(function() {
-<? $query = http_build_query($_POST); ?>
+<?php $query = http_build_query($_POST); ?>
 
 $('#dateFrom').datepicker({ dateFormat: 'dd-mm-yy' });
     $('#dateTo').datepicker({ dateFormat: 'dd-mm-yy' });      
