@@ -77,7 +77,7 @@ class Reporting_Model extends CI_Model{
                 //$query = $this->db->from('att_attendancedetails');
                 //print_r($query);
                 // = $this->db->get('att_attendancedetails');
-        $this->db->select("managerName, siteName, activityDate, activityTime, activityStatus, outstationStatus, attendanceStatus, latLongIn, latLongOut, hours, lateIn, earlyOut, anomaly, siteID, clusterID as clusID");
+        $this->db->select("managerName, siteName, activityDateTime, activityStatus, outstationStatus, attendanceStatus, latLongIn, latLongOut, hours, lateIn, earlyOut, anomaly, siteID, clusterID as clusID, DATE(activityDateTime) as dateonly, TIME(activityDateTime) as timeonly");
         $this->db->from('att_attendancedetails');
         // {
         // dateFrom: "30-01-2016",
@@ -99,31 +99,33 @@ class Reporting_Model extends CI_Model{
             // <option value="4">Both Late/Early and Insufficient Hours</option>
             // <option value="5">Punch Anomaly</option>
             // <option value="6">No Attendance Problem</option>
-        if($datapost['category'] != ''){
-          if($datapost['category'] == 1) {
-              $this->db->where('lateIn', 1);
-              $this->db->where('hours <=', 8);
-              $this->db->where('anomaly', 1);              
-          }
-          else if($datapost['category'] == 2) {
-              $this->db->where('lateIn', 1);
-          }
-          else if($datapost['category'] == 3) {
-              $this->db->where('hours <=', 8);
-          }   
-          else if($datapost['category'] == 4) {
-              $this->db->where('lateIn', 1);
-              $this->db->where('hours <=', 8);
-          }                  
-          else if($datapost['category'] == 5) {
-              $this->db->where('anomaly', 1);
-          }             
-          else if($datapost['category'] == 6) {
-              $this->db->where('lateIn', 0);
-              $this->db->where('hours >=', 8);
-              $this->db->where('anomaly', 0);
-          }            
-        }
+
+        $this->db->where('attendanceStatus <>', "");
+        // if($datapost['category'] != ''){
+        //   if($datapost['category'] == 1) {
+        //       // $this->db->where('lateIn', 1);
+        //       // $this->db->where('hours <=', 8);
+        //       // $this->db->where('anomaly', 1);              
+        //   }
+        //   else if($datapost['category'] == 2) {
+        //       $this->db->where('lateIn', 1);
+        //   }
+        //   else if($datapost['category'] == 3) {
+        //       $this->db->where('hours <=', 8);
+        //   }   
+        //   else if($datapost['category'] == 4) {
+        //       $this->db->where('lateIn', 1);
+        //       $this->db->where('hours <=', 8);
+        //   }                  
+        //   else if($datapost['category'] == 5) {
+        //       $this->db->where('anomaly', 1);
+        //   }             
+        //   else if($datapost['category'] == 6) {
+        //       $this->db->where('lateIn', 0);
+        //       $this->db->where('hours >=', 8);
+        //       $this->db->where('anomaly', 0);
+        //   }            
+        // }//if category
 
         if($datapost['cluster'] != '')
           $this->db->where('clusterID', $datapost['cluster']);
@@ -140,7 +142,7 @@ class Reporting_Model extends CI_Model{
           else if ($datapost['forpi1m'] == '2')
             $this->db->where_in('userLevel', array('3','4'));
 
-        }
+        }//if pi1m
 
         if ($datapost['region'] != ''){
             $regionid = $datapost['region'];
@@ -156,25 +158,27 @@ class Reporting_Model extends CI_Model{
           //$this->db->join('cluster AS c', 'c.clusterID = att_attendancedetails.clusterID');
           $this->db->where_in('att_attendancedetails.clusterID', $arrayCluster);
 
-        }//
+        }//if region
 
 
         if ($datapost['siteid'] != ''){
 
             $this->db->where('siteID', $datapost['siteid']);
-        }
+        }//if siteid
 
         if ($datapost['userid'] != '')
             $this->db->where('managerID', $datapost['userid']);
 
-        $datefrom = date('d-m-Y', strtotime($datapost['dateFrom']));
-        $dateto   = date('d-m-Y', strtotime($datapost['dateTo']));
+        $datefrom = date('Y-m-d', strtotime($datapost['dateFrom']));
+        $dateto   = date('Y-m-d', strtotime($datapost['dateTo']));
 
-        $this->db->where('activityDate >=', $datefrom);
-        $this->db->where('activityDate <=', $dateto);
+        $this->db->where('activityDateTime >=', $datefrom);
+        $this->db->where('activityDateTime <=', $dateto);
 
         $fields = $this->db->list_fields('att_attendancedetails');
- 
+        $fields = array_diff($fields,array("activityDate", "activityTime"));
+        //print_r($fields);
+        //die;
         $i = 0;
     
         if(isset($_GET['search']['value']))
@@ -187,6 +191,10 @@ class Reporting_Model extends CI_Model{
         foreach ($fields as $item) // loop column 'attID','managerID','managerName','siteName','activityDate','activityTime','activityStatus','outstationStatus', 'latLongIn'
 
         {
+
+            if($item == 'userEmail')
+              $item = 'user.userEmail';
+
             if(isset($search)) // if datatable send POST for search
             {
                 
@@ -200,7 +208,7 @@ class Reporting_Model extends CI_Model{
                     $this->db->or_like($item, $search);
                 }
 
-                if(count($fields) - 1 == $i) //last loop
+                if(count($fields) - 3 == $i) //last loop
                     $this->db->group_end(); //close bracket
             }
             $fields[$i] = $item; // set column array variable to order processing
@@ -216,13 +224,18 @@ class Reporting_Model extends CI_Model{
             $order = $order_default;
             $this->db->order_by(key($order), $order[key($order)]);
         }
+        //else{
+          //$this->db->order_by('dateonly','asc');
+        //}
     }
+
 
     public function get_datatables($datapost = null)
     {
         //var_dump('from model-get_datatables'.$datapost['cluster']);
                 //$this->db->where('managerID',134);
         //print_r($datapost);
+        //die;
 
 
 
@@ -233,8 +246,11 @@ class Reporting_Model extends CI_Model{
         $this->_get_datatables_query($this->datatables);
         //$this->db->where('clusterID', $datapost['cluster']);
                 //$this->db->query(select managerID from att_attendancedetails where managerID in (SELECT userID FROM site_manager WHERE siteID IN (SELECT siteID FROM cluster_site WHERE clusterID = 1)));
-        $length = $_GET['length'];
-        $start = $_GET['start'];
+        //if (isset($_GET['length']))
+          $length = $_GET['length'];
+
+        //if (isset($_GET['start']))
+          $start = $_GET['start'];
         //$this->db->limit(10, 0);
         //print_r($length)
         if($length != -1)
@@ -245,6 +261,9 @@ class Reporting_Model extends CI_Model{
                 //$query = $this->db->query("select managerID from att_attendancedetails where managerID in (select userID from site_manager where siteID in (select siteID from cluster_site where clusterID = 1))");
         $query = $this->db->get();
         //print_r($this->db->last_query());
+        //die;
+        //print_r($query->result());
+        //die;
         return $query->result();
     }
 
@@ -260,9 +279,6 @@ class Reporting_Model extends CI_Model{
         $this->db->from('att_attendancedetails');
         return $this->db->count_all_results();
     }
-
-
-
 
     //for test function purposes
     public function display_result(){
@@ -283,5 +299,204 @@ class Reporting_Model extends CI_Model{
 
 
     }
+
+    public function updateDate(){
+        $this->db->from('att_attendancedetails');
+        $this->db->select("*");
+        $query = $this->db->get()->result();
+        //print_r($query);
+        foreach ($query as $key) {
+          # code...
+          //print_r(date('Y-m-d H:i:s ' , strtotime($key->activityDate . " " .$key->activityTime)));
+          $newdatetime = date('Y-m-d H:i:s ' , strtotime($key->activityDate . " " .$key->activityTime));
+          $this->db->set('activityDateTime', $newdatetime);
+          $this->db->where('attID', $key->attID);
+          $this->db->update('att_attendancedetails');
+        }
+        //print_r($query);
+        //die;
+    }
+
+    public function get_listattendance_arranged($datapost = null)
+    {
+        //print_r($datapost);
+        //die;
+        $this->datatables = $datapost;
+
+        $dateSelected = $this->getDateSelected($datapost);
+        //print_r($dateSelected);        
+
+        $userSelected = $this->getUserSelected($datapost);
+        //print_r($userSelected);
+        //die;
+
+        $this->_get_datatables_query($datapost);
+        $queryResult = $this->db->get()->result_array();
+        //last_query();
+      
+        //print_r($queryResult);
+        //die;
+        
+        $resultArray = array();
+        $x = 0;
+        foreach ($dateSelected as $keyDate) {
+          # code...
+            //print_r($keyDate['dateonly']);
+          //$resultArray[$x]['fordate'] = $keyDate['dateonly'];
+            foreach ($userSelected as $keyUser) {
+              # code...
+                $columnArray = array();
+
+                //send $keyDate["dateonly"], using LIKE 
+                //& $keyUser["userid"]
+                    $columnArray['membername'] = $keyUser['managerName'];
+                    $columnArray['in1'] = '';
+                    $columnArray['out1'] = '';
+                    $columnArray['in2'] = '';
+                    $columnArray['out2'] = '';
+
+                foreach ($queryResult as $keyQuery) {
+                  # code...
+                  if($keyDate['dateonly'] == $keyQuery['dateonly']){
+                      //print_r($keyDate['dateonly']);
+                      $columnArray['date'] = $keyQuery['dateonly'];
+
+                      if ($keyQuery['attendanceStatus'] == 'in1'){
+                         $columnArray['in1'] = $keyQuery['timeonly'];
+                         if($keyQuery['lateIn'] == 1)
+                             $columnArray['lateIn1'] = "x";
+                          elseif($keyQuery['lateIn'] == 0)
+                            $columnArray['lateIn1'] = "";
+                      }//if in1
+
+                      else if ($keyQuery['attendanceStatus'] == 'in2'){
+                          $columnArray['in2'] = $keyQuery['timeonly'];
+                          if($keyQuery['lateIn'] == 1)
+                             $columnArray['lateIn2'] = "x";
+                          elseif($keyQuery['lateIn'] == 0)
+                            $columnArray['lateIn2'] = "";                                                   
+                      }//else if in2
+
+                      else if ($keyQuery['attendanceStatus'] == 'out1'){
+                          $columnArray['out1'] = $keyQuery['timeonly'];
+                          if($keyQuery['earlyOut'] == 1)
+                             $columnArray['earlyOut1'] = "x";
+                          elseif($keyQuery['earlyOut'] == 0)
+                            $columnArray['earlyOut1'] = "";                                                   
+                      }//else if out1
+
+                      else if ($keyQuery['attendanceStatus'] == 'out2'){
+                          $columnArray['out2'] = $keyQuery['timeonly'];
+                          if($keyQuery['earlyOut'] == 1)
+                             $columnArray['earlyOut2'] = "x";
+                          elseif($keyQuery['earlyOut'] == 0)
+                            $columnArray['earlyOut2'] = "";                                                    
+                      }//else if out2
+
+                      $columnArray['note'] = $keyQuery['outstationStatus'];
+                      
+                      if($keyQuery['anomaly'] == 1)
+                        $columnArray['anomaly'] = "x";
+                      elseif ($keyQuery['anomaly'] == 0) 
+                        $columnArray['anomaly'] = "";
+
+                  }//if dateonly
+                  //print_r($keyQuery);
+                  
+                }//foreach query
+                //print_r($columnArray);
+
+                //die;
+            }//foreach user
+                //$resultArray[$x]['attrow'] = $columnArray;
+                //$resultArray[$x] = $columnArray;
+
+                //check status flag
+                if($datapost['category'] != ''){
+                  if($datapost['category'] == 1) {
+                      // $this->db->where('lateIn', 1);
+                      // $this->db->where('hours <=', 8);
+                      // $this->db->where('anomaly', 1); 
+                      $resultArray[$x] = $columnArray;             
+                  }
+                  else if($datapost['category'] == 2) {
+                      //$this->db->where('lateIn', 1);
+                      if ($this->search($columnArray, 'lateIn1', 'x') == TRUE || $this->search($columnArray, 'lateIn2', 'x') == true)
+                        $resultArray[$x] = $columnArray;
+                  }
+                  else if($datapost['category'] == 3) {
+                      //$this->db->where('hours <=', 8);
+                      if ($this->search($columnArray, 'earlyOut1', 'x') == TRUE || $this->search($columnArray, 'earlyOut2', 'x') == true)
+                        $resultArray[$x] = $columnArray;                    
+                  }   
+                  else if($datapost['category'] == 4) {
+                      //$this->db->where('lateIn', 1);
+                      //$this->db->where('hours <=', 8);
+                  }                  
+                  else if($datapost['category'] == 5) {
+                      //$this->db->where('anomaly', 1);
+                  }             
+                  else if($datapost['category'] == 6) {
+                      //$this->db->where('lateIn', 0);
+                      //$this->db->where('hours >=', 8);
+                      //$this->db->where('anomaly', 0);
+                  }
+                }//if category
+                $x++;            
+
+        }//foreach date
+        //$resultArray = json_encode($resultArray);
+        //print_r($resultArray);
+        //die;
+
+        return $resultArray;
+    }
+
+    public function getDateSelected($datapost = null)
+    {
+        //print_r($datapost);
+        //die;
+        $this->_get_datatables_query($datapost);
+        $this->db->group_by('dateonly');
+        $queryDateSelected = $this->db->get()->result_array();
+        //$dateSelected->group_by('dateonly');
+
+        return $queryDateSelected;
+
+    }
+
+    public function getUserSelected($datapost = null)
+    {
+        $this->_get_datatables_query($datapost);
+        $this->db->group_by('managerID');
+        $queryUserSelected = $this->db->get()->result_array();
+        //$dateSelected->group_by('dateonly');
+
+        return $queryUserSelected;
+    }
+
+    public function search($array, $key, $value)
+    {
+        $results = array();
+        $status = false;
+        if (is_array($array)) {
+            if (isset($array[$key]) && $array[$key] == $value) {
+                $results[] = $array;
+                $status = true;
+            }
+
+            // foreach ($array as $subarray) {
+            //     $results = array_merge($results, $this->search($subarray, $key, $value));
+            // }
+        }
+
+        //return $results;
+        return $status;
+
+        // $arr = array(0 => array(id=>1,name=>"cat 1"),
+        //              1 => array(id=>2,name=>"cat 2"),
+        //              2 => array(id=>3,name=>"cat 1"));
+        //print_r(search($arr, 'name', 'cat 1'));
+    }    
 
 }

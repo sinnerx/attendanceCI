@@ -117,7 +117,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           </a>
                         </li>
                         <li class='active'>
-                          <a href="#" class="auto">                                                        
+                          <a href="./reporting" class="auto">                                                        
                             <i class="i i-dot"></i>
                             <span>View Report</span>
                           </a>

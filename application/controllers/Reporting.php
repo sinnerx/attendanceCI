@@ -142,11 +142,12 @@ class Reporting extends CI_Controller {
             //$row[] = $manager->managerID;
             $row[] = $item->managerName;
             $row[] = $item->siteName;
-            $row[] = $item->activityDate;
-            $row[] = $item->activityTime;
+            
+            //$row[] = $item->activityTime;
             $row[] = $item->activityStatus;
             $row[] = $item->outstationStatus;
             $row[] = $item->latLongIn;
+            $row[] = $item->activityDateTime;
 
             //add html for action
             //$row[] = '<a class="btn btn-sm btn-primary" href="javascript:void()" title="Edit" onclick="edit_person('."'".$admin->attID."'".')"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
@@ -173,6 +174,48 @@ class Reporting extends CI_Controller {
         $list = $this->reporting_model->display_result();
 
         print_r($list);
+    }
+
+    public function updateattendancedate(){
+        $this->load->model('reporting_model');
+        $this->reporting_model->updateDate();
+    }
+
+    public function attendance_list()
+    {   
+        //print_r($_GET);
+        //die;
+        $this->load->model('reporting_model');
+        $list = $this->reporting_model->get_listattendance_arranged($_GET);
+        $data = array();
+        foreach ($list as $key) {
+            # code...
+            $row = array();
+            $row[] = $key["date"];
+            $row[] = $key["membername"];
+            $row[] = $key["in1"];
+            $row[] = $key["out1"];
+            $row[] = $key["in2"];
+            $row[] = $key["out2"];            
+            $row[] = isset($key["lateIn1"]) ? $key["lateIn1"] : "";
+            $row[] = isset($key["earlyOut1"]) ? $key["earlyOut1"] : "";
+            $row[] = isset($key["lateIn2"]) ? $key["lateIn2"] : "";
+            $row[] = isset($key["earlyOut2"]) ? $key["earlyOut2"] : "";
+            //$row[] = $key["note"];
+            $row[] = $key["anomaly"];
+
+            $data[] = $row;
+        }
+        //$list = json_encode($list);
+        //return $list;
+       $output = array(
+                        //"draw" => isset($_POST['draw']),
+                        //"recordsTotal" => $this->reporting_model->count_all(),
+                        //"recordsFiltered" => $this->reporting_model->count_filtered(),
+                        "data" => $data,
+                                                
+                );        
+        echo json_encode($data);
     }
         
 }

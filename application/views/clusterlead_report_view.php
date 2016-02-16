@@ -6,6 +6,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 //alert(get_post['cluster']+ 'aaaaaa');
 $(document).ready(function() {
+<? $query = http_build_query($_POST); ?>
 
 $('#dateFrom').datepicker({ dateFormat: 'dd-mm-yy' });
     $('#dateTo').datepicker({ dateFormat: 'dd-mm-yy' });      
@@ -115,6 +116,68 @@ $('#dateFrom').datepicker({ dateFormat: 'dd-mm-yy' });
           $("#username").val('');
           $("#userid").val('');
       }
+
+      $("#submitbtn").click(function(){
+            console.log($("form").serialize());
+            console.log("<?php echo base_url() . 'reporting/attendance_list/?';?>" + $("form").serialize());
+            $.ajax({
+                type: 'GET',
+                dataType: "json",
+                url: 'reporting/attendance_list',
+                data: $("form").serialize(),
+                success: function(data) {
+                    //alert(data);
+                    var tableData = data;
+                    console.log(tableData);
+                    //$("#testdiv").text(tableData);
+                    $('#tableClusterLeadReport').DataTable({ 
+                        "data": tableData,
+                        "bDestroy":true,
+                        //"ajax": "reporting/attendance_list",
+                        //"processing": true, //Feature control the processing indicator.
+                        //"serverSide": true, //Feature control DataTables' server-side processing mode.
+                        "order": [], //Initial no order.
+
+                        // Load data for the table's content from an Ajax source
+                        // "ajax": {
+                        //     "url": "<?php echo base_url() . 'reporting/attendance_list/?' . $query;?>",
+                        //     "type": "POST"
+                        // },
+
+                        //Set column definition initialisation properties.
+                        "columns": [
+                          {title : "Date" },
+                          {title : "Name" },
+                          {title : "In1" },
+                          {title : "Out1" },
+                          {title : "In2" },
+                          {title : "Out2" },                          
+                          {title : "LateIn1" },
+                          {title : "EarlyOut1" },
+                          {title : "LateIn2" },
+                          {title : "EarlyOut2" },
+                          // {title : "Note" },
+                          {title : "Anomaly" },
+                        ],
+
+                        "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+                            if ( aData[10] == "x" )
+                            {
+                                $('td', nRow).css('background-color', 'rgba(255, 0, 0, 0.23)');
+                            }
+                            else if ( aData[10] == "" )
+                            {
+                                //$('td', nRow).css('background-color', 'Orange');
+                            }
+                        }
+
+
+                    });//end datatable
+
+                }
+            });
+      });
+
  }); 
 </script>
 
@@ -277,67 +340,57 @@ $('#dateFrom').datepicker({ dateFormat: 'dd-mm-yy' });
                           <div class="table-responsive">
                             <div id="status_filter" class='col-sm-12'>
                               <div class='form-group'>
-                              <label>Show</label>
-                              <br>
-                              <select id="category" name="category">
+                              
+                              
+                              
+                              <div class="col-md-2">  
+                                <label>Show</label>
+                              <select id="category" name="category" class="form-control">
                                 <option value="1">All</option>
-                                <option value="2">Late/Early punch</option>
-                                <option value="3">Insufficient Hours</option>
+                                <option value="2">LateIn punch</option>
+                                <option value="3">EarlyOut Punch</option>
+                                <!-- <option value="4">Punch Anomaly</option>                               -->
+
+                                <!-- <option value="3">Insufficient Hours</option>
                                 <option value="4">Both Late/Early and Insufficient Hours</option>
                                 <option value="5">Punch Anomaly</option>
-                                <option value="6">No Attendance Problem</option>
+                                <option value="6">No Attendance Problem</option> -->
                               </select>
-                              <input id="remarks" type="checkbox" value="">Remarks</input>
                             </div>
-                          </div>
-
-                          <div class="clearfix"></div>
-
-                          <div id="datefrom_div" class='col-sm-12'>
-                            <div class='form-group'>
+                              <!-- <input id="remarks" type="checkbox" value="1" name="remarks">Remarks</input> -->
+                              <div class="col-md-2">
                               <label>From</label>
                               <?php 
                                 $data = array(
                                           'name'        => 'dateFrom',
                                           'value'       => "".date('d-m-Y', strtotime(date('d-m-Y')))."",
-                                          'class'       => 'input-sm input-s datepicker-input form-control',
+                                          // 'class'       => 'input-sm input-s datepicker-input form-control',
+                                          'class'       => 'datepicker-input form-control',
                                           'id'          => 'dateFrom',
                                           'data-date-format'    => 'dd-mm-yyyy'
                                   );
                                 echo form_input($data);
-                                ?>
-
-                            </div>
-
-                         <div class="clearfix"></div>
-
-                        </div>
-
-                          <div id="dateto_div" class='col-sm-12'>
-                            <div class='form-group'>
+                                ?>    
+                              </div>
+                              <div class="col-md-2">
                               <label>Until</label>
                               <?php 
                                 $data = array(
                                           'name'        => 'dateTo',
                                           'value'       => "".date('d-m-Y', strtotime(date('d-m-Y')))."",
-                                          'class'       => 'input-sm input-s datepicker-input form-control',
+                                          'class'       => 'idatepicker-input form-control',
                                           'id'          => 'dateTo',
                                           'data-date-format'    => 'dd-mm-yyyy'
                                   );
                                 echo form_input($data);
                                 ?>
+                              </div>
 
-                            </div>                            
-                          </div>
-
-                         <div class="clearfix"></div>
-
-                          <div id="forpi1m_div" class='col-sm-12'>
-                            <div class='form-group'>
-                              <label>For</label>
-                              <br>
+                              <div class="col-md-2">
+                                <label>For</label>
                               <?php 
                                 $options = array(
+                                    
                                     '1'  => 'All Pi1M Managers',
                                     '2'  => 'All Nusuara Staff',
                                     '3'  => 'Region',
@@ -346,122 +399,150 @@ $('#dateFrom').datepicker({ dateFormat: 'dd-mm-yy' });
                                     '6' => 'Manager',
                                     //'7' => 'Staff',
                                   );
-                                echo form_dropdown('forpi1m', $options, '', 'id="forpi1m" name="forpi1m"');
+                                echo form_dropdown('forpi1m', $options, '', 'id="forpi1m" name="forpi1m" class="form-control"');
 
 
-                                ?>
+                                ?> 
+                                 
+                              </div>
+
+                                <div id="region_div" class='col-md-2' style="display:none;">
+                                  
+                                    <label>Region</label>
+                                    
+                                    <?php 
+                                      $options = array(
+                                          '1' => 'All',
+                                          '2' => 'Peninsular',
+                                          '3' => 'Sabah/Sarawak',
+                                        );
+                                      echo form_dropdown('region', $options, '', 'id="region" name="region" class="form-control"');
+
+
+                                      ?>                    
+                                </div> 
+
+                                <div id="cluster_div" class='col-md-2' style="display:none">
+                                  <div class='form-group'>
+                                    <label>Cluster</label>
+                                    
+                                    <?php 
+                                      echo form_dropdown('cluster', $cluster_list, '', 'id="cluster" name="cluster" class="form-control"');
+                                      ?>
+
+                                  </div>                            
+                                </div> 
+
+                                <div id="site_div" class='col-md-4' style="display:none">
+                                    
+                                      <label>Site</label>
+                                      
+                                      <?php 
+                                        $data = array(
+                                                  'name'        => 'sitename',
+                                                  'value'       => "",
+                                                  //'class'       => 'input-sm input-s datepicker-input form-control',
+                                                  'id'          => 'sitename',
+                                                  'size'        => 50,
+                                                  'class'       => 'form-control',
+
+                                          );
+                                        //$js = 'onclick="participants.searchByObj(this)"';
+                                        echo form_input($data);
+
+                                        $dataid = array(
+                                                  'name'        => 'siteid',
+                                                  'value'       => "",
+                                                  //'class'       => 'input-sm input-s datepicker-input form-control',
+                                                  'id'          => 'siteid',
+                                                  'type'        => 'hidden',
+
+                                          );                                
+                                        echo form_input($dataid);
+                                        ?>
+
+                                                               
+                                  </div>
+                                  <div id="manager_div" class='col-md-4' style="display:none">
+                                      <label>Manager</label>
+                                      
+                                      <?php 
+                                        $data = array(
+                                                  'name'        => 'username',
+                                                  'value'       => "",
+                                                  //'class'       => 'input-sm input-s datepicker-input form-control',
+                                                  'id'          => 'username',
+                                                  'size'        => 50,
+                                                  'class'       => 'form-control'
+
+                                          );
+                                        //$js = 'onclick="participants.searchByObj(this)"';
+                                        echo form_input($data);
+
+                                        $dataid = array(
+                                                  'name'        => 'userid',
+                                                  'value'       => "",
+                                                  //'class'       => 'input-sm input-s datepicker-input form-control',
+                                                  'id'          => 'userid',
+                                                  'type'        => 'hidden',
+
+                                          );                                
+                                        echo form_input($dataid);
+                                        ?>
+                           
+                                  </div>                                  
+                            </div>
+
+                          </div>
+
+                          <!-- <div class="clearfix"></div> -->
+
+                          <!-- <div id="datefrom_div" class='col-sm-12'> -->
+                            <!-- <div class='form-group'> -->
+
+
+                            <!-- </div> -->
+
+                         <!-- <div class="clearfix"></div> -->
+
+                        <!-- </div> -->
+
+                          <div id="dateto_div" class='col-sm-12'>
+                            <div class='form-group'>
+
 
                             </div>                            
-                          </div>                      
+                          </div>
+                         
+                     
 
+                           
 
                          <div class="clearfix"></div>
 
-                          <div id="region_div" class='col-sm-12' style="display:none">
-                            <div class='form-group'>
-                              <label>Region</label>
-                              <br>
-                              <?php 
-                                $options = array(
-                                    '1' => 'All',
-                                    '2' => 'Peninsular',
-                                    '3' => 'Sabah/Sarawak',
-                                  );
-                                echo form_dropdown('region', $options, '', 'id="region" name="region"');
-
-
-                                ?>
-
-                            </div>                            
-                          </div> 
-
-                         <div class="clearfix"></div>
-
-                          <div id="cluster_div" class='col-sm-12' style="display:none">
-                            <div class='form-group'>
-                              <label>Cluster</label>
-                              <br>
-                              <?php 
-                                echo form_dropdown('cluster', $cluster_list, '', 'id="cluster" name="cluster"');
-                                ?>
-
-                            </div>                            
-                          </div> 
-
-                         <div class="clearfix"></div>
-
-                          <div id="site_div" class='col-sm-12' style="display:none">
-                            <div class='form-group'>
-                              <label>Site</label>
-                              <br>
-                              <?php 
-                                $data = array(
-                                          'name'        => 'sitename',
-                                          'value'       => "",
-                                          //'class'       => 'input-sm input-s datepicker-input form-control',
-                                          'id'          => 'sitename',
-                                          'size'        => 50,
-
-                                  );
-                                //$js = 'onclick="participants.searchByObj(this)"';
-                                echo form_input($data);
-
-                                $dataid = array(
-                                          'name'        => 'siteid',
-                                          'value'       => "",
-                                          //'class'       => 'input-sm input-s datepicker-input form-control',
-                                          'id'          => 'siteid',
-                                          'type'        => 'hidden',
-
-                                  );                                
-                                echo form_input($dataid);
-                                ?>
-
-                            </div>                            
-                          </div> 
-
-                         <div class="clearfix"></div>
-
-                          <div id="manager_div" class='col-sm-12' style="display:none">
-                            <div class='form-group'>
-                              <label>Manager</label>
-                              <br>
-                              <?php 
-                                $data = array(
-                                          'name'        => 'username',
-                                          'value'       => "",
-                                          //'class'       => 'input-sm input-s datepicker-input form-control',
-                                          'id'          => 'username',
-                                          'size'        => 50,
-
-                                  );
-                                //$js = 'onclick="participants.searchByObj(this)"';
-                                echo form_input($data);
-
-                                $dataid = array(
-                                          'name'        => 'userid',
-                                          'value'       => "",
-                                          //'class'       => 'input-sm input-s datepicker-input form-control',
-                                          'id'          => 'userid',
-                                          'type'        => 'hidden',
-
-                                  );                                
-                                echo form_input($dataid);
-                                ?>
-
-                            </div>                            
+                          <div class='form-group' class='col-sm-12'>
+                                <?php //echo form_submit('mysubmit', 'Show Report', 'class="btn btn-primary"'); ?>
+                                <input type="button" id="submitbtn" value="Show Report Ajax" class="btn btn-primary">
                           </div>
 
                           <!-- <div id="submitbtn" class='col-sm-12'> -->
                             
                           <!-- </div> -->
 
-                       <div class="clearfix panel-footer">
-                        <div class='form-group' class='col-sm-12'>
-                                <?php echo form_submit('mysubmit', 'Show Report', 'class="btn btn-primary"'); ?>
-                            </div>
+                       
+
                         </div>
+                        <div id="testdiv"></div>
+                          <div class="table-responsive">
+
+                              <table id="tableClusterLeadReport" class="table table-striped m-b-none">
+                              <!--<table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">-->
+                              </table>
+                            </div>   
+                            <div class="clearfix panel-footer">                        
                       </section>
+ 
+                                                                      
                     </div>
                   </div>
                 </section>

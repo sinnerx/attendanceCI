@@ -8,7 +8,8 @@ $(document).ready(function() {
 
 	<? $query = http_build_query($_POST); ?>
 	//alert(get_post['cluster']);
-	console.log("<?php echo base_url() . 'reporting/ajax_list/?' . $query;?>");
+  console.log("<?php echo base_url() . 'reporting/ajax_list/?' . $query;?>");
+	console.log("<?php echo base_url() . 'reporting/attendance_list/?' . $query;?>");
 	// $.ajax({
 	// 	url : "<?php echo base_url() . 'reporting/ajax_list/?' . $query;?>",
 	// 	success : function (result){
@@ -210,11 +211,12 @@ $('#tableClusterLeadReport').DataTable({
                                   <tr>
                                     <th>Name</th>
                                     <th>Cluster</th>
-                                    <th width="12%">Date</th>
-                                    <th>Time</th>
+                                    
+                                    <!-- <th>Time</th> -->
                                     <th>Activites</th>
                                     <th>Status</th>
                                     <th>Location (Lat, Long)</th>
+                                    <th width="12%">Date</th>
                                     <!--<th>Action</th>-->
                                   </tr>
                                 </thead>
