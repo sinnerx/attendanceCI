@@ -77,6 +77,8 @@ $(document).ready(function() {
             var  activityTime = currentDateTime().substr(-5);
             var  activityDate = activityDateData = currentDateTime().substr(0,10);
             //var  activityStatus = $("#valActivityStatus").val();
+            var  activityDateTime = currentFormattedDateTime();
+            //alert(activityDateTime);
             var  activityStatus = punchStatus = 'IN';
             var  outstationStatus = $("#outstationStatusTxt").val();
             var  latLongIn = $("#valLatLong").val();
@@ -87,7 +89,7 @@ $(document).ready(function() {
             type: "POST",
             url: "<?php echo base_url(); ?>manager/saveAttendance",
             //dataType: "JSON",
-            data: {managerID: managerID, clusterID: clusterID, managerName: managerName, siteID: siteID, siteName: siteName, userEmail: userEmail, activityDate: activityDate, activityTime: activityTime, latLongIn: latLongIn, accuracy: accuracy, activityStatus: activityStatus, outstationStatus: outstationStatus, imgIn: imgIn},
+            data: {managerID: managerID, clusterID: clusterID, managerName: managerName, siteID: siteID, siteName: siteName, userEmail: userEmail, activityDate: activityDate, activityTime: activityTime, activityDateTime: activityDateTime, latLongIn: latLongIn, accuracy: accuracy, activityStatus: activityStatus, outstationStatus: outstationStatus, imgIn: imgIn},
             success: function (data) {
                     //table.ajax.reload(null,false);
                     console.log(data);
@@ -121,6 +123,7 @@ $(document).ready(function() {
         //var  activityDate = $("#valDate").val();
         var  activityTime  = currentDateTime().substr(-5);
         var  activityDate = activityDateData = currentDateTime().substr(0,10);
+        var  activityDateTime = currentFormattedDateTime();
         //var  activityStatus = $("#valActivityStatus").val();
         var  activityStatus = punchStatus = 'OUT';
         var  outstationStatus = $("#outstationStatusTxt").val();
@@ -132,7 +135,7 @@ $(document).ready(function() {
         type: "POST",
         url: "<?php echo base_url(); ?>manager/saveAttendance",
         //dataType: "JSON",
-        data: {managerID: managerID, clusterID: clusterID, managerName: managerName, siteID: siteID, siteName: siteName, userEmail: userEmail, activityDate: activityDate, activityTime: activityTime, latLongIn: latLongIn, accuracy: accuracy, activityStatus: activityStatus, outstationStatus: outstationStatus, imgIn: imgIn},
+        data: {managerID: managerID, clusterID: clusterID, managerName: managerName, siteID: siteID, siteName: siteName, userEmail: userEmail, activityDate: activityDate, activityTime: activityTime, activityDateTime: activityDateTime, latLongIn: latLongIn, accuracy: accuracy, activityStatus: activityStatus, outstationStatus: outstationStatus, imgIn: imgIn},
         success: function (data) {
                 //table.ajax.reload(null,false);
                 console.log(data);
@@ -329,6 +332,19 @@ function currentDateTime() {
             var msec = d.getMilliseconds();
             return day + "-" + month + "-" + year + " " + hour + ":" + mins/* + ":" + secs + "," + msec*/;
  }
+ 
+function currentFormattedDateTime() {
+            var d = new Date();
+            var day = ('0' + d.getDate()).slice(-2);
+            var month = ( '0' + (d.getMonth() + 1)).slice(-2);
+            var year = d.getFullYear();
+            var hour = ('0' + d.getHours()).slice(-2);
+            var mins = ('0' + d.getMinutes()).slice(-2);
+            var secs = ('0' + d.getSeconds()).slice(-2);
+            var msec = d.getMilliseconds();
+            return year + "-" + month + "-" + day + " " + hour + ":" + mins + ":" + secs/* + "," + msec*/;
+ }
+ 
   
 </script>
 

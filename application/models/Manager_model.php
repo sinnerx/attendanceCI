@@ -10,7 +10,7 @@ class Manager_model extends CI_Model {
     //declare for att tables
     //public $userid;
     var $table = 'att_attendancedetails';
-    var $column = array('attID','clusterID','managerID','managerName', 'siteID','siteName','activityDate','activityTime','activityStatus','outstationStatus', 'latLongIn', 'accuracy','imgIn'); //set column field database for order and search
+    var $column = array('attID','clusterID','managerID','managerName', 'siteID','siteName','activityDate','activityTime', 'activityDateTime','activityStatus','outstationStatus', 'latLongIn', 'accuracy','imgIn'); //set column field database for order and search
     var $order = array('attID' => 'desc'); // default order 
     var $isFirstIn;
     var $isLastOut;
@@ -157,7 +157,7 @@ class Manager_model extends CI_Model {
          //$this->db->set($data);
          $this->db->insert('att_attendancedetails',$data);
          
-          $this->db->set('lateIn', 1);
+         $this->db->set('lateIn', 1);
          //$this->db->update('att_attendancedetails');
         // echo "insertAtt";
         
@@ -285,10 +285,10 @@ class Manager_model extends CI_Model {
             if ($num === 0){
                 $isFirstIn = 1;
                 
-               //**echo 'fisrtIn: '.$isFirstIn;
+               echo 'fisrtIn: '.$isFirstIn;
                 }else{//is not the first in - possible anomaly
                     $isFirstIn = 0;
-                   //**echo 'fisrtIn: '.$isFirstIn;
+                   echo 'fisrtIn: '.$isFirstIn;
             } 
         //echo ' | '.date('H:i'); 
              //**print_r($row);
@@ -311,8 +311,9 @@ class Manager_model extends CI_Model {
         $row = $query->last_row();
         //$row = $query->row_array();
         //print_r($row);
-        //**echo 'isInLastDate: '.$row->activityDate;
-        //**echo 'isInLastDateID: '.$row->attID;
+        echo 'isInLastDate: '.$row->activityDate;
+        echo 'isInLastDateID: '.$row->attID;
+        //** update in1
         return $row;
             
         }
@@ -348,7 +349,7 @@ class Manager_model extends CI_Model {
             }
             //last row
             //print_r($row);
-            //**echo 'rowDate: '.$row->attID;
+            //echo 'rowDate: '.$row->attID;
             return $row;
         }
         
@@ -373,7 +374,7 @@ class Manager_model extends CI_Model {
         $num = $query->num_rows();
 
         $totalPunch = $num;
-        //**echo 'totalPunch: '.$num.' | ';
+        echo 'totalPunch: '.$num.' | ';
             
         //out
         $this->db->select('activityTime');    
@@ -441,7 +442,7 @@ class Manager_model extends CI_Model {
             //$numOut/In - no of punch out/in
             for ($i = 0; $i < $numIn; $i++){
                $rowIn = $query->row_array($i);
-               //**echo 'rowIn'.$i.': '.$rowIn['activityTime'].' | ';
+               echo 'rowIn'.$i.': '.$rowIn['activityTime'].' | ';
                $timeIn[$i] = $rowIn['activityTime'];
                
             }
@@ -458,10 +459,10 @@ class Manager_model extends CI_Model {
             //}
             //echo 'fisrtIn: '.strtotime('09:00');
             //in after 9
-            //**echo 'Baki: '.(strtotime('09:00') - (strtotime($firstIn)));
+            echo 'Balance: '.(strtotime('09:00') - (strtotime($firstIn)));
             $totalhour1 = ((strtotime($timeOut[0]) - strtotime($firstIn))/3600);  
-            //**echo 'totalhour1: '.$totalhour1;
-            //**echo 'totalhours: '.round($totalhour, 2);
+            echo 'totalhour1: '.$totalhour1;
+            echo 'totalhours: '.round($totalhour, 2);
             
             //insert to db
             $this->db->set('hours', round($totalhour, 2));
