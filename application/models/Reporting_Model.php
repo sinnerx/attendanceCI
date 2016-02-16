@@ -172,8 +172,9 @@ class Reporting_model extends CI_Model{
         $datefrom = date('Y-m-d', strtotime($datapost['dateFrom']));
         $dateto   = date('Y-m-d', strtotime($datapost['dateTo']));
 
-        $this->db->where('activityDateTime >=', $datefrom);
-        $this->db->where('activityDateTime <=', $dateto);
+        // $this->db->where('activityDateTime >=', $datefrom);
+        // $this->db->where('activityDateTime <=', $dateto);
+           $this->db->where('DATE(activityDateTime) BETWEEN "'. $datefrom . '" AND "'. $dateto .'"');
 
         $fields = $this->db->list_fields('att_attendancedetails');
         $fields = array_diff($fields,array("activityDate", "activityTime"));
@@ -405,8 +406,13 @@ class Reporting_model extends CI_Model{
                   
                 }//foreach query
                 //print_r($columnArray);
-//check status flag
-                if($datapost['category'] != ''){
+                //check status flag
+ 
+                //die;
+            }//foreach user
+                //$resultArray[$x]['attrow'] = $columnArray;
+                //$resultArray[$x] = $columnArray;
+                               if($datapost['category'] != ''){
                   if($datapost['category'] == 1) {
                       // $this->db->where('lateIn', 1);
                       // $this->db->where('hours <=', 8);
@@ -436,18 +442,15 @@ class Reporting_model extends CI_Model{
                       //$this->db->where('anomaly', 0);
                   }
                 }//if category
-                $x++;  
-                //die;
-            }//foreach user
-                //$resultArray[$x]['attrow'] = $columnArray;
-                //$resultArray[$x] = $columnArray;
-
+                $x++;                 
                           
 
         }//foreach date
         //$resultArray = json_encode($resultArray);
         //print_r($resultArray);
         //die;
+
+
 
         return $resultArray;
     }
