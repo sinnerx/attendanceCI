@@ -89,6 +89,23 @@ $('#dateFrom').datepicker({ dateFormat: 'dd-mm-yy' });
           }
           else if ($("#forpi1m").val() == '4'){
             hide_all();
+            $.ajax({
+                type: 'GET',
+                dataType: "json",
+                url: 'reporting/get_clusterbyuser?'+ 'userid=' + '<?php echo $userid; ?>' + '&userlevel=' + '<?php echo $userLevel; ?>',
+                
+                success: function (data){
+                    console.log(data);
+                    $el = $("#cluster");
+                    $el.empty();
+                    $el.append($("<option></option>")
+                            .attr("value", '').text('Please Select'));
+                    $.each(data, function(value, key) {
+                        $el.append($("<option></option>")
+                                .attr("value", value).text(key));
+                      });
+                }
+            });
             $("#cluster_div").show();
           }
           else if ($("#forpi1m").val() == '5'){
@@ -342,6 +359,7 @@ $('#dateFrom').datepicker({ dateFormat: 'dd-mm-yy' });
                       <section class="panel b-a">
                         <div class="panel-heading b-b">
                           <a href="#" class="font-bold">Activities</a>
+                          <input type="hidden" name="userlevel" id="userLevel" value="<?php echo $userLevel;?>">
                         </div><br>
                           <div class="table-responsive">
                             <div id="status_filter" class='col-sm-12'>
@@ -394,17 +412,51 @@ $('#dateFrom').datepicker({ dateFormat: 'dd-mm-yy' });
 
                               <div class="col-md-2">
                                 <label>For</label>
-                              <?php 
-                                $options = array(
+
+                                <?php if($userLevel==99){ 
+                                        //echo "Administration Mode";
+                                        $options = array(
+                                          
+                                          '1'  => 'All Pi1M Managers',
+                                          '2'  => 'All Nusuara Staff',
+                                          '3'  => 'Region',
+                                          '4' => 'Cluster',
+                                          '5' => 'Pi1M Site',
+                                          '6' => 'Manager',
+                                          //'7' => 'Staff',
+                                        );
+                                      }
+
+                                  else if($userLevel == 3 ){ 
+                                      //echo "Cluster Lead";
+                                      $options = array(
                                     
-                                    '1'  => 'All Pi1M Managers',
-                                    '2'  => 'All Nusuara Staff',
-                                    '3'  => 'Region',
-                                    '4' => 'Cluster',
-                                    '5' => 'Pi1M Site',
-                                    '6' => 'Manager',
-                                    //'7' => 'Staff',
-                                  );
+                                        '1'  => 'All Pi1M Managers',
+                                        //'2'  => 'All Nusuara Staff',
+                                        //'3'  => 'Region',
+                                        '4' => 'Cluster',
+                                        '5' => 'Pi1M Site',
+                                        '6' => 'Manager',
+                                        //'7' => 'Staff',
+                                      ); 
+                                  }
+
+                                  else if($userLevel == 4 ){ 
+                                      //echo "Operation Manager";
+                                      $options = array(
+                                    
+                                        '1'  => 'All Pi1M Managers',
+                                        '2'  => 'All Nusuara Staff',
+                                        '3'  => 'Region',
+                                        '4' => 'Cluster',
+                                        '5' => 'Pi1M Site',
+                                        '6' => 'Manager',
+                                        //'7' => 'Staff',
+                                      ); 
+                                  }
+ ?>
+                              <?php 
+
                                 echo form_dropdown('forpi1m', $options, '', 'id="forpi1m" name="forpi1m" class="form-control"');
 
 
@@ -528,7 +580,7 @@ $('#dateFrom').datepicker({ dateFormat: 'dd-mm-yy' });
 
                           <div class='form-group' class='col-sm-12'>
                                 <?php //echo form_submit('mysubmit', 'Show Report', 'class="btn btn-primary"'); ?>
-                                <input type="button" id="submitbtn" value="Show Report Ajax" class="btn btn-primary">
+                                <input type="button" id="submitbtn" value="Show Report" class="btn btn-primary">
                           </div>
 
                           <!-- <div id="submitbtn" class='col-sm-12'> -->

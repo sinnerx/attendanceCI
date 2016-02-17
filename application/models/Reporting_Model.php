@@ -38,6 +38,26 @@ class Reporting_model extends CI_Model{
     }
   }  
 
+  public function getClusterByUserID($id){
+    //echo $id;
+    $this->db->select("cluster_lead.clusterID, clusterName");
+    $this->db->where('userID', $id);
+    $this->db->join('cluster','cluster_lead.clusterID = cluster.clusterID');
+    $result = $this->db->get('cluster_lead');
+
+    //$result = $result->result_array();
+      $return = array();
+      $x = 0;
+      foreach($result->result_array() as $row) {
+        //$return[$x][$row['clusterID']] = $row['clusterName'];
+        $return[$row['clusterID']] = $row['clusterName'];
+        $x++;
+      }    
+    //$result = $result->id;
+    return $return;
+       // return 'abc';
+  }
+
   public function get_cluster($regionid = null)
     {
       //$this->db->from('city');
