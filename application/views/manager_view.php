@@ -300,7 +300,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <div>
                           <!--<div  id='punch-in'>-->
                               <p style="text-align: center">
-                                  <a id="punch-in" href="#" class="btn btn-default btn-lg" style="display: 
+                                  <a id="punch-in" href="#" class="btn btn-default btn-lg <?php echo $this->manager_model->isFourthPunched($userid)?>" style="display: 
                                       <?php if(($this->manager_model->getLastPunchStatus($userid)) == "IN"){
                                           echo "none";
                                       } else {

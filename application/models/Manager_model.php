@@ -623,10 +623,38 @@ class Manager_model extends CI_Model {
         public function  isLastActivity(){
             
         }
-        public function isAnomaly(){
+        
+        public function initAnomaly(){
+            $this->db->from('att_attendancedetails');
+            $this->db->where('managerID', $this->userid);
+            //$this->db->where('activityDate', date('d-m-Y'));
+            //$this->db->where('attendanceStatus', 'in1');
+            $query = $this->db->get();
+            if($query->num_rows() <> 0){
+                //echo 'dont init';
+                $this->isAnomaly();
+            }
+        }
+        
+        public function isLastDay(){
                 $this->db->from('att_attendancedetails');
                 $this->db->where('managerID', $this->userid);
                 //$this->db->where('activityDate', date('d-m-Y'));
+                //$this->db->where('attendanceStatus', 'in1');
+                $query = $this->db->get();
+                $last = $query->last_row();
+                
+                $lastdate = $last->activityDate;
+                //echo 'last_date_:'.$lastdate;
+                return $lastdate;
+        }
+        public function isAnomaly(){
+                //echo 'asdasdasd'.$this->isLastDay();
+            
+                $lastday = $this->isLastDay();
+                $this->db->from('att_attendancedetails');
+                $this->db->where('managerID', $this->userid);
+                $this->db->where('activityDate', $lastday);
                 //$this->db->where('attendanceStatus', 'in1');
                 $query = $this->db->get();
                 $last = $query->last_row();
@@ -634,10 +662,10 @@ class Manager_model extends CI_Model {
                 $row = $query->row($num-1);
                 $date = $last->activityDate;
                 $lastAtt = $last->attendanceStatus;
-                echo 'last_row:'.$last->attID;
-                echo 'last_date:'.$date;
-                echo 'num_row:'.$num;
-                echo 'last_att:'.$lastAtt;
+//                echo 'last_row:'.$last->attID;
+//                echo 'last_date:'.$date;
+//                echo 'num_row:'.$num;
+//                echo 'last_att:'.$lastAtt;
                 if($date <> (date('d-m-Y'))){
                     if($num === 1){//if punch only once
                         //force punch out record
@@ -674,16 +702,46 @@ class Manager_model extends CI_Model {
                         //flag anomaly
 
                     } elseif($num === 3){//if punch only 3 times
-                        echo 'anomaly 3 !!!';
-                        //flag anamoly
+                        //echo 'anomaly 3 !!!';
+                        $data = array(
+                            'managerID' => $last->managerID,
+                            'clusterID' => $last->clusterID,
+                            'managerName' => $last->managerName,
+                            'siteID' => $last->siteID,
+                            'siteName' => $last->siteName,
+                            'userEmail' => $last->userEmail,
+                            'activityDate' => $last->activityDate,
+                            'activityTime' => '23:59',
+                            'activityDateTime' => date('Y-m-d', strtotime($date)).' 23:59:59',
+                            'activityStatus' => 'OUT',
+                            'outstationStatus' => '<i class="fa fa-warning" style="color:red;"></i><span style="color:red;"> Force punch activated by the system</span>',
+                            'attendanceStatus' => 'out2',
+                            //'anomaly' => 1
+                            
+                        );
                         
-                        //force punch out record
-                        
-                        //update addnote - system force punch activated.
+                         $this->db->where('activityDate', $date);
+                         $this->db->insert('att_attendancedetails', $data);
+                         //set whole row flag for anomaly
+                         $this->db->set('anomaly', 1);
+                         $this->db->where('activityDate',  $date);
+                         $this->db->update('att_attendancedetails');
                     }
                 }
         }
         
+        public function isFourthPunched(){
+            $this->db->from('att_attendancedetails');
+            $this->db->where('managerID', $this->userid);
+            $this->db->where('activityDate', date('d-m-Y'));
+            //$this->db->where('attendanceStatus', 'in1');
+            $query = $this->db->get();
+            //$last = $query->last_row();
+            $num = $query->num_rows();
+            if($num === 4){
+                return 'disabled';
+            }
+        }
         public function updateNewRecords(){
         //for userEmail & clusterID        
         }
