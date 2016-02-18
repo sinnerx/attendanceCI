@@ -281,10 +281,10 @@ class Manager_model extends CI_Model {
                        }
                    }
                    
-                } elseif ($attStatus === 'out1') {//break out
+                } elseif ($attStatus === 'out1') {//break - out
                    //semenanjung
                    if($clusterid === '5' || $clusterid === '6' ){
-                       //after 1 flag late
+                       //before 1 flag early
                        if((strtotime($time)) < (strtotime('13:00:00'))){ //late in after break
                             $this->db->set('earlyOut', 1);
                             $this->db->where('attID',  $row->attID);
@@ -292,7 +292,7 @@ class Manager_model extends CI_Model {
                        }
                    //sabah/sarawak
                    } elseif($clusterid === '1' || $clusterid === '2'|| $clusterid === '3' || $clusterid === '4'){
-                       //after 12 flag late
+                       //before 12 flag early
                        if((strtotime($time)) < (strtotime('12:00:00'))){ //late in after break
                             $this->db->set('earlyOut', 1);
                             $this->db->where('attID',  $row->attID);
@@ -633,19 +633,53 @@ class Manager_model extends CI_Model {
                 $num = $query->num_rows();
                 $row = $query->row($num-1);
                 $date = $last->activityDate;
+                $lastAtt = $last->attendanceStatus;
                 echo 'last_row:'.$last->attID;
                 echo 'last_date:'.$date;
                 echo 'num_row:'.$num;
+                echo 'last_att:'.$lastAtt;
                 if($date <> (date('d-m-Y'))){
-                    if($num < 4 && $num === 1){//if punch only once
-                        echo 'anomaly 1 !!!';
+                    if($num === 1){//if punch only once
                         //force punch out record
+                        $data = array(
+                            'managerID' => $last->managerID,
+                            'clusterID' => $last->clusterID,
+                            'managerName' => $last->managerName,
+                            'siteID' => $last->siteID,
+                            'siteName' => $last->siteName,
+                            'userEmail' => $last->userEmail,
+                            'activityDate' => $last->activityDate,
+                            'activityTime' => '23:59',
+                            'activityDateTime' => date('Y-m-d', strtotime($date)).' 23:59:59',
+                            'activityStatus' => 'OUT',
+                            'outstationStatus' => '<i class="fa fa-warning" style="color:red;"></i><span style="color:red;"> Force punch activated by the system</span>',
+                            'attendanceStatus' => 'out2',
+                            //'anomaly' => 1
+                            
+                        );
+                        
+                         $this->db->where('activityDate', $date);
+                         $this->db->insert('att_attendancedetails', $data);
+                         //set whole row flag for anomaly
+                         $this->db->set('anomaly', 1);
+                         $this->db->where('activityDate',  $date);
+                         $this->db->update('att_attendancedetails');
+                        
+                        
+                        //update addnote - system force punch activated.
+                        
+                        
+                    //}elseif($num === 2 && $lastAtt <> 'out2'){//if punch only 2 times
+                        //echo 'anomaly 2 !!!';
                         //flag anomaly
-                    }elseif($num < 4 && $num === 2){//if punch only 2 times
-                        echo 'anomaly 2 !!!';
 
-                    } elseif($num < 4 && $num === 3){//if punch only 3 times
+                    } elseif($num === 3){//if punch only 3 times
                         echo 'anomaly 3 !!!';
+                        //flag anamoly
+                        
+                        //force punch out record
+                        
+                        //update addnote - system force punch activated.
                     }
                 }
         }
