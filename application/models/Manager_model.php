@@ -156,12 +156,47 @@ class Manager_model extends CI_Model {
     public function insertAttendance($data){
          //$this->db->set($data);
          $this->db->insert('att_attendancedetails',$data);
-         
-         $this->db->set('lateIn', 1);
-         //$this->db->update('att_attendancedetails');
-        // echo "insertAtt";
-        
+         //echo $data['attID'];
+         $this->setAttendanceStatus();
+
     }
+    
+    public function setAttendanceStatus(){
+            
+            $this->db->from('att_attendancedetails');
+            $this->db->where('managerID', $this->userid);
+            $this->db->where('activityDate', date('d-m-Y'));
+            $query = $this->db->get();
+            foreach ($query->result() as $row)
+                {
+                    $row->attID;
+                   // $row->activityTime;
+               }
+            //$row1 = $query->row();
+            $num = $query->num_rows();
+            if ($num === 1){
+                $this->db->set('attendanceStatus', 'in1');
+                $this->db->where('attID',  $row->attID);
+                $this->db->update('att_attendancedetails');
+                //
+                //
+                } elseif( $num === 2){
+                    $this->db->set('attendanceStatus', 'out1');
+                    $this->db->where('attID',  $row->attID);
+                    $this->db->update('att_attendancedetails');
+                    //
+                    }  elseif( $num === 3){
+                        $this->db->set('attendanceStatus', 'in2');
+                        $this->db->where('attID',  $row->attID);
+                        $this->db->update('att_attendancedetails');
+                        //
+                        }  elseif( $num === 4){
+                            $this->db->set('attendanceStatus', 'out2');
+                            $this->db->where('attID',  $row->attID);
+                            $this->db->update('att_attendancedetails');
+                            //
+                }
+            }
     
     private function _get_datatables_query()
 	{
@@ -479,6 +514,8 @@ class Manager_model extends CI_Model {
             //echo $firstIn;
             
         }//end of hoursPerDay
+        
+        
         
         
         public function updateNewRecords(){
