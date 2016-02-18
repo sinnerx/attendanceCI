@@ -178,6 +178,7 @@ class Manager_model extends CI_Model {
                 $this->db->set('attendanceStatus', 'in1');
                 $this->db->where('attID',  $row->attID);
                 $this->db->update('att_attendancedetails');
+                //$this->isLateIn();
                 //
                 //
                 } elseif( $num === 2){
@@ -195,6 +196,92 @@ class Manager_model extends CI_Model {
                             $this->db->where('attID',  $row->attID);
                             $this->db->update('att_attendancedetails');
                             //
+                } else{
+                    // disable punch 
+                }
+                //
+                $this->isLateIn();
+            }
+            
+            public function isLateIn (){
+               $this->db->from('att_attendancedetails');
+                $this->db->where('managerID', $this->userid);
+                $this->db->where('activityDate', date('d-m-Y'));
+                //$this->db->where('attendanceStatus', 'in1');
+                $query = $this->db->get();
+                $num = $query->num_rows();
+                $row = $query->row($num-1);
+                //echo 'num_rows: '.$num.' |';
+                $time = $row->activityTime;
+                $clusterid = $row->clusterID;
+                $attStatus = $row->attendanceStatus;
+//                echo 'time:'.$time.' |';
+//                echo 'attID:'.$row->attID.' |';
+//                echo 'attendanceStatus:'.$attStatus.' |';;
+//                echo 'clusterID:'.$clusterid.' |';
+                
+                //check for late in
+                if($attStatus === 'in1'){//first in
+                    
+                   if($clusterid === '5' || $clusterid === '6' ){
+                       
+                       if((strtotime($time)) > (strtotime('09:00:00'))){// late in for semenanjung
+                           //echo "semenanjung late!";
+                           $this->db->set('lateIn', 1);
+                           $this->db->where('attID',  $row->attID);
+                           $this->db->update('att_attendancedetails');
+                       }
+                   } elseif($clusterid === '1' || $clusterid === '2'|| $clusterid === '3' || $clusterid === '4'){
+                       
+                       if((strtotime($time)) > (strtotime('08:00:00'))){//late in for sabah/sarawak
+                           //echo "sabah/sarawak late!";
+                           $this->db->set('lateIn', 1);
+                           $this->db->where('attID',  $row->attID);
+                           $this->db->update('att_attendancedetails');
+                       }
+                   }
+                   
+                } elseif ($attStatus === 'in2') {//after break in
+ 
+                       if((strtotime($time)) > (strtotime('14:00:00'))){ //late in after break
+                           //echo "semenanjung late break in!";
+                            $this->db->set('lateIn', 1);
+                            $this->db->where('attID',  $row->attID);
+                            $this->db->update('att_attendancedetails');
+                       }
+//                   
+                }
+
+                //check for early out
+                if($attStatus === 'out2'){//first in
+                    
+                   if($clusterid === '5' || $clusterid === '6' ){
+                       
+                       if((strtotime($time)) < (strtotime('18:00:00'))){// early out for semenanjung
+                           //echo "semenanjung late!";
+                           $this->db->set('earlyOut', 1);
+                           $this->db->where('attID',  $row->attID);
+                           $this->db->update('att_attendancedetails');
+                       }
+                   } elseif($clusterid === '1' || $clusterid === '2'|| $clusterid === '3' || $clusterid === '4'){
+                       
+                       if((strtotime($time)) < (strtotime('17:00:00'))){//early out for sabah/sarawak
+                           //echo "sabah/sarawak late!";
+                           $this->db->set('earlyOut', 1);
+                           $this->db->where('attID',  $row->attID);
+                           $this->db->update('att_attendancedetails');
+                       }
+                   }
+                   
+                } elseif ($attStatus === 'out1') {//after break in
+ 
+                       if((strtotime($time)) < (strtotime('13:00:00'))){ //late in after break
+                           //echo "semenanjung late break in!";
+                            $this->db->set('lateIn', 1);
+                            $this->db->where('attID',  $row->attID);
+                            $this->db->update('att_attendancedetails');
+                       }
+//                   
                 }
             }
     
