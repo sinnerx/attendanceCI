@@ -41,7 +41,7 @@ class Reporting_model extends CI_Model{
   public function getClusterByUserID($id){
     //echo $id;
     $this->db->select("cluster_lead.clusterID, clusterName");
-    $this->db->where('userID', $id);
+    $this->db->where('cluster_lead.userID', $id);
     $this->db->join('cluster','cluster_lead.clusterID = cluster.clusterID');
     $result = $this->db->get('cluster_lead');
 
@@ -54,6 +54,8 @@ class Reporting_model extends CI_Model{
         $x++;
       }    
     //$result = $result->id;
+      //$this->db->stop_cache();
+      //$this->db->flush_cache();
     return $return;
        // return 'abc';
   }
@@ -92,12 +94,14 @@ class Reporting_model extends CI_Model{
 
   private function _get_datatables_query($datapost = null)
     {
-                
+      $clusterLocal = $this->getClusterByUserID($datapost['defaultuserid']);
+                //print_r($datapost);
+                //die;
                 //$this->db->where('clusterID', 5);
                 //$query = $this->db->from('att_attendancedetails');
                 //print_r($query);
                 // = $this->db->get('att_attendancedetails');
-        $this->db->select("managerID, managerName, siteName, activityDateTime, activityStatus, outstationStatus, attendanceStatus, latLongIn, latLongOut, hours, lateIn, earlyOut, anomaly, siteID, clusterID as clusID, DATE(activityDateTime) as dateonly, TIME(activityDateTime) as timeonly");
+        $this->db->select("managerID, managerName, siteName, activityDateTime, activityStatus, outstationStatus, attendanceStatus, latLongIn, latLongOut, hours, lateIn, earlyOut, anomaly, siteID, att_attendancedetails.clusterID as clusID, DATE(activityDateTime) as dateonly, TIME(activityDateTime) as timeonly");
         $this->db->from('att_attendancedetails');
         // {
         // dateFrom: "30-01-2016",
@@ -156,8 +160,21 @@ class Reporting_model extends CI_Model{
               // '3'   => 'Region',
               // '4' => 'Cluster',   
               $this->db->join('user', 'managerID = user.userID');      
-          if ($datapost['forpi1m'] == '1')
-            $this->db->where('userLevel', '2');
+          if ($datapost['forpi1m'] == '1'){
+              $this->db->where('userLevel', '2');
+              if ($datapost['userlevel'] == 3){
+                //print_r($datapost['userid']);
+                //die;
+                $this->db->where('att_attendancedetails.clusterID', key($clusterLocal));
+                
+                //print_r($this->db->last_query());
+                //die;
+              }//if userlevel = 3
+              
+            //else if ($datapost['userLevel'] == 2)
+            //  $this->db->where('managerID', $datapost['cluster']);
+          }
+            
 
           else if ($datapost['forpi1m'] == '2')
             $this->db->where_in('userLevel', array('3','4'));
@@ -340,6 +357,7 @@ class Reporting_model extends CI_Model{
 
     public function get_listattendance_arranged($datapost = null)
     {
+
         //print_r($datapost);
         //die;
         $this->datatables = $datapost;
@@ -352,8 +370,11 @@ class Reporting_model extends CI_Model{
         //die;
 
         $this->_get_datatables_query($datapost);
-        $queryResult = $this->db->get()->result_array();
-        //last_query();
+        $queryResult = $this->db
+        
+        ->get()
+        ->result_array();
+        //->last_query();
       
         //print_r($queryResult);
         //die;
