@@ -242,31 +242,39 @@ class Manager_model extends CI_Model {
                    }
                    
                 } elseif ($attStatus === 'in2') {//after break in
- 
-                       if((strtotime($time)) > (strtotime('14:00:00'))){ //late in after break
-                           //echo "semenanjung late break in!";
-                            $this->db->set('lateIn', 1);
-                            $this->db->where('attID',  $row->attID);
-                            $this->db->update('att_attendancedetails');
+                       if($clusterid === '5' || $clusterid === '6' ){
+                           //semenanjung - break
+                           if((strtotime($time)) > (strtotime('14:00:00'))){ //late in after break
+                               //echo "semenanjung late break in!";
+                                $this->db->set('lateIn', 1);
+                                $this->db->where('attID',  $row->attID);
+                                $this->db->update('att_attendancedetails');
+                           }
+                       } elseif($clusterid === '1' || $clusterid === '2'|| $clusterid === '3' || $clusterid === '4'){
+                           //sabah/sarawak - break 
+                           if((strtotime($time)) > (strtotime('13:00:00'))){ //late in after break
+                               //echo "semenanjung late break in!";
+                                $this->db->set('lateIn', 1);
+                                $this->db->where('attID',  $row->attID);
+                                $this->db->update('att_attendancedetails');
+                           }
                        }
-//                   
                 }
 
                 //check for early out
                 if($attStatus === 'out2'){//go home
-                    
+                    //semenanjung
                    if($clusterid === '5' || $clusterid === '6' ){
-                       
+                       //before 6 flag early
                        if((strtotime($time)) < (strtotime('18:00:00'))){// early out for semenanjung
-                           //echo "semenanjung late!";
                            $this->db->set('earlyOut', 1);
                            $this->db->where('attID',  $row->attID);
                            $this->db->update('att_attendancedetails');
                        }
+                   //sabah/sarawak    
                    } elseif($clusterid === '1' || $clusterid === '2'|| $clusterid === '3' || $clusterid === '4'){
-                       
+                       //before 5 flag early
                        if((strtotime($time)) < (strtotime('17:00:00'))){//early out for sabah/sarawak
-                           //echo "sabah/sarawak late!";
                            $this->db->set('earlyOut', 1);
                            $this->db->where('attID',  $row->attID);
                            $this->db->update('att_attendancedetails');
@@ -274,14 +282,23 @@ class Manager_model extends CI_Model {
                    }
                    
                 } elseif ($attStatus === 'out1') {//break out
- 
+                   //semenanjung
+                   if($clusterid === '5' || $clusterid === '6' ){
+                       //after 1 flag late
                        if((strtotime($time)) < (strtotime('13:00:00'))){ //late in after break
-                           //echo "semenanjung late break in!";
                             $this->db->set('earlyOut', 1);
                             $this->db->where('attID',  $row->attID);
                             $this->db->update('att_attendancedetails');
                        }
-//                   
+                   //sabah/sarawak
+                   } elseif($clusterid === '1' || $clusterid === '2'|| $clusterid === '3' || $clusterid === '4'){
+                       //after 12 flag late
+                       if((strtotime($time)) < (strtotime('12:00:00'))){ //late in after break
+                            $this->db->set('earlyOut', 1);
+                            $this->db->where('attID',  $row->attID);
+                            $this->db->update('att_attendancedetails');
+                       }
+                   }
                 }
             }
     
@@ -603,7 +620,9 @@ class Manager_model extends CI_Model {
         }//end of hoursPerDay
         
         
-        
+        public function  isLastActivity(){
+            
+        }
         public function isAnomaly(){
                 $this->db->from('att_attendancedetails');
                 $this->db->where('managerID', $this->userid);
@@ -613,12 +632,21 @@ class Manager_model extends CI_Model {
                 $last = $query->last_row();
                 $num = $query->num_rows();
                 $row = $query->row($num-1);
+                $date = $last->activityDate;
                 echo 'last_row:'.$last->attID;
+                echo 'last_date:'.$date;
                 echo 'num_row:'.$num;
-                if($num < 4){
-                    //
-                } else {
-                    echo 'perfect';
+                if($date <> (date('d-m-Y'))){
+                    if($num < 4 && $num === 1){//if punch only once
+                        echo 'anomaly 1 !!!';
+                        //force punch out record
+                        //flag anomaly
+                    }elseif($num < 4 && $num === 2){//if punch only 2 times
+                        echo 'anomaly 2 !!!';
+
+                    } elseif($num < 4 && $num === 3){//if punch only 3 times
+                        echo 'anomaly 3 !!!';
+                    }
                 }
         }
         
