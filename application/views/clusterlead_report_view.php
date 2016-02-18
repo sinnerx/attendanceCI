@@ -98,8 +98,8 @@ $('#dateFrom').datepicker({ dateFormat: 'dd-mm-yy' });
                     console.log(data);
                     $el = $("#cluster");
                     $el.empty();
-                    $el.append($("<option></option>")
-                            .attr("value", '').text('Please Select'));
+                    //$el.append($("<option></option>")
+                    //        .attr("value", '').text('Please Select'));
                     $.each(data, function(value, key) {
                         $el.append($("<option></option>")
                                 .attr("value", value).text(key));
@@ -360,6 +360,7 @@ $('#dateFrom').datepicker({ dateFormat: 'dd-mm-yy' });
                         <div class="panel-heading b-b">
                           <a href="#" class="font-bold">Activities</a>
                           <input type="hidden" name="userlevel" id="userLevel" value="<?php echo $userLevel;?>">
+                          <input type="hidden" name="defaultuserid" id="defaultuserid" value="<?php echo $userid;?>">
                         </div><br>
                           <div class="table-responsive">
                             <div id="status_filter" class='col-sm-12'>

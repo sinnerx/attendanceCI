@@ -214,6 +214,7 @@ class Reporting extends CI_Controller {
     {   
         //print_r($_GET);
         //die;
+
         $this->load->model('reporting_model');
         $list = $this->reporting_model->get_listattendance_arranged($_GET);
         $data = array();
