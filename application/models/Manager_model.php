@@ -253,7 +253,7 @@ class Manager_model extends CI_Model {
                 }
 
                 //check for early out
-                if($attStatus === 'out2'){//first in
+                if($attStatus === 'out2'){//go home
                     
                    if($clusterid === '5' || $clusterid === '6' ){
                        
@@ -273,11 +273,11 @@ class Manager_model extends CI_Model {
                        }
                    }
                    
-                } elseif ($attStatus === 'out1') {//after break in
+                } elseif ($attStatus === 'out1') {//break out
  
                        if((strtotime($time)) < (strtotime('13:00:00'))){ //late in after break
                            //echo "semenanjung late break in!";
-                            $this->db->set('lateIn', 1);
+                            $this->db->set('earlyOut', 1);
                             $this->db->where('attID',  $row->attID);
                             $this->db->update('att_attendancedetails');
                        }
