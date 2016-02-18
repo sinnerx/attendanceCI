@@ -31,7 +31,11 @@ class Reporting extends CI_Controller {
 		);		
 
         $this->load->model('reporting_model');
-        $data['cluster_list'] = $this->reporting_model->get_cluster();
+
+        if ($this->userLevel == 99 || $this->userLevel == 3 || $this->userLevel == 999)
+            $data['cluster_list'] = $this->reporting_model->get_cluster();
+        elseif ($this->userLevel == 3)
+            $data['cluster_list'] = $this->reporting_model->get_cluster($this->userid);
         //print_r($data['cluster_list']);
 
 
@@ -68,12 +72,36 @@ class Reporting extends CI_Controller {
 
     public function get_cluster($id = null){
         //print_r($_GET['region_selected']);
-        $id = $_GET['region_selected'];
+
+         
         $this->load->model('reporting_model');
+        if ($id)
+            $id = $this->reporting_model->getClusterByUserID($id);
+
         $data = $this->reporting_model->get_cluster($id);
         echo json_encode($data);
         //return $data['cluster_list'];
         //print_r($data['cluster_list']);
+
+    }
+
+    public function get_clusterbyuser(){
+        //print_r($_GET['userlevel']);
+        $userid = $_GET['userid'];
+        $userlevel = $_GET['userlevel'];
+        // Array
+        // (
+        //     [userid] => 167
+        //     [userlevel] => 3
+        // )
+        //echo $_GET['userid'];
+        if ($userlevel == 99 || $userlevel == 999)
+            $data = $this->reporting_model->get_cluster();
+        elseif ($userlevel == 3)
+            //$data = $this->reporting_model->get_cluster($userid);
+            $data = $this->reporting_model->getClusterByUserID($userid);
+
+        echo json_encode($data);
 
     }
 

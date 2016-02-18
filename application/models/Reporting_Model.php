@@ -38,6 +38,26 @@ class Reporting_model extends CI_Model{
     }
   }  
 
+  public function getClusterByUserID($id){
+    //echo $id;
+    $this->db->select("cluster_lead.clusterID, clusterName");
+    $this->db->where('userID', $id);
+    $this->db->join('cluster','cluster_lead.clusterID = cluster.clusterID');
+    $result = $this->db->get('cluster_lead');
+
+    //$result = $result->result_array();
+      $return = array();
+      $x = 0;
+      foreach($result->result_array() as $row) {
+        //$return[$x][$row['clusterID']] = $row['clusterName'];
+        $return[$row['clusterID']] = $row['clusterName'];
+        $x++;
+      }    
+    //$result = $result->id;
+    return $return;
+       // return 'abc';
+  }
+
   public function get_cluster($regionid = null)
     {
       //$this->db->from('city');
@@ -77,7 +97,7 @@ class Reporting_model extends CI_Model{
                 //$query = $this->db->from('att_attendancedetails');
                 //print_r($query);
                 // = $this->db->get('att_attendancedetails');
-        $this->db->select("managerName, siteName, activityDateTime, activityStatus, outstationStatus, attendanceStatus, latLongIn, latLongOut, hours, lateIn, earlyOut, anomaly, siteID, clusterID as clusID, DATE(activityDateTime) as dateonly, TIME(activityDateTime) as timeonly");
+        $this->db->select("managerID, managerName, siteName, activityDateTime, activityStatus, outstationStatus, attendanceStatus, latLongIn, latLongOut, hours, lateIn, earlyOut, anomaly, siteID, clusterID as clusID, DATE(activityDateTime) as dateonly, TIME(activityDateTime) as timeonly");
         $this->db->from('att_attendancedetails');
         // {
         // dateFrom: "30-01-2016",
@@ -172,8 +192,9 @@ class Reporting_model extends CI_Model{
         $datefrom = date('Y-m-d', strtotime($datapost['dateFrom']));
         $dateto   = date('Y-m-d', strtotime($datapost['dateTo']));
 
-        $this->db->where('activityDateTime >=', $datefrom);
-        $this->db->where('activityDateTime <=', $dateto);
+        // $this->db->where('activityDateTime >=', $datefrom);
+        // $this->db->where('activityDateTime <=', $dateto);
+           $this->db->where('DATE(activityDateTime) BETWEEN "'. $datefrom . '" AND "'. $dateto .'"');
 
         $fields = $this->db->list_fields('att_attendancedetails');
         $fields = array_diff($fields,array("activityDate", "activityTime"));
@@ -342,11 +363,12 @@ class Reporting_model extends CI_Model{
         foreach ($dateSelected as $keyDate) {
           # code...
             //print_r($keyDate['dateonly']);
-          //$resultArray[$x]['fordate'] = $keyDate['dateonly'];
+              //$dateArray = array();
+            //$resultArray[$x]['fordate'] = $keyDate['dateonly'];
             foreach ($userSelected as $keyUser) {
               # code...
                 $columnArray = array();
-
+                //print_r($keyUser['managerName']);
                 //send $keyDate["dateonly"], using LIKE 
                 //& $keyUser["userid"]
                     $columnArray['membername'] = $keyUser['managerName'];
@@ -357,47 +379,49 @@ class Reporting_model extends CI_Model{
 
                 foreach ($queryResult as $keyQuery) {
                   # code...
-                  if($keyDate['dateonly'] == $keyQuery['dateonly']){
+                  //print_r($keyQuery);
+
+                  if($keyDate['dateonly'] == $keyQuery['dateonly'] ){
                       //print_r($keyDate['dateonly']);
                       $columnArray['date'] = $keyQuery['dateonly'];
 
-                      if ($keyQuery['attendanceStatus'] == 'in1'){
+                      if ($keyQuery['attendanceStatus'] == 'in1' && $keyUser['managerID'] == $keyQuery['managerID']){
                          $columnArray['in1'] = $keyQuery['timeonly'];
                          if($keyQuery['lateIn'] == 1)
                              $columnArray['lateIn1'] = "x";
-                          elseif($keyQuery['lateIn'] == 0)
+                          elseif($keyQuery['lateIn'] == 0 && $keyUser['managerID'] == $keyQuery['managerID'])
                             $columnArray['lateIn1'] = "";
                       }//if in1
 
-                      else if ($keyQuery['attendanceStatus'] == 'in2'){
+                      else if ($keyQuery['attendanceStatus'] == 'in2' && $keyUser['managerID'] == $keyQuery['managerID']){
                           $columnArray['in2'] = $keyQuery['timeonly'];
                           if($keyQuery['lateIn'] == 1)
                              $columnArray['lateIn2'] = "x";
-                          elseif($keyQuery['lateIn'] == 0)
+                          elseif($keyQuery['lateIn'] == 0 && $keyUser['managerID'] == $keyQuery['managerID'])
                             $columnArray['lateIn2'] = "";                                                   
                       }//else if in2
 
-                      else if ($keyQuery['attendanceStatus'] == 'out1'){
+                      else if ($keyQuery['attendanceStatus'] == 'out1' && $keyUser['managerID'] == $keyQuery['managerID']){
                           $columnArray['out1'] = $keyQuery['timeonly'];
                           if($keyQuery['earlyOut'] == 1)
                              $columnArray['earlyOut1'] = "x";
-                          elseif($keyQuery['earlyOut'] == 0)
+                          elseif($keyQuery['earlyOut'] == 0 && $keyUser['managerID'] == $keyQuery['managerID'])
                             $columnArray['earlyOut1'] = "";                                                   
                       }//else if out1
 
-                      else if ($keyQuery['attendanceStatus'] == 'out2'){
+                      else if ($keyQuery['attendanceStatus'] == 'out2' && $keyUser['managerID'] == $keyQuery['managerID']){
                           $columnArray['out2'] = $keyQuery['timeonly'];
                           if($keyQuery['earlyOut'] == 1)
                              $columnArray['earlyOut2'] = "x";
-                          elseif($keyQuery['earlyOut'] == 0)
+                          elseif($keyQuery['earlyOut'] == 0 && $keyUser['managerID'] == $keyQuery['managerID'])
                             $columnArray['earlyOut2'] = "";                                                    
                       }//else if out2
 
                       $columnArray['note'] = $keyQuery['outstationStatus'];
 
-                      if($keyQuery['anomaly'] == 1)
+                      if($keyQuery['anomaly'] == 1 && $keyUser['managerID'] == $keyQuery['managerID'])
                         $columnArray['anomaly'] = "x";
-                      elseif ($keyQuery['anomaly'] == 0) 
+                      elseif ($keyQuery['anomaly'] == 0 && $keyUser['managerID'] == $keyQuery['managerID']) 
                         $columnArray['anomaly'] = "";
 
                   }//if dateonly
@@ -405,7 +429,8 @@ class Reporting_model extends CI_Model{
                   
                 }//foreach query
                 //print_r($columnArray);
-//check status flag
+                //check status flag
+                //$resultArray[$x] = $columnArray;
                 if($datapost['category'] != ''){
                   if($datapost['category'] == 1) {
                       // $this->db->where('lateIn', 1);
@@ -435,19 +460,26 @@ class Reporting_model extends CI_Model{
                       //$this->db->where('hours >=', 8);
                       //$this->db->where('anomaly', 0);
                   }
-                }//if category
-                $x++;  
+                }//if category                
+               $x++; 
                 //die;
             }//foreach user
                 //$resultArray[$x]['attrow'] = $columnArray;
-                //$resultArray[$x] = $columnArray;
 
+
+
+
+
+                               
                           
 
         }//foreach date
         //$resultArray = json_encode($resultArray);
+
         //print_r($resultArray);
         //die;
+
+
 
         return $resultArray;
     }
