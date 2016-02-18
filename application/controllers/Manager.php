@@ -40,7 +40,7 @@ class Manager extends CI_Controller {
         $this->manager_model->getUserEmail($this->userid);
         $this->manager_model->getSiteID($this->userid);
         $this->manager_model->isFirstInToday($this->userid);
-       // $this->manager_model->isLateIn($this->userid);
+        $this->manager_model->isAnomaly($this->userid);
         //$this->manager_model->setAttendanceStatus($this->userid);
         //$this->manager_model->isLastOut($this->userid);
         //$this->manager_model->isFirstIn($this->userid);

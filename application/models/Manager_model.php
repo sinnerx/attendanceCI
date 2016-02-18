@@ -199,12 +199,12 @@ class Manager_model extends CI_Model {
                 } else{
                     // disable punch 
                 }
-                //
-                $this->isLateIn();
+                //check late in/out
+                $this->isLateInOut();
             }
             
-            public function isLateIn (){
-               $this->db->from('att_attendancedetails');
+            public function isLateInOut (){
+                $this->db->from('att_attendancedetails');
                 $this->db->where('managerID', $this->userid);
                 $this->db->where('activityDate', date('d-m-Y'));
                 //$this->db->where('attendanceStatus', 'in1');
@@ -604,6 +604,23 @@ class Manager_model extends CI_Model {
         
         
         
+        public function isAnomaly(){
+                $this->db->from('att_attendancedetails');
+                $this->db->where('managerID', $this->userid);
+                //$this->db->where('activityDate', date('d-m-Y'));
+                //$this->db->where('attendanceStatus', 'in1');
+                $query = $this->db->get();
+                $last = $query->last_row();
+                $num = $query->num_rows();
+                $row = $query->row($num-1);
+                echo 'last_row:'.$last->attID;
+                echo 'num_row:'.$num;
+                if($num < 4){
+                    //
+                } else {
+                    echo 'perfect';
+                }
+        }
         
         public function updateNewRecords(){
         //for userEmail & clusterID        
