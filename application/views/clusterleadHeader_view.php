@@ -24,6 +24,7 @@ defined ('BASEPATH') or exit('No direct access allowed!');
 ?>
 <head>  
   <meta charset="utf-8" />
+
   <title><?php echo $title ?> | <?php echo base_url();?></title>
   <meta name="description" content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" /> 
@@ -38,6 +39,7 @@ defined ('BASEPATH') or exit('No direct access allowed!');
   <link rel="stylesheet" href="<?php echo base_url();?>js/calendar/bootstrap_calendar.css" type="text/css" />
   <link rel="stylesheet" href="<?php echo base_url();?>js/datatables/dataTables.bootstrap.css" type="text/css"/>
   <link rel="stylesheet" href="<?php echo base_url();?>js/datepicker/datepicker.css" type="text/css"/>
+  <link rel="stylesheet" href="<?php echo base_url();?>js/datatables/buttons.dataTables.min.css" type="text/css" />
 
   <!--<link rel="stylesheet" href="<?php echo base_url();?>js/datatables/datatables.css" type="text/css"/>
   -->
@@ -51,6 +53,9 @@ defined ('BASEPATH') or exit('No direct access allowed!');
   <!--<script src="<?php echo base_url();?>js/jquery.min.js"></script>-->
   <script src="<?php echo base_url();?>js/datepicker/bootstrap-datepicker.js"></script>
   <script src="<?php echo base_url();?>js/jquery-ui.min.js"></script>
+  <script src="<?php echo base_url();?>js/app.js"></script>
+  <!--<script src="<?php echo base_url();?>js/bootstrap.js"></script>-->
+
 
   <script type="text/javascript">
       //$('#dateFrom').datepicker();

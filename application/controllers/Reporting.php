@@ -231,8 +231,9 @@ class Reporting extends CI_Controller {
             $row[] = isset($key["earlyOut1"]) ? $key["earlyOut1"] : "";
             $row[] = isset($key["lateIn2"]) ? $key["lateIn2"] : "";
             $row[] = isset($key["earlyOut2"]) ? $key["earlyOut2"] : "";
-            //$row[] = $key["note"];
+            
             $row[] = $key["anomaly"];
+            $row[] = isset($key["note"]) ? $key["note"] : "";
 
             $data[] = $row;
         }

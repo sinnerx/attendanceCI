@@ -23,6 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
+//$config['base_url'] = 'http://cloud.fulkrum.net/labs/iris/attendance/';
 $config['base_url'] = 'http://localhost/digitalgaia/iris/attendance/';
 //$config['base_url'] = 'http://192.168.1.12/digitalgaia/iris/attendance/';
 

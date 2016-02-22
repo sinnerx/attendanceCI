@@ -147,14 +147,17 @@ $('#dateFrom').datepicker({ dateFormat: 'dd-mm-yy' });
                     var tableData = data;
                     console.log(tableData);
                     //$("#testdiv").text(tableData);
-                    $('#tableClusterLeadReport').DataTable({ 
+                    var oTable = $('#tableClusterLeadReport').DataTable({ 
                         "data": tableData,
                         "bDestroy":true,
                         //"ajax": "reporting/attendance_list",
                         //"processing": true, //Feature control the processing indicator.
                         //"serverSide": true, //Feature control DataTables' server-side processing mode.
                         "order": [], //Initial no order.
-
+                        dom: 'Bfrtip',
+                        buttons: [
+                            'copy', 'csv', 'excel', 'pdf', 'print'
+                        ],
                         // Load data for the table's content from an Ajax source
                         // "ajax": {
                         //     "url": "<?php echo base_url() . 'reporting/attendance_list/?' . $query;?>",
@@ -163,18 +166,19 @@ $('#dateFrom').datepicker({ dateFormat: 'dd-mm-yy' });
 
                         //Set column definition initialisation properties.
                         "columns": [
-                          {title : "Date" },
-                          {title : "Name" },
-                          {title : "In" },
-                          {title : "Break Out" },
-                          {title : "Break In" },
-                          {title : "Out" },                          
-                          {title : "Late In" },
-                          {title : "Break Early Out" },
-                          {title : "Break Late In" },
-                          {title : "Early Out" },
-                          // {title : "Note" },
-                          {title : "Anomaly" },
+                          {title : "Date" },              //0
+                          {title : "Name" },              //1
+                          {title : "In" },                //2
+                          {title : "Break Out" },         //3
+                          {title : "Break In" },          //4
+                          {title : "Out" },               //5               
+                          {title : "Late In" },           //6
+                          {title : "Break Early Out" },   //7
+                          {title : "Break Late In" },     //8
+                          {title : "Early Out" },         //9
+                          
+                          {title : "Anomaly" },           //10
+                           {title : "Note" },
                         ],
 
                         "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
@@ -186,14 +190,115 @@ $('#dateFrom').datepicker({ dateFormat: 'dd-mm-yy' });
                             {
                                 //$('td', nRow).css('background-color', 'Orange');
                             }
-                        }
+                            if ( aData[6] == "x")
+                            {
+
+                                //jQuery('td:eq(2)', nRow).addClass('redText');
+                                jQuery('td:eq(2)', nRow).css('color', 'rgba(255, 0, 0, 100)');
+                                if (aData[11] != ""){
+                                    //jQuery('td:eq(2)', nRow).prop('title', aData[11]);
+                                    //jQuery('td:eq(2)', nRow).append('<div class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="'+ aData[11] +'"></div>');
+                                    jQuery('td:eq(2)', nRow).attr('class', "fa fa-info-circle");
+                                    jQuery('td:eq(2)', nRow).attr('data-toggle', "tooltip");
+                                    jQuery('td:eq(2)', nRow).attr('data-placement', "top");
+                                    jQuery('td:eq(2)', nRow).attr('title', aData[11] );
+                                    
+                                }
+                                  
+                            }
+                            if (aData[7] == "x")
+                            {
+                                jQuery('td:eq(3)', nRow).css('color', 'rgba(255, 0, 0, 100)');
+                                if (aData[11] != ""){
+                                    //jQuery('td:eq(2)', nRow).prop('title', aData[11]);
+                                    //jQuery('td:eq(2)', nRow).append('<div class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="'+ aData[11] +'"></div>');
+                                    jQuery('td:eq(3)', nRow).attr('class', "fa fa-info-circle");
+                                    jQuery('td:eq(3)', nRow).attr('data-toggle', "tooltip");
+                                    jQuery('td:eq(3)', nRow).attr('data-placement', "top");
+                                    jQuery('td:eq(3)', nRow).attr('title', aData[11] );
+                                    
+                                }                                
+                            }                            
+                            if (aData[8] == "x")
+                            {
+                                jQuery('td:eq(4)', nRow).css('color', 'rgba(255, 0, 0, 100)');
+                                if (aData[11] != ""){
+                                    //jQuery('td:eq(2)', nRow).prop('title', aData[11]);
+                                    //jQuery('td:eq(2)', nRow).append('<div class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="'+ aData[11] +'"></div>');
+                                    jQuery('td:eq(4)', nRow).attr('class', "fa fa-info-circle");
+                                    jQuery('td:eq(4)', nRow).attr('data-toggle', "tooltip");
+                                    jQuery('td:eq(4)', nRow).attr('data-placement', "top");
+                                    jQuery('td:eq(4)', nRow).attr('title', aData[11] );
+                                    
+                                }                                
+                            }
+                            if (aData[9] == "x")
+                            {
+                                jQuery('td:eq(5)', nRow).css('color', 'rgba(255, 0, 0, 100)');
+                                if (aData[11] != ""){
+                                    //jQuery('td:eq(2)', nRow).prop('title', aData[11]);
+                                    //jQuery('td:eq(2)', nRow).append('<div class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="'+ aData[11] +'"></div>');
+                                    jQuery('td:eq(5)', nRow).attr('class', "fa fa-info-circle");
+                                    jQuery('td:eq(5)', nRow).attr('data-toggle', "tooltip");
+                                    jQuery('td:eq(5)', nRow).attr('data-placement', "top");
+                                    jQuery('td:eq(5)', nRow).attr('title', aData[11] );
+                                    
+                                }                                
+                            }                            
+
+                        },
+
+                        "columnDefs": [
+                              {
+                                  //"targets": [ 2 ],
+                                  //"visible": false,
+                                  //"searchable": false
+                              },
+                              {
+                                  "targets": [ 6 ],
+                                  "visible": false,
+                                  "searchable": false
+                              },
+                              {
+                                  "targets": [ 7 ],
+                                  "visible": false,
+                                  "searchable": false
+                              },
+                              {
+                                  "targets": [ 8 ],
+                                  "visible": false,
+                                  "searchable": false
+                              },
+                              {
+                                  "targets": [ 9 ],
+                                  "visible": false,
+                                  "searchable": false
+                              },
+                              {
+                                  "targets": [ 10 ],
+                                  "visible": false,
+                                  "searchable": false
+                              },                               
+                              {
+                                  "targets": [ 11 ],
+                                  "visible": false,
+                                  "searchable": false
+                              },                                                                                                                                                      
+                          ]
 
 
                     });//end datatable
 
                 }
             });
+
+                  // oTable.$('td').tooltip( {
+                  // "delay": 0,
+                  // "track": true,
+                  // "fade": 250
+                  // } );
       });
+
 
  }); 
 </script>
@@ -455,7 +560,7 @@ $('#dateFrom').datepicker({ dateFormat: 'dd-mm-yy' });
                                         //'7' => 'Staff',
                                       ); 
                                   }
- ?>
+                              ?>
                               <?php 
 
                                 echo form_dropdown('forpi1m', $options, '', 'id="forpi1m" name="forpi1m" class="form-control"');
@@ -600,7 +705,11 @@ $('#dateFrom').datepicker({ dateFormat: 'dd-mm-yy' });
                             </div>   
                             <div class="clearfix panel-footer">                        
                       </section>
- 
+                <table>
+                  <tr>
+                <td class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="Tooltip on top"></td>
+              </tr>
+            </table>
                                                                       
                     </div>
                   </div>

@@ -25,6 +25,7 @@ class Reporting_model extends CI_Model{
     $this->db->select('user.userID, userProfileFullName AS userName');
     $this->db->like('userProfileFullName', $q);
     $this->db->join('user_profile', 'user.UserID = user_profile.userID');
+    $this->db->where('user.userLevel <>', '1');
     $query = $this->db->get('user');
 
     //print_r($query);
@@ -37,6 +38,8 @@ class Reporting_model extends CI_Model{
       echo json_encode($row_set); //format the array into json data
     }
   }  
+
+
 
   public function getClusterByUserID($id){
     //echo $id;
@@ -408,40 +411,51 @@ class Reporting_model extends CI_Model{
 
                       if ($keyQuery['attendanceStatus'] == 'in1' && $keyUser['managerID'] == $keyQuery['managerID']){
                          $columnArray['in1'] = $keyQuery['timeonly'];
-                         if($keyQuery['lateIn'] == 1)
-                             $columnArray['lateIn1'] = "x";
+                         if($keyQuery['lateIn'] == 1){
+                            $columnArray['lateIn1'] = "x";
+                            $columnArray['note'] = $keyQuery['outstationStatus'];
+                         } 
                           elseif($keyQuery['lateIn'] == 0 && $keyUser['managerID'] == $keyQuery['managerID'])
                             $columnArray['lateIn1'] = "";
                       }//if in1
 
                       else if ($keyQuery['attendanceStatus'] == 'in2' && $keyUser['managerID'] == $keyQuery['managerID']){
                           $columnArray['in2'] = $keyQuery['timeonly'];
-                          if($keyQuery['lateIn'] == 1)
+                          if($keyQuery['lateIn'] == 1){
                              $columnArray['lateIn2'] = "x";
+                             $columnArray['note'] = $keyQuery['outstationStatus'];
+                          }
+
                           elseif($keyQuery['lateIn'] == 0 && $keyUser['managerID'] == $keyQuery['managerID'])
                             $columnArray['lateIn2'] = "";                                                   
                       }//else if in2
 
                       else if ($keyQuery['attendanceStatus'] == 'out1' && $keyUser['managerID'] == $keyQuery['managerID']){
                           $columnArray['out1'] = $keyQuery['timeonly'];
-                          if($keyQuery['earlyOut'] == 1)
+                          if($keyQuery['earlyOut'] == 1){
                              $columnArray['earlyOut1'] = "x";
+                             $columnArray['note'] = $keyQuery['outstationStatus'];
+                          }
                           elseif($keyQuery['earlyOut'] == 0 && $keyUser['managerID'] == $keyQuery['managerID'])
                             $columnArray['earlyOut1'] = "";                                                   
                       }//else if out1
 
                       else if ($keyQuery['attendanceStatus'] == 'out2' && $keyUser['managerID'] == $keyQuery['managerID']){
                           $columnArray['out2'] = $keyQuery['timeonly'];
-                          if($keyQuery['earlyOut'] == 1)
+                          if($keyQuery['earlyOut'] == 1){
                              $columnArray['earlyOut2'] = "x";
+                             $columnArray['note'] = $keyQuery['outstationStatus'];
+                          }
                           elseif($keyQuery['earlyOut'] == 0 && $keyUser['managerID'] == $keyQuery['managerID'])
                             $columnArray['earlyOut2'] = "";                                                    
                       }//else if out2
 
-                      $columnArray['note'] = $keyQuery['outstationStatus'];
+                      //$columnArray['note'] = $keyQuery['outstationStatus'];
 
-                      if($keyQuery['anomaly'] == 1 && $keyUser['managerID'] == $keyQuery['managerID'])
+                      if($keyQuery['anomaly'] == 1 && $keyUser['managerID'] == $keyQuery['managerID']){
                         $columnArray['anomaly'] = "x";
+                        $columnArray['note'] = $keyQuery['outstationStatus'];
+                      }
                       elseif ($keyQuery['anomaly'] == 0 && $keyUser['managerID'] == $keyQuery['managerID']) 
                         $columnArray['anomaly'] = "";
 
