@@ -739,7 +739,9 @@ class Manager_model extends CI_Model {
             //$last = $query->last_row();
             $num = $query->num_rows();
             if($num === 4){
-                return 'disabled';
+                return "true";
+            } else {
+                return "false";
             }
         }
         public function updateNewRecords(){
