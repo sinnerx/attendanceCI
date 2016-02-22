@@ -142,6 +142,7 @@ $(document).ready(function() {
                 reload_table();
                 notify();
                 $("#upload").click();
+                //alert();
 
         },
         error: function (jqXHR, textStatus, errorThrown)
@@ -304,9 +305,13 @@ function notify(){
     //alert("datetime: "activityDate + activityTime);
            var div = document.getElementById('success');
             div.innerHTML += 'Data successfully submitted!';
-           function f() { 
+            function f() { 
             div.innerHTML = "";
-            $( "#punch-in" ).removeClass('disabled');
+//            var fourthPunch = "<?php //echo $this->manager_model->isFourthPunched()?>";
+//           
+//            if(fourthPunch !== "true"){        
+                $( "#punch-in" ).removeClass('disabled');
+            //}
             $( "#punch-out" ).removeClass('disabled');
             //reset check box
             $('#outstationStatusTxt').val("");
