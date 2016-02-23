@@ -26,7 +26,9 @@ class Download extends CI_Controller {
 
         $data['files'] = $files_array;
         
-        $this->load->view('view_files', $data);
+        
+        //$this->load->view('downloadheader_view');
+        $this->load->view('download_view', $data);
     }
 
     function recursive_browse($files,&$files_array)

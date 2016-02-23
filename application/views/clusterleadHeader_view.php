@@ -55,6 +55,8 @@ defined ('BASEPATH') or exit('No direct access allowed!');
   <script src="<?php echo base_url();?>js/jquery-ui.min.js"></script>
   <script src="<?php echo base_url();?>js/app.js"></script>
   <!--<script src="<?php echo base_url();?>js/bootstrap.js"></script>-->
+  <!-- cluster map-->
+  <script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer.js"></script>
 
 
   <script type="text/javascript">
