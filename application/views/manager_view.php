@@ -136,15 +136,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <li >
                           <a href="./clusterlead" class="auto">                                                        
                             <i class="i i-dot"></i>
-                            <span>View Cluster</span>
+                            <span>View Log</span>
                           </a>
                         </li>
-                        <li class='active'>
+                        <li class=''>
                           <a href="./reporting" class="auto">                                                        
                             <i class="i i-dot"></i>
                             <span>View Report</span>
                           </a>
-                        </li>                         
+                        </li>
+                        
                       </ul>
                     </li>
                   </ul>
@@ -167,13 +168,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <span>Punch IN/OUT</span>
                           </a>
                         </li>
-                        <li class="active">
+                        <li class="">
                           <a href="./opmanager" class="auto">                                                        
                             <i class="i i-dot"></i>
                             <span>View Log</span>
                           </a>
                         </li>
-                        <li class='active'>
+                        <li class=''>
                           <a href="./download" class="auto">                                                        
                             <i class="i i-dot"></i>
                             <span>Download</span>

@@ -274,7 +274,7 @@ li{
                       <div class="col-md-12">
                       <section class="panel b-a">
                         <div class="panel-heading b-b">
-                          <a href="#" class="font-bold">Activities</a>
+                          <a href="#" class="font-bold">Download Punch Images</a>
                         </div><br>
                             <form name="dlform" action="download/download_zip" method="post">
 

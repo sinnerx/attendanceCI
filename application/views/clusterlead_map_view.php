@@ -349,7 +349,7 @@ function displayClusterMap(datamap1,datamap2,datamap3,datamap4){
     console.log('data in cluster: '+datamap1+"|"+datamap2+"|"+datamap3+"|"+datamap4);
     // Creating an object literal containing the properties we want to pass to the map 
     var options = { 
-        zoom: 3, 
+        zoom: 9, 
         //malaysia 
         center: new google.maps.LatLng(3.1333, 101.7000), 
         //mapTypeId: google.maps.MapTypeId.ROADMAP 
@@ -367,9 +367,9 @@ function displayClusterMap(datamap1,datamap2,datamap3,datamap4){
     var places = []; 
 
     // Creating a variable that will hold the InfoWindow object 
-    var infowindow; 
+    //var infowindow; 
 
-    var popup_content = ["<p>DTR Medical<\/p><img src=\"http:\/\/www.mediwales.com\/mapping\/wp-content\/uploads\/2011\/09\/dtr-logo.png\" \/><br \/><br \/><a href=\"http:\/\/www.mediwales.com\/mapping\/home\/dtr-medical\/\">View profile 1<\/a>","<p>MediWales<\/p><img src=\"http:\/\/www.mediwales.com\/mapping\/wp-content\/uploads\/2011\/09\/index.png\" \/><br \/><br \/><a href=\"http:\/\/www.mediwales.com\/mapping\/home\/mediwales\/\">View profile 2<\/a>","<p>Teamworks Design & Marketing<\/p><img src=\"http:\/\/www.mediwales.com\/mapping\/wp-content\/uploads\/2011\/09\/Teamworks-Design-Logo.png\" \/><br \/><br \/><a href=\"http:\/\/www.mediwales.com\/mapping\/home\/teamworks-design-and-marketing\/\">View profile 3<\/a>","<p>Acuitas Medical<\/p><img src=\"http:\/\/www.mediwales.com\/mapping\/wp-content\/uploads\/2011\/09\/acuitas-medical-logo.gif\" \/><br \/><br \/><a href=\"http:\/\/www.mediwales.com\/mapping\/home\/acuitas-medical\/\">View profile 4<\/a>"];
+    //var popup_content = ["<p>DTR Medical<\/p><img src=\"http:\/\/www.mediwales.com\/mapping\/wp-content\/uploads\/2011\/09\/dtr-logo.png\" \/><br \/><br \/><a href=\"http:\/\/www.mediwales.com\/mapping\/home\/dtr-medical\/\">View profile 1<\/a>","<p>MediWales<\/p><img src=\"http:\/\/www.mediwales.com\/mapping\/wp-content\/uploads\/2011\/09\/index.png\" \/><br \/><br \/><a href=\"http:\/\/www.mediwales.com\/mapping\/home\/mediwales\/\">View profile 2<\/a>","<p>Teamworks Design & Marketing<\/p><img src=\"http:\/\/www.mediwales.com\/mapping\/wp-content\/uploads\/2011\/09\/Teamworks-Design-Logo.png\" \/><br \/><br \/><a href=\"http:\/\/www.mediwales.com\/mapping\/home\/teamworks-design-and-marketing\/\">View profile 3<\/a>","<p>Acuitas Medical<\/p><img src=\"http:\/\/www.mediwales.com\/mapping\/wp-content\/uploads\/2011\/09\/acuitas-medical-logo.gif\" \/><br \/><br \/><a href=\"http:\/\/www.mediwales.com\/mapping\/home\/acuitas-medical\/\">View profile 4<\/a>"];
     var address = ["17 Clarion Court, Llansamlet, Swansea, SA6 8RF","7 Schooner Way, , Cardiff, CF10 4DZ","65 St Brides Rd, Aberkenfig, Bridgend, CF32 9RA","Kings Road, , Swansea, SA1 8PH","Unit 20 Abenbury Way, Wrexham Industrial Estate, Wrexham, LL13 9UG"];
     var geocoder = new google.maps.Geocoder(); 
 
@@ -378,11 +378,11 @@ function displayClusterMap(datamap1,datamap2,datamap3,datamap4){
         new google.maps.LatLng(5.077528,100.978211),
         new google.maps.LatLng(5.83264,100.906555),
         new google.maps.LatLng(5.508742,100.259048),
-        new google.maps.LatLng(5.467697,100.208923),
+        new google.maps.LatLng(5.467697,100.208923)
 //        new google.maps.LatLng(datamap1),
 //        new google.maps.LatLng(datamap2),
 //        new google.maps.LatLng(datamap3),
-//        new google.maps.LatLng(datamap4),
+//        new google.maps.LatLng(datamap4)
         //new google.maps.LatLng(5.628248,100.923035)
     ];
      
@@ -392,25 +392,25 @@ function displayClusterMap(datamap1,datamap2,datamap3,datamap4){
         //places[i] = results[0].geometry.location;
         
         // Adding the markers 
-        var marker = new google.maps.Marker({position: places[i], map: map, draggable:true});
+        var marker = new google.maps.Marker({position: places[i], map: map, draggable:false});
         
         markers.push(marker);
 
         // Creating the event listener. It now has access to the values of i and marker as they were during its creation
-        google.maps.event.addListener(marker, 'click', function() {
-            console.log("i b4: "+i);
-            // Check to see if we already have an InfoWindow
-            if (!infowindow) {
-                infowindow = new google.maps.InfoWindow();
-            }
-
-            // Setting the content of the InfoWindow
-           console.log("i: "+i);
-           infowindow.setContent(popup_content[i]);
-            //alert(infowindow.setContent(popup_content[0]));
-            // Tying the InfoWindow to the marker 
-            infowindow.open(map, marker);
-        });
+//        google.maps.event.addListener(marker, 'click', function() {
+//            console.log("i b4: "+i);
+//            // Check to see if we already have an InfoWindow
+//            if (!infowindow) {
+//                infowindow = new google.maps.InfoWindow();
+//            }
+//
+//            // Setting the content of the InfoWindow
+//           console.log("i: "+i);
+//           infowindow.setContent(popup_content[i]);
+//            //alert(infowindow.setContent(popup_content[0]));
+//            // Tying the InfoWindow to the marker 
+//            infowindow.open(map, marker);
+//        });
 
         // Extending the bounds object with each LatLng 
         bounds.extend(places[i]); 
@@ -425,9 +425,9 @@ function displayClusterMap(datamap1,datamap2,datamap3,datamap4){
         });
 
 
-//    google.maps.event.addDomListener(window, 'load', displayClusterMap);
+    google.maps.event.addDomListener(window, 'load', displayClusterMap);
 //    
-//    google.maps.event.addDomListener(window, "resize", resizingClusterMap);
+    google.maps.event.addDomListener(window, "resize", resizingClusterMap);
 
     $('#locateClusterMap').on('show.bs.modal', function() {
        //Must wait until the render of the modal appear, thats why we use the resizeMap and NOT resizingMap!! ;-)
