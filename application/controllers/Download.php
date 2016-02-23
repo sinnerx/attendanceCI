@@ -5,9 +5,20 @@ class Download extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->load->helper(array('form', 'url'));
+        $this->userid = $this->nativesession->get( 'userid' );
+        $this->userLevel = $this->nativesession->get( 'userLevel' );
+        $this->load->model('download_model','download_model');
+
     }
 
     function index() {
+        $data = array(
+		    'userid' => $this->userid,
+		    'userLevel' => $this->userLevel,
+		    'message' => 'My Message',
+                    'title' => 'Attendance\'s Download Site',
+                    
+		);
         $file_path = './images/attendance/';
         $files = scandir($file_path);        
 
@@ -29,6 +40,8 @@ class Download extends CI_Controller {
         
         //$this->load->view('downloadheader_view');
         $this->load->view('download_view', $data);
+        //$this->load->view('downloadfooter_view');
+
     }
 
     function recursive_browse($files,&$files_array)
