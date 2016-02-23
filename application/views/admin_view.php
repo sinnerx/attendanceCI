@@ -130,7 +130,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         </i>
                         <span class="font-bold">Attendance</span>
                       </a><ul class='nav dk'>
-                          <li >
+                          <li class="active">
                           <a href="./admin" class="auto">                                                        
                             <i class="i i-dot"></i>
                             <span>View Log</span>

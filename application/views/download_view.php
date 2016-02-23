@@ -209,18 +209,27 @@ li{
                         </i>
                         <span class="font-bold">Attendance</span>
                       </a><ul class='nav dk'>
+                           <?php if($userLevel == 3){ ?>
                           <li >
                           <a href="./" class="auto">                                                        
                             <i class="i i-dot"></i>
                             <span>Punch IN/OUT</span>
                           </a>
-                        </li>
-                        <li class='active'>
+                        </li> <?php } ?>
+                         <?php if($userLevel == 4){ ?>
+                        <li class=''>
                           <a href="./opmanager" class="auto">                                                        
                             <i class="i i-dot"></i>
                             <span>View Log</span>
                           </a>
-                        </li>
+                        </li><?php } ?>
+                        <?php if($userLevel == 99){ ?>
+                        <li class=''>
+                          <a href="./admin" class="auto">                                                        
+                            <i class="i i-dot"></i>
+                            <span>View Log</span>
+                          </a>
+                        </li><?php } ?>
                         <li class='active'>
                           <a href="./download" class="auto">                                                        
                             <i class="i i-dot"></i>
