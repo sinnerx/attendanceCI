@@ -556,23 +556,29 @@ function displayClusterMap(datamap1,datamap2,datamap3,datamap4){
                         </i>
                         <span class="font-bold">Attendance</span>
                       </a><ul class='nav dk'>
-                          <li >
+                          <li class="">
                           <a href="./" class="auto">                                                        
                             <i class="i i-dot"></i>
                             <span>Punch IN/OUT</span>
                           </a>
                         </li>
-                        <li class='active'>
+                        <li class=''>
                           <a href="./clusterlead" class="auto">                                                        
                             <i class="i i-dot"></i>
-                            <span>View Cluster</span>
+                            <span>View Log</span>
                           </a>
-                        <li class='active'>
+                        <li class=''>
                           <a href="./reporting" class="auto">                                                        
                             <i class="i i-dot"></i>
-                            <span>Reporting</span>
+                            <span>View Report</span>
                           </a>
-                        </li>                          
+                        </li>
+                        <li class='active'>
+                          <a href="./map" class="auto">                                                        
+                            <i class="i i-dot"></i>
+                            <span>View Map</span>
+                          </a>
+                        </li> 
                         </li>
                       </ul>
                     </li>

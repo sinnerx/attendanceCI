@@ -287,9 +287,9 @@ li{
                            
 
                                 <div class="col-md-4"><input class="form-control" type="text" name="file_name" id="file_name" placeholder=" Please name your file"></div>
-                                <input type="submit" class="btn btn-sm btn-default" value="Download" id="download">
-                                <label><input type="checkbox" id="checkAll"><i></i> Check all</label>
-                                <!--<div class="checkbox i-checks"><label><input type="checkbox" id="checkAll"><i></i> Check all</label></div>-->
+                                <input type="submit" class="btn btn-sm btn-default" value="Download" id="download">&nbsp;&nbsp;&nbsp;&nbsp;
+<!--                                <label><input type="checkbox" id="checkAll"><i></i> Check all</label>-->
+                                <div class="checkbox-inline i-checks"><label><input type="checkbox" id="checkAll"><i></i> Check all</label></div>
                                     
                                 <br>
                                 </section>  
