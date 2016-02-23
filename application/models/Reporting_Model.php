@@ -453,11 +453,15 @@ class Reporting_model extends CI_Model{
                       //$columnArray['note'] = $keyQuery['outstationStatus'];
 
                       if($keyQuery['anomaly'] == 1 && $keyUser['managerID'] == $keyQuery['managerID']){
+                        //echo " ANOMALIES ";
                         $columnArray['anomaly'] = "x";
                         $columnArray['note'] = $keyQuery['outstationStatus'];
                       }
                       elseif ($keyQuery['anomaly'] == 0 && $keyUser['managerID'] == $keyQuery['managerID']) 
                         $columnArray['anomaly'] = "";
+                      //echo " nonanomaly ";
+
+                      
 
                   }//if dateonly
                   //print_r($keyQuery);
@@ -495,7 +499,12 @@ class Reporting_model extends CI_Model{
                       //$this->db->where('hours >=', 8);
                       //$this->db->where('anomaly', 0);
                   }
-                }//if category                
+                }//if category  
+
+                if( $columnArray['in1'] == "" && $columnArray['in2'] == "" && $columnArray['out1'] == "" && $columnArray['out2'] == ""){
+                        $columnArray['anomaly'] = "";
+                        unset($resultArray[$x]);
+                      }              
                $x++; 
                 //die;
             }//foreach user
@@ -523,7 +532,10 @@ class Reporting_model extends CI_Model{
     {
         //print_r($datapost);
         //die;
+
+
         $this->_get_datatables_query($datapost);
+        //$this->db->where_in('managerid', )
         $this->db->group_by('dateonly');
         $queryDateSelected = $this->db->get()->result_array();
         //$dateSelected->group_by('dateonly');

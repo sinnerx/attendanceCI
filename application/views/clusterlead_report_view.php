@@ -707,7 +707,7 @@ $('#dateFrom').datepicker({ dateFormat: 'dd-mm-yy' });
                       </section>
                 <table>
                   <tr>
-                <td class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="Tooltip on top"></td>
+                <!-- <td class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="Tooltip on top"></td> -->
               </tr>
             </table>
                                                                       
