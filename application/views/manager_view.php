@@ -167,10 +167,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <span>Punch IN/OUT</span>
                           </a>
                         </li>
-                        <li >
+                        <li class="active">
                           <a href="./opmanager" class="auto">                                                        
                             <i class="i i-dot"></i>
-                            <span>View All</span>
+                            <span>View Log</span>
+                          </a>
+                        </li>
+                        <li class='active'>
+                          <a href="./download" class="auto">                                                        
+                            <i class="i i-dot"></i>
+                            <span>Download</span>
                           </a>
                         </li>
                       </ul>

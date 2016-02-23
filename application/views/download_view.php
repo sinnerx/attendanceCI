@@ -216,15 +216,15 @@ li{
                           </a>
                         </li>
                         <li class='active'>
-                          <a href="#" class="auto">                                                        
+                          <a href="./opmanager" class="auto">                                                        
                             <i class="i i-dot"></i>
-                            <span>View Cluster</span>
+                            <span>View Log</span>
                           </a>
                         </li>
                         <li class='active'>
-                          <a href="./reporting" class="auto">                                                        
+                          <a href="./download" class="auto">                                                        
                             <i class="i i-dot"></i>
-                            <span>View Report</span>
+                            <span>Download</span>
                           </a>
                         </li>                        
                       </ul>
