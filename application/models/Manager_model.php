@@ -680,7 +680,8 @@ class Manager_model extends CI_Model {
                             'activityTime' => '23:59',
                             'activityDateTime' => date('Y-m-d', strtotime($date)).' 23:59:59',
                             'activityStatus' => 'OUT',
-                            'outstationStatus' => '<i class="fa fa-warning" style="color:red;"></i><span style="color:red;"> Force punch activated by the system</span>',
+                            //'outstationStatus' => '<i class="fa fa-warning" style="color:red;"></i><span style="color:red;"> Force punch activated by the system</span>',
+                            'outstationStatus' => 'Force punch activated by the system',
                             'attendanceStatus' => 'out2',
                             //'anomaly' => 1
                             
@@ -714,7 +715,8 @@ class Manager_model extends CI_Model {
                             'activityTime' => '23:59',
                             'activityDateTime' => date('Y-m-d', strtotime($date)).' 23:59:59',
                             'activityStatus' => 'OUT',
-                            'outstationStatus' => '<i class="fa fa-warning" style="color:red;"></i><span style="color:red;"> Force punch activated by the system</span>',
+                            //'outstationStatus' => '<i class="fa fa-warning" style="color:red;"></i><span style="color:red;"> Force punch activated by the system</span>',
+                            'outstationStatus' => 'Force punch activated by the system',
                             'attendanceStatus' => 'out2',
                             //'anomaly' => 1
                             
