@@ -235,7 +235,14 @@ li{
                             <i class="i i-dot"></i>
                             <span>Download</span>
                           </a>
-                        </li>                        
+                        </li>
+                        <?php if($userLevel == 99){ ?>
+                        <li class=''>
+                          <a href="http://fulkrum.net.my/labs/email/email.php" class="auto" target="_blank">                                                        
+                            <i class="i i-dot"></i>
+                            <span>Email / Cron Simulation</span>
+                          </a>
+                        </li><?php } ?>                        
                       </ul>
                     </li>
                   </ul> 
