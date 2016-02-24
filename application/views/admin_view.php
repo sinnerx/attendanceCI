@@ -143,7 +143,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           </a>
                         </li>
                         <li class=''>
-                          <a href="http://fulkrum.net.my/labs/email/email.php" class="auto">                                                        
+                            <a href="http://fulkrum.net.my/labs/email/email.php" class="auto" target="_blank">                                                        
                             <i class="i i-dot"></i>
                             <span>Email / Cron Simulation</span>
                           </a>
