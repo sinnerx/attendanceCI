@@ -123,7 +123,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <i class="i i-dot"></i>
                             <span>Download</span>
                           </a>
-                        </li>
+                        </li>                       
                       </ul>
                     </li>
                   </ul>

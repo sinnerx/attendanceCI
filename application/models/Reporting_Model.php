@@ -7,9 +7,70 @@ class Reporting_model extends CI_Model{
   //protected $table = 'site';
   private $datatables;
 
-  public function get_list_site($q){
+  public function get_list_site($q,$userid, $userlevel){
+    //print_r("test get_list_site");
+    if ($userlevel == 3){
+        $this->db->select("cluster_lead.clusterID, clusterName");
+        $this->db->where('cluster_lead.userID', $userid);
+        $this->db->join('cluster','cluster_lead.clusterID = cluster.clusterID');
+        $result = $this->db->get('cluster_lead');
+
+        //$result = $result->result_array();
+          $return = array();
+          $arraySite = array();
+          $x = 0;
+          $in_string = '(';
+          foreach($result->result_array() as $row) {
+            //$return[$x][$row['clusterID']] = $row['clusterName'];
+            //$return[$row['clusterID']] = $row['clusterName'];
+
+            $this->db->where('clusterID', $row['clusterID']);
+            $resultsite = $this->db->get('cluster_site')->result_array();
+            
+            foreach ($resultsite as $keySite) {
+              # code...
+              array_push($arraySite, $keySite["siteID"]);
+            }
+              $in_string .= implode(", ", $arraySite);
+              
+            //$x++;
+
+          }
+              $in_string .= ")";
+              //print_r($in_string);
+              //die; 
+        
+    }
+    else  if ($userlevel == 99){
+      //if ($userlevel == 99){
+      $arrayCluster = array('1', '2', '3', '4', '5', '6');
+
+      foreach($arrayCluster as $row) {
+            //$return[$x][$row['clusterID']] = $row['clusterName'];
+            //$return[$row['clusterID']] = $row['clusterName'];
+
+            $this->db->where('clusterID', $row['clusterID']);
+            $resultsite = $this->db->get('cluster_site')->result_array();
+            $arraySite = array();
+            foreach ($resultsite as $keySite) {
+              # code...
+              array_push($arraySite, $keySite["siteID"]);
+            }
+              //$in_string .= implode(", ", $arraySite);
+              
+            //$x++;
+
+          }
+
+    }
+
+
     $this->db->select('siteID, siteName');
     $this->db->like('siteName', $q);
+
+    if ($userlevel == 3 || userlevel == 99)
+      $this->db->where_in('siteID', $arraySite);
+    
     $query = $this->db->get('site');
     if($query->num_rows() > 0){
       foreach ($query->result_array() as $row){
@@ -154,7 +215,7 @@ class Reporting_model extends CI_Model{
         //   }            
         // }//if category
 
-        if($datapost['cluster'] != '')
+        if(isset($datapost['cluster']))
           $this->db->where('clusterID', $datapost['cluster']);
 
         if($datapost['forpi1m'] != ''){

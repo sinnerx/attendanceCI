@@ -32,7 +32,7 @@ class Reporting extends CI_Controller {
 
         $this->load->model('reporting_model');
 
-        if ($this->userLevel == 99 || $this->userLevel == 3 || $this->userLevel == 999)
+        if ($this->userLevel == 99 || $this->userLevel == 999 || $this->userLevel == 4)
             $data['cluster_list'] = $this->reporting_model->get_cluster();
         elseif ($this->userLevel == 3)
             $data['cluster_list'] = $this->reporting_model->get_cluster($this->userid);
@@ -41,7 +41,7 @@ class Reporting extends CI_Controller {
 
         $this->load->model('clusterlead_model');
 		//load view
-        $this->load->view('clusterleadHeader_view',$data);
+        $this->load->view('reportHeader_view',$data);
         //$this->load->view('nav_view');
         $this->load->view('clusterlead_report_view');
         $this->load->view('clusterleadFooter_view');
@@ -49,9 +49,14 @@ class Reporting extends CI_Controller {
 
     public function get_site(){
         $this->load->model('reporting_model');
+        $userid = $_GET['userid'];
+        $userlevel = $_GET['userlevel'];
+        //print_r($user);
+        //die;
         if (isset($_GET['term'])){
           $q = strtolower($_GET['term']);
-          $this->reporting_model->get_list_site($q);
+          $this->reporting_model->get_list_site($q,$userid, $userlevel);
+          //$this->reporting_model->get_list_site($q);
         }
     }
 

@@ -148,6 +148,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <span>Email / Cron Simulation</span>
                           </a>
                         </li>
+                        <li class=''>
+                          <a href="./reporting" class="auto">                                                        
+                            <i class="i i-dot"></i>
+                            <span>View Report</span>
+                          </a>
+                        </li>                        
                       </ul>
                     </li>
                   </ul>

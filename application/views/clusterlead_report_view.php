@@ -8,11 +8,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $(document).ready(function() {
 <?php $query = http_build_query($_POST); ?>
 
-$('#dateFrom').datepicker({ dateFormat: 'dd-mm-yy' });
+    $('#dateFrom').datepicker({ dateFormat: 'dd-mm-yy' });
     $('#dateTo').datepicker({ dateFormat: 'dd-mm-yy' });      
 
       $("#sitename").autocomplete({
-        source: "reporting/get_site", // path to the get_birds method
+        source: 'reporting/get_site'+ '?userid=' + '<?php echo $userid; ?>' + '&userlevel=' + '<?php echo $userLevel; ?>', 
         select: function (event, ui){
           event.preventDefault();
           $("#sitename").val(ui.item.label);
@@ -420,7 +420,7 @@ $('#dateFrom').datepicker({ dateFormat: 'dd-mm-yy' });
                         <li class='active'>
                           <a href="./reporting" class="auto">                                                        
                             <i class="i i-dot"></i>
-                            <span>Reporting</span>
+                            <span>View Report</span>
                           </a>
                         </li>                          
                         </li>
