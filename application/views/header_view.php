@@ -374,12 +374,16 @@ function currentFormattedDateTime() {
       if(video.src.length !== 0){
           document.getElementById("main").style.display = "";
           document.getElementById("warning").style.display = "none";
-      } //else {
-          
-          
-      //}
+      } else {
+          console.log("loadingTitle: "+document.getElementById("loadingTitle").innerHTML);
+          document.getElementById("loadingTitle").innerHTML = "System Error..."
+      }
  }
   
+  $(window).bind("load", function() {
+   // code here
+   //setTimeout(checkVideoID(), 10000);
+});
 </script>
 
 </head>
