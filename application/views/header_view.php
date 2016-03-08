@@ -54,8 +54,11 @@ defined ('BASEPATH') or exit('No direct access allowed!');
       var punchStatus;
       var activityDateData;
       var activityTimeData;
+      var canvas;
+      var vidSrc;
 
 $(document).ready(function() {
+    loadCamera();
     //reload_table();
        //punch-in   
       $( "#punch-in" ).click(function(event) {
@@ -197,11 +200,11 @@ $(document).ready(function() {
     });
     
     //camera
-    loadCamera();
+    //loadCamera();
     function loadCamera() {
-
+            console.log('load camera');
             // Grab elements, create settings, etc.
-            var canvas = document.getElementById("canvas"),
+            canvas = document.getElementById("canvas"),
                 context = canvas.getContext("2d"),
                 
                 video = document.getElementById("video"),
@@ -226,6 +229,7 @@ $(document).ready(function() {
                     
                     //$("#snap").show();
                 }, errBack);
+                console.log('errBack1: '+errBack);
             } else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
                 navigator.webkitGetUserMedia(videoObj, function(stream){
                     //video.src = window.webkitURL.createObjectURL(stream);
@@ -236,8 +240,11 @@ $(document).ready(function() {
                     video.play();
                     //$("#snap").show();
                 }, errBack);
+                console.log('errBack2: '+errBack);
             } else if(navigator.mozGetUserMedia) { // moz-prefixed
+                //else if(navigator.mediaDevices.getUserMedia){
                 navigator.mozGetUserMedia(videoObj, function(stream){
+                //navigator.mediaDevices.getUserMedia(videoObj, function(stream){
                     video.src = window.URL.createObjectURL(stream);
                     //ratio 4:3
                     video.width = 502;
@@ -245,11 +252,19 @@ $(document).ready(function() {
                     video.play();
                     //$("#snap").show();
                 }, errBack);
+                console.log('errBack3: '+errBack);
+                //console.log('video.src:'+video.src);
+                vidSrc = video.src;
+                console.log('vidSrc:'+vidSrc);
             }
                   // video.play();       these 2 lines must be repeated above 3 times
                   // $("#snap").show();  rather than here once, to keep "capture" hidden
                   //                     until after the webcam has been activated.  
-
+                   //console.log('canvas:'+canvas);
+                   //console.log('video.src:'+video.src);
+                   //vidSrc = video.src;
+                   //console.log('vidSrc:'+vidSrc);
+                   
             // Get-Save Snapshot - image 
               $( "#snap" ).click(function(event) {
                 context.drawImage(video, 0, 0, 502, 376.5);
@@ -290,10 +305,12 @@ $(document).ready(function() {
                   console.log("saved");
                   $("#uploading").hide();
                   $("#uploaded").show();
+                  //checkVideoID();
                 });
             });
         }
     //false;
+    //checkVideoID();
  });
  
 function reload_table(){
@@ -350,9 +367,21 @@ function currentFormattedDateTime() {
             return year + "-" + month + "-" + day + " " + hour + ":" + mins + ":" + secs/* + "," + msec*/;
  }
  
+ function checkVideoID (){
+      //var value = document.getElementById("video").length;
+      //console.log('value:'+value);
+      console.log('video.src:'+video.src.length);
+      if(video.src.length !== 0){
+          document.getElementById("main").style.display = "";
+          document.getElementById("warning").style.display = "none";
+      } //else {
+          
+          
+      //}
+ }
   
 </script>
 
 </head>
-<body class="">
+<body class="" >
     

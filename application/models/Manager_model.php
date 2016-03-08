@@ -631,7 +631,7 @@ class Manager_model extends CI_Model {
             //$this->db->where('attendanceStatus', 'in1');
             $query = $this->db->get();
             if($query->num_rows() <> 0){
-                //echo 'dont init';
+                //echo 'init';
                 $this->isAnomaly();
             }
         }
@@ -698,7 +698,7 @@ class Manager_model extends CI_Model {
                         //update addnote - system force punch activated.
                         
                         
-                    //}elseif($num === 2 && $lastAtt <> 'out2'){//if punch only 2 times
+                    }elseif($num === 2 && $lastAtt == 'out1'){//if punch only 2 times
                         //echo 'anomaly 2 !!!';
                         //flag anomaly
 

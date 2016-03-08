@@ -234,7 +234,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   
 <!--                 <?php //echo form_open('manager'); ?> -->
                      <?php echo form_open(); ?> 
-                  <section class="panel b-a">
+                  <section id='main' class="panel b-a" style='display:none'>
                   <div class="row">
                     <div class="col-md-6">
                             <div class="panel-heading b-b">
@@ -342,6 +342,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           </div><div id="success" style="text-align: center; color: green; font-weight: bold"></div>
                       </div>
                   </section>
+                <section id="warning" class="panel b-a">
+                    <p>Attendance system are loading.</p> 
+                    <p>Please make sure:</p>
+                    <p>1. Your camera is enabled and shared with the system upon loading.</p>
+                    <p>2. Your current location is shared upon loading.</p>
+                    <p>3. You are using Mozilla Firefox (compatible with Attendance 2.0) to Punch-In/Out.</p>
+                    <p>If you already shared your camera and location, try to refresh the browser again. Otherwise if you think this is an error please contact <a href='mailto:support@fulkrum.net'>support@fulkrum.net </a> immediately. Thank you.</p>
+                 </section>        
                 <?php echo form_close(); ?><br/>
                   <div class='row'>
                       <div class="col-md-12">

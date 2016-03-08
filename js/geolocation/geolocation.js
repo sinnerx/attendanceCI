@@ -58,7 +58,8 @@ if (navigator.geolocation) {
             $("#valTime").val(parseTimestamp(position.timestamp).substr(-6));
             $("#valAccuracy").val(accuracy);
             console.log(accuracy);
-             
+            //from header_view.php <script>
+            checkVideoID(); 
            // $("#valActivityStatus").val('IN');
             //console.log("parseTimestamp(timestamp): "+parseTimestamp(timestamp));
             
