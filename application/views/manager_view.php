@@ -234,7 +234,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   
 <!--                 <?php //echo form_open('manager'); ?> -->
                      <?php echo form_open(); ?> 
-                  <section id='main' class="panel b-a" style='display:none'>
+                  <section id='main' class="panel b-a">
                   <div class="row">
                     <div class="col-md-6">
                             <div class="panel-heading b-b">
@@ -257,6 +257,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <p style="text-align: center"> Disabled for Attendance V0.1</p>
                           </div>-->
                             <div class="camcontent" style="display: block; position: relative; overflow: hidden; height: 350px; width: 502px; margin: auto;">
+                                <img id="camImg" src="images/camera-376.png" width="100%" height="350px">
                                 <span align="center" id="uploading" style="position: absolute;color: red;font-weight: bold; display:none; z-index:300000;"> Processing . . .  </span> 
                                 <span align="center" id="uploaded"  style="position: absolute;color: greenyellow;font-weight: bold; display:none; z-index:300000;"> Success, your photo has been uploaded!</span> 
                                 <video id="video" autoplay></video>

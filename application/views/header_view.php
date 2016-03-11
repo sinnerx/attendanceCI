@@ -370,20 +370,17 @@ function currentFormattedDateTime() {
  function checkVideoID (){
       //var value = document.getElementById("video").length;
       //console.log('value:'+value);
-      console.log('video.src:'+video.src.length);
+      //console.log('video.src:'+video.src.length);
       if(video.src.length !== 0){
           document.getElementById("main").style.display = "";
-          document.getElementById("warning").style.display = "none";
+          document.getElementById("camImg").style.display = "none";
       } else {
-          console.log("loadingTitle: "+document.getElementById("loadingTitle").innerHTML);
+          //console.log("loadingTitle: "+document.getElementById("loadingTitle").innerHTML);
           document.getElementById("loadingTitle").innerHTML = "System Error...please make sure:"
       }
  }
   
-  $(window).bind("load", function() {
-   // code here
-   //setTimeout(checkVideoID(), 10000);
-});
+  
 </script>
 
 </head>
