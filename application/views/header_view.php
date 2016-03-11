@@ -376,7 +376,7 @@ function currentFormattedDateTime() {
           document.getElementById("camImg").style.display = "none";
       } else {
           //console.log("loadingTitle: "+document.getElementById("loadingTitle").innerHTML);
-          document.getElementById("loadingTitle").innerHTML = "System Error...please make sure:"
+          document.getElementById("loadingTitle").innerHTML = "Camera Error Detected...please make sure:"
       }
  }
   
