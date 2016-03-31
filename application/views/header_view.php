@@ -46,7 +46,7 @@ defined ('BASEPATH') or exit('No direct access allowed!');
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>-->
   <!--<script src="<?php echo base_url();?>js/jquery.min.js"></script>-->
-  <script type="text/javascript">
+<!--  <script type="text/javascript">
       
     //table
       var save_method; //for save method string
@@ -387,12 +387,13 @@ function currentFormattedDateTime() {
           document.getElementById("camImg").style.display = "none";
       } else {
           //console.log("loadingTitle: "+document.getElementById("loadingTitle").innerHTML);
-          document.getElementById("loadingTitle").innerHTML = "Camera Error Detected...please make sure:"
+          document.getElementById("loadingTitle").innerHTML = "Camera Error Detected...please make sure:";
+          loadCamera();
       }
  }
   
   
-</script>
+</script>-->
 
 </head>
 <body class="" >
