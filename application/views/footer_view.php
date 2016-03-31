@@ -53,7 +53,7 @@ defined('BASEPATH') OR exit('No direct access allowed!');
       var vidSrc;
 
 $(document).ready(function() {
-    //loadCamera();
+    loadCamera();
     //reload_table();
        //punch-in   
       $( "#punch-in" ).click(function(event) {
@@ -316,7 +316,7 @@ $(document).ready(function() {
         }
     //false;
     //checkVideoID();
-    loadCamera();
+    //loadCamera();
  });
  
 function reload_table(){
@@ -383,7 +383,7 @@ function currentFormattedDateTime() {
       } else {
           //console.log("loadingTitle: "+document.getElementById("loadingTitle").innerHTML);
           document.getElementById("loadingTitle").innerHTML = "Camera Error Detected...please make sure:";
-          loadCamera();
+          //loadCamera();
       }
  }
   
