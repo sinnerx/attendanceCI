@@ -58,7 +58,7 @@ defined ('BASEPATH') or exit('No direct access allowed!');
       var vidSrc;
 
 $(document).ready(function() {
-    loadCamera();
+    //loadCamera();
     //reload_table();
        //punch-in   
       $( "#punch-in" ).click(function(event) {
@@ -250,7 +250,7 @@ $(document).ready(function() {
 //                    video.play();
 //                }, errBack);
 //                console.log('errBack3: '+errBack);
-            var constraints = { audio: true, video: { width: 502, height: 376.5 } };
+            var constraints = { audio: false, video: { width: 502, height: 376.5 } };
             navigator.mediaDevices.getUserMedia(constraints)
             .then(function(stream) {
               var video = document.querySelector('video');
@@ -321,6 +321,7 @@ $(document).ready(function() {
         }
     //false;
     //checkVideoID();
+    loadCamera();
  });
  
 function reload_table(){
