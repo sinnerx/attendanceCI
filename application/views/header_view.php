@@ -43,7 +43,7 @@ defined ('BASEPATH') or exit('No direct access allowed!');
     <script src="<?php echo base_url();?>js/ie/respond.min.js"></script>
     <script src="<?php echo base_url();?>js/ie/excanvas.js"></script>
   <![endif]-->
- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>-->
   <!--<script src="<?php echo base_url();?>js/jquery.min.js"></script>-->
   <script type="text/javascript">
@@ -242,21 +242,31 @@ $(document).ready(function() {
                 }, errBack);
                 console.log('errBack2: '+errBack);
             } else if(navigator.mozGetUserMedia) { // moz-prefixed
-                //else if(navigator.mediaDevices.getUserMedia){
-                navigator.mozGetUserMedia(videoObj, function(stream){
-                //navigator.mediaDevices.getUserMedia(videoObj, function(stream){
-                    video.src = window.URL.createObjectURL(stream);
-                    //ratio 4:3
-                    video.width = 502;
-                    video.height = 376.5;
-                    video.play();
-                    //$("#snap").show();
-                }, errBack);
-                console.log('errBack3: '+errBack);
-                //console.log('video.src:'+video.src);
+                console.log('Mozilla');
+//                navigator.mozGetUserMedia(videoObj, function(stream){
+//                    video.src = window.URL.createObjectURL(stream);
+//\                    video.width = 502;
+//                    video.height = 376.5;
+//                    video.play();
+//                }, errBack);
+//                console.log('errBack3: '+errBack);
+            var constraints = { audio: true, video: { width: 502, height: 376.5 } };
+            navigator.mediaDevices.getUserMedia(constraints)
+            .then(function(stream) {
+              var video = document.querySelector('video');
+              video.src = window.URL.createObjectURL(stream);
+              video.onloadedmetadata = function(e) {
+                video.play();
+              };
+            })
+            .catch(function(err) {
+              console.log(err.name + ": " + err.message);
+            });
                 vidSrc = video.src;
                 console.log('vidSrc:'+vidSrc);
             }
+            
+            
                   // video.play();       these 2 lines must be repeated above 3 times
                   // $("#snap").show();  rather than here once, to keep "capture" hidden
                   //                     until after the webcam has been activated.  
