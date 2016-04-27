@@ -32,7 +32,7 @@ defined('BASEPATH') OR exit('No direct access allowed!');
   <script src="<?php echo base_url();?>js/calendar/bootstrap_calendar.js"></script>
   <!--<script src="<?php echo base_url();?>js/calendar/demo.js"></script>-->
   <!-- gmaps -->
-  <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
+  <script src="https://maps.google.com/maps/api/js?sensor=true"></script>
   <!--<script src="<?php echo base_url();?>js/maps/gmaps.js"></script>
   <script src="<?php echo base_url();?>js/maps/demo.js"></script>-->
   <script src="<?php echo base_url();?>js/sortable/jquery.sortable.js"></script>
