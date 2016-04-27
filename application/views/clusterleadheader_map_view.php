@@ -60,26 +60,10 @@ defined ('BASEPATH') or exit('No direct access allowed!');
 
 
   <script type="text/javascript">
-      //$('#dateFrom').datepicker();
-    //table
-      var save_method; //for save method string
-      var oTable;
-      var data;
-      var datamap = new array();
-      var datamap1;
-      var datamap2;
-      var datamap3;
-      var datamap4;
-
-$(document).ready(function() {
-
-    
- });
+		
+                
+</script> 
  
-
-    
-
-</script>
 
 </head>
 

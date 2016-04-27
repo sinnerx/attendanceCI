@@ -23,9 +23,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
+$root=(isset($_SERVER['HTTPS']) ? "https://" : "http://").$_SERVER['HTTP_HOST'];
+$root.= str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
+$config['base_url'] = $root;
+
 //$config['base_url'] = 'http://cloud.fulkrum.net/labs/iris/attendance/';
-$config['base_url'] = 'http://localhost/digitalgaia/iris/attendance/';
+//$config['base_url'] = 'http://localhost/digitalgaia/iris/attendance/';
 //$config['base_url'] = 'http://192.168.1.12/digitalgaia/iris/attendance/';
+
+
 
 if(isset($GLOBALS['server_conf']['base_url']))
 	$config['base_url'] = $GLOBALS['server_conf']['base_url'];
