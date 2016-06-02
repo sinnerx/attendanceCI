@@ -43,10 +43,10 @@ defined ('BASEPATH') or exit('No direct access allowed!');
     <script src="<?php echo base_url();?>js/ie/respond.min.js"></script>
     <script src="<?php echo base_url();?>js/ie/excanvas.js"></script>
   <![endif]-->
- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>-->
   <!--<script src="<?php echo base_url();?>js/jquery.min.js"></script>-->
-  <script type="text/javascript">
+<!--  <script type="text/javascript">
       
     //table
       var save_method; //for save method string
@@ -54,8 +54,11 @@ defined ('BASEPATH') or exit('No direct access allowed!');
       var punchStatus;
       var activityDateData;
       var activityTimeData;
+      var canvas;
+      var vidSrc;
 
 $(document).ready(function() {
+    //loadCamera();
     //reload_table();
        //punch-in   
       $( "#punch-in" ).click(function(event) {
@@ -197,11 +200,11 @@ $(document).ready(function() {
     });
     
     //camera
-    loadCamera();
+    //loadCamera();
     function loadCamera() {
-
+            console.log('load camera');
             // Grab elements, create settings, etc.
-            var canvas = document.getElementById("canvas"),
+            canvas = document.getElementById("canvas"),
                 context = canvas.getContext("2d"),
                 
                 video = document.getElementById("video"),
@@ -226,6 +229,7 @@ $(document).ready(function() {
                     
                     //$("#snap").show();
                 }, errBack);
+                console.log('errBack1: '+errBack);
             } else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
                 navigator.webkitGetUserMedia(videoObj, function(stream){
                     //video.src = window.webkitURL.createObjectURL(stream);
@@ -236,20 +240,41 @@ $(document).ready(function() {
                     video.play();
                     //$("#snap").show();
                 }, errBack);
+                console.log('errBack2: '+errBack);
             } else if(navigator.mozGetUserMedia) { // moz-prefixed
-                navigator.mozGetUserMedia(videoObj, function(stream){
-                    video.src = window.URL.createObjectURL(stream);
-                    //ratio 4:3
-                    video.width = 502;
-                    video.height = 376.5;
-                    video.play();
-                    //$("#snap").show();
-                }, errBack);
+                console.log('Mozilla');
+//                navigator.mozGetUserMedia(videoObj, function(stream){
+//                    video.src = window.URL.createObjectURL(stream);
+//\                    video.width = 502;
+//                    video.height = 376.5;
+//                    video.play();
+//                }, errBack);
+//                console.log('errBack3: '+errBack);
+            var constraints = { audio: false, video: { width: 502, height: 376.5 } };
+            navigator.mediaDevices.getUserMedia(constraints)
+            .then(function(stream) {
+              var video = document.querySelector('video');
+              video.src = window.URL.createObjectURL(stream);
+              video.onloadedmetadata = function(e) {
+                video.play();
+              };
+            })
+            .catch(function(err) {
+              console.log(err.name + ": " + err.message);
+            });
+                vidSrc = video.src;
+                console.log('vidSrc:'+vidSrc);
             }
+            
+            
                   // video.play();       these 2 lines must be repeated above 3 times
                   // $("#snap").show();  rather than here once, to keep "capture" hidden
                   //                     until after the webcam has been activated.  
-
+                   //console.log('canvas:'+canvas);
+                   //console.log('video.src:'+video.src);
+                   //vidSrc = video.src;
+                   //console.log('vidSrc:'+vidSrc);
+                   
             // Get-Save Snapshot - image 
               $( "#snap" ).click(function(event) {
                 context.drawImage(video, 0, 0, 502, 376.5);
@@ -290,10 +315,13 @@ $(document).ready(function() {
                   console.log("saved");
                   $("#uploading").hide();
                   $("#uploaded").show();
+                  //checkVideoID();
                 });
             });
         }
     //false;
+    //checkVideoID();
+    loadCamera();
  });
  
 function reload_table(){
@@ -350,9 +378,23 @@ function currentFormattedDateTime() {
             return year + "-" + month + "-" + day + " " + hour + ":" + mins + ":" + secs/* + "," + msec*/;
  }
  
+ function checkVideoID (){
+      //var value = document.getElementById("video").length;
+      //console.log('value:'+value);
+      //console.log('video.src:'+video.src.length);
+      if(video.src.length !== 0){
+          document.getElementById("main").style.display = "";
+          document.getElementById("camImg").style.display = "none";
+      } else {
+          //console.log("loadingTitle: "+document.getElementById("loadingTitle").innerHTML);
+          document.getElementById("loadingTitle").innerHTML = "Camera Error Detected...please make sure:";
+          loadCamera();
+      }
+ }
   
-</script>
+  
+</script>-->
 
 </head>
-<body class="">
+<body class="" >
     

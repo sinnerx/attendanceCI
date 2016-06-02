@@ -234,7 +234,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   
 <!--                 <?php //echo form_open('manager'); ?> -->
                      <?php echo form_open(); ?> 
-                  <section class="panel b-a">
+                  <section id='main' class="panel b-a">
                   <div class="row">
                     <div class="col-md-6">
                             <div class="panel-heading b-b">
@@ -257,6 +257,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <p style="text-align: center"> Disabled for Attendance V0.1</p>
                           </div>-->
                             <div class="camcontent" style="display: block; position: relative; overflow: hidden; height: 350px; width: 502px; margin: auto;">
+                                <img id="camImg" src="images/camera-376.png" width="100%" height="350px">
                                 <span align="center" id="uploading" style="position: absolute;color: red;font-weight: bold; display:none; z-index:300000;"> Processing . . .  </span> 
                                 <span align="center" id="uploaded"  style="position: absolute;color: greenyellow;font-weight: bold; display:none; z-index:300000;"> Success, your photo has been uploaded!</span> 
                                 <video id="video" autoplay></video>
@@ -342,6 +343,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           </div><div id="success" style="text-align: center; color: green; font-weight: bold"></div>
                       </div>
                   </section>
+                <section id="warning" class="panel b-a">
+                    <div class="panel-heading b-b">
+                          <p id="loadingTitle" class="block h4 font-bold m-b text-black">Please make sure...</p> 
+                    </div><br>
+                    <p style="text-indent:5px"><i class="i i-checked"></i> Your camera is enabled and shared with the system upon loading.</p>
+                    <p style="text-indent:5px"><i class="i i-checked"></i> Your current location is shared upon loading.</p>
+                    <p style="text-indent:5px"><i class="i i-checked"></i> You are using Mozilla Firefox (compatible with Attendance 2.0) to Punch-In/Out. Download Mozilla Firefox <a href="https://www.mozilla.org/en-US/firefox/new/" target="_blank" class="btn btn-default btn-xs">DOWNLOAD<i class="fa fa-download"> </i></a></p>
+                    <p>If you already shared your camera and location, try to refresh the browser again. Otherwise if you think this is an error please contact <a href='mailto:support@fulkrum.net'>support@fulkrum.net</a> immediately.</p>
+                 </section>        
                 <?php echo form_close(); ?><br/>
                   <div class='row'>
                       <div class="col-md-12">
