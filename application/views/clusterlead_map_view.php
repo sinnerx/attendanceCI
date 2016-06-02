@@ -305,7 +305,7 @@ $('#dateFrom').datepicker({ dateFormat: 'dd-mm-yy' });
           //console.log('oTable: '+oTable.row());
           //console.log("tbody id: "+$('#tableClusterLeadMap tbody'));
           $('#tableClusterLeadMap tbody').on( 'click', 'a', function () {
-                //console.log("cli");
+                console.log("click");
                 var datamap = [];
                 data = oTable.row( $(this).parents('tr') ).data();
                 //alert( data[0] +"'s lat,long is: "+ data[ 6 ] );
@@ -322,10 +322,10 @@ $('#dateFrom').datepicker({ dateFormat: 'dd-mm-yy' });
     //            toDisplayLatLong = data[6];
     //            toDisplayImgIn = data[7];
                 datamap1 = data[3];
-                datamap2 = data[4];
+                datamap2 = data[4];//
                 datamap3 = data[5];
                 datamap4 = data[6];
-                displayClusterMap(datamap1, datamap2,datamap3,datamap4);
+                displayClusterMap(datamap1,datamap2,datamap3,datamap4);
 //                google.maps.event.addDomListener(window, 'load', displayClusterMap);
 //                google.maps.event.addDomListener(window, "resize", resizingClusterMap);
 
@@ -345,7 +345,7 @@ $('#dateFrom').datepicker({ dateFormat: 'dd-mm-yy' });
         
 }); 
 //displayClusterMap();
-function displayClusterMap(datamap1,datamap2,datamap3,datamap4){
+function displayClusterMap(datamap1, datamap2, datamap3, datamap4){
     console.log('data in cluster: '+datamap1+"|"+datamap2+"|"+datamap3+"|"+datamap4);
     // Creating an object literal containing the properties we want to pass to the map 
     var options = { 
@@ -359,65 +359,95 @@ function displayClusterMap(datamap1,datamap2,datamap3,datamap4){
 
     // Creating the map 
     var map = new google.maps.Map(document.getElementById('map_canvas'), options); 
+    var markers = [];
+        //for (var i = 0; i < 4; i++) {
+          //var dataPhoto = data.photos[i];
+        var latLng = new google.maps.LatLng(datamap1);
+           var marker = new google.maps.Marker({
+            position: latLng
+            //console.log('latLng'+latLng);
+          });
+          markers.push(marker);
+        var latLng = new google.maps.LatLng(datamap2);
+            var marker = new google.maps.Marker({
+            position: latLng
+            //console.log('latLng'+latLng);
+          });
+          markers.push(marker);
+        var latLng = new google.maps.LatLng(datamap3);
+        var marker = new google.maps.Marker({
+            position: latLng
+            //console.log('latLng'+latLng);
+          });
+          markers.push(marker);
+        var latLng = new google.maps.LatLng(datamap4);
+             //console.log(latLng);
+          var marker = new google.maps.Marker({
+            position: latLng
+            //console.log('latLng'+latLng);
+          });
+          markers.push(marker);
+        //}
+        //var markerCluster = new MarkerClusterer(map, markers);
 
     // Creating a LatLngBounds object 
-    var bounds = new google.maps.LatLngBounds(); 
+    //var bounds = new google.maps.LatLngBounds(); 
 
     // Creating an array that will contain the addresses 
-    var places = []; 
+   // var places = []; 
 
     // Creating a variable that will hold the InfoWindow object 
     //var infowindow; 
 
     //var popup_content = ["<p>DTR Medical<\/p><img src=\"http:\/\/www.mediwales.com\/mapping\/wp-content\/uploads\/2011\/09\/dtr-logo.png\" \/><br \/><br \/><a href=\"http:\/\/www.mediwales.com\/mapping\/home\/dtr-medical\/\">View profile 1<\/a>","<p>MediWales<\/p><img src=\"http:\/\/www.mediwales.com\/mapping\/wp-content\/uploads\/2011\/09\/index.png\" \/><br \/><br \/><a href=\"http:\/\/www.mediwales.com\/mapping\/home\/mediwales\/\">View profile 2<\/a>","<p>Teamworks Design & Marketing<\/p><img src=\"http:\/\/www.mediwales.com\/mapping\/wp-content\/uploads\/2011\/09\/Teamworks-Design-Logo.png\" \/><br \/><br \/><a href=\"http:\/\/www.mediwales.com\/mapping\/home\/teamworks-design-and-marketing\/\">View profile 3<\/a>","<p>Acuitas Medical<\/p><img src=\"http:\/\/www.mediwales.com\/mapping\/wp-content\/uploads\/2011\/09\/acuitas-medical-logo.gif\" \/><br \/><br \/><a href=\"http:\/\/www.mediwales.com\/mapping\/home\/acuitas-medical\/\">View profile 4<\/a>"];
-    var address = ["17 Clarion Court, Llansamlet, Swansea, SA6 8RF","7 Schooner Way, , Cardiff, CF10 4DZ","65 St Brides Rd, Aberkenfig, Bridgend, CF32 9RA","Kings Road, , Swansea, SA1 8PH","Unit 20 Abenbury Way, Wrexham Industrial Estate, Wrexham, LL13 9UG"];
-    var geocoder = new google.maps.Geocoder(); 
+    //var address = ["17 Clarion Court, Llansamlet, Swansea, SA6 8RF","7 Schooner Way, , Cardiff, CF10 4DZ","65 St Brides Rd, Aberkenfig, Bridgend, CF32 9RA","Kings Road, , Swansea, SA1 8PH","Unit 20 Abenbury Way, Wrexham Industrial Estate, Wrexham, LL13 9UG"];
+    //var geocoder = new google.maps.Geocoder(); 
 
-    var markers = [];
-    var places = [
-        new google.maps.LatLng(5.077528,100.978211),
-        new google.maps.LatLng(5.83264,100.906555),
-        new google.maps.LatLng(5.508742,100.259048),
-        new google.maps.LatLng(5.467697,100.208923)
+//    var markers = [];
+//    var places = [
+//        //new google.maps.LatLng(5.077528,100.978211),
+////        new google.maps.LatLng(5.83264,100.906555),
+////        new google.maps.LatLng(5.508742,100.259048),
+////        new google.maps.LatLng(5.467697,100.208923)
 //        new google.maps.LatLng(datamap1),
 //        new google.maps.LatLng(datamap2),
 //        new google.maps.LatLng(datamap3),
 //        new google.maps.LatLng(datamap4)
-        //new google.maps.LatLng(5.628248,100.923035)
-    ];
-     
-     
-    // Adding a LatLng object for each city  
-    for (var i = 0; i < places.length; i++) { 
-        //places[i] = results[0].geometry.location;
-        
-        // Adding the markers 
-        var marker = new google.maps.Marker({position: places[i], map: map, draggable:false});
-        
-        markers.push(marker);
-
-        // Creating the event listener. It now has access to the values of i and marker as they were during its creation
-//        google.maps.event.addListener(marker, 'click', function() {
-//            console.log("i b4: "+i);
-//            // Check to see if we already have an InfoWindow
-//            if (!infowindow) {
-//                infowindow = new google.maps.InfoWindow();
-//            }
+//        //new google.maps.LatLng(5.628248,100.923035)
+//    ];
+//     
+//     
+//    // Adding a LatLng object for each city  
+//    for (var i = 0; i < places.length; i++) { 
+//        //places[i] = results[0].geometry.location;
+//        
+//        // Adding the markers 
+//        var marker = new google.maps.Marker({position: places[i], map: map, draggable:false});
+//        
+//        markers.push(marker);
 //
-//            // Setting the content of the InfoWindow
-//           console.log("i: "+i);
-//           infowindow.setContent(popup_content[i]);
-//            //alert(infowindow.setContent(popup_content[0]));
-//            // Tying the InfoWindow to the marker 
-//            infowindow.open(map, marker);
-//        });
-
-        // Extending the bounds object with each LatLng 
-        bounds.extend(places[i]); 
-
-        // Adjusting the map to new bounding box 
-        map.fitBounds(bounds) ;
-    } 
+//        // Creating the event listener. It now has access to the values of i and marker as they were during its creation
+////        google.maps.event.addListener(marker, 'click', function() {
+////            console.log("i b4: "+i);
+////            // Check to see if we already have an InfoWindow
+////            if (!infowindow) {
+////                infowindow = new google.maps.InfoWindow();
+////            }
+////
+////            // Setting the content of the InfoWindow
+////           console.log("i: "+i);
+////           infowindow.setContent(popup_content[i]);
+////            //alert(infowindow.setContent(popup_content[0]));
+////            // Tying the InfoWindow to the marker 
+////            infowindow.open(map, marker);
+////        });
+//
+//        // Extending the bounds object with each LatLng 
+//        //bounds.extend(places[i]); 
+//
+//        // Adjusting the map to new bounding box 
+//        //map.fitBounds(bounds) ;
+//    } 
 
     var markerCluster = new MarkerClusterer(map, markers, {
             zoomOnClick: true,
@@ -431,10 +461,10 @@ function displayClusterMap(datamap1,datamap2,datamap3,datamap4){
 
     $('#locateClusterMap').on('show.bs.modal', function() {
        //Must wait until the render of the modal appear, thats why we use the resizeMap and NOT resizingMap!! ;-)
-       resizeClusterMap(datamap);
+       resizeClusterMap();
     });
-
-    function resizeClusterMap(datamap) {
+//
+    function resizeClusterMap() {
        if(typeof map == "undefined") return;
        setTimeout( function(){
            resizingClusterMap();
@@ -450,7 +480,110 @@ function displayClusterMap(datamap1,datamap2,datamap3,datamap4){
     }
  }
 
+//displayClusterMap();
+//function displayClusterMap(){
+//		// global "map" variable
+//		var map = null;
+//
+//		// marker cluster variable
+//		var markerclusterer = null;
+//
+//		// define infowindow
+//		var infowindow = new google.maps.InfoWindow();
+//
+//		// arrays to hold copies of the markers
+//		var gmarkers = []; 
+//
+//		// -----------------------------------------------------------------------
+//		// A function to create the marker and set up the event window function 
+//		// -----------------------------------------------------------------------
+//		function createMarker(latlng, info) {
+//			
+//			var marker = new google.maps.Marker({
+//				position: latlng,
+//				map: map				
+//			});
+//
+//			google.maps.event.addListener(marker, 'click', function() {
+//				infowindow.setContent(info); 
+//				infowindow.open(map,marker);
+//				});
+//
+//			// save the info (not used here)
+//			gmarkers.push(marker);
+//		}
+//		 
+//		// -----------------------------------------------------------------------
+//		// This function picks up the click and opens the corresponding info window
+//		// -----------------------------------------------------------------------
+//		function myclick(i) {
+//		  google.maps.event.trigger(gmarkers[i], "click");
+//		}
+//
+//		// -----------------------------------------------------------------------
+//		// Initialize
+//		// -----------------------------------------------------------------------
+//		function initialize() {
+//		  
+//			// create the map
+//			var myOptions = {
+//				zoom: 8,
+//				center: new google.maps.LatLng(44.95,-93.215),
+//				mapTypeControl: true,
+//				navigationControl: true,
+//				mapTypeId: google.maps.MapTypeId.ROADMAP
+//			}
+//			
+//			map = new google.maps.Map(document.getElementById("map-canvas"), myOptions);
+//			google.maps.event.addListener(map, 'click', function() {
+//				infowindow.close();
+//			});
+//			  
+//			// define array of locations
+//			var markers = [
+//				[1, "Minneapolis", 44.970,-93.261],
+//				[2, "St Paul", 44.939,-93.106]
+//			];
+//			
+//			// extract data and  create markers
+//			for (var i = 0; i < markers.length; i++) {
+//			  var point = new google.maps.LatLng( markers[i][2],  markers[i][3]);
+//			  var marker = createMarker( point, "<div class='scrollFix'>" + markers[i][0] + ". " 			+ markers[i][1] + 
+//												"<br/> " + "lat: " 		 + markers[i][2] + "</br> lng: " 	+  markers[i][3] + " </div>") ;
+//			}
+//				
+//			// create a Marker Clusterer that clusters markers
+//			markerCluster = new MarkerClusterer(map, gmarkers);
+//			
+//		}  // end of initialize
+//
+//		// ------------------------------------------------------------------------------- //
+//		// initial load event
+//		// ------------------------------------------------------------------------------- //		
+//		google.maps.event.addDomListener(window, 'load', initialize);
+//                google.maps.event.addDomListener(window, "resize", resizingClusterMap);
+//            }
   
+
+//    $('#locateMap').on('show.bs.modal', function() {
+//       //Must wait until the render of the modal appear, thats why we use the resizeMap and NOT resizingMap!! ;-)
+//       resizeClusterMap();
+//    });
+//
+//    function resizeClusterMap() {
+//       if(typeof map == "undefined") return;
+//       setTimeout( function(){
+//           resizingClusterMap();
+//       } , 400);
+//    }
+//
+//    function resizingClusterMap() {
+//       if(typeof map == "undefined") return;
+//       var center = map.getCenter();
+//       google.maps.event.trigger(map, "resize");
+//       map.setCenter(center); 
+//       displayClusterMap();
+//    }
 </script>
 
 
@@ -872,7 +1005,7 @@ function displayClusterMap(datamap1,datamap2,datamap3,datamap4){
                                         </div>
                                         
                                         <div class="modal-body">
-                                            <div id="map_canvas" class="" style="width:560px; height:350px;"></div>
+                                            <div id="map-canvas" class="" style="width:560px; height:350px;"></div>
                                             
                                         </div>
                                         <div class="modal-footer">

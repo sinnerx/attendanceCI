@@ -349,8 +349,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div><br>
                     <p style="text-indent:5px"><i class="i i-checked"></i> Your camera is enabled and shared with the system upon loading.</p>
                     <p style="text-indent:5px"><i class="i i-checked"></i> Your current location is shared upon loading.</p>
-                    <p style="text-indent:5px"><i class="i i-checked"></i> You are using Mozilla Firefox (compatible with Attendance 2.0) to Punch-In/Out. Download Mozilla Firefox <a href="https://www.mozilla.org/en-US/firefox/new/" target="_blank" class="btn btn-default btn-xs">DOWNLOAD<i class="fa fa-download"> </i></a></p>
-                    <p>If you already shared your camera and location, try to refresh the browser again. Otherwise if you think this is an error please contact <a href='mailto:support@fulkrum.net'>support@fulkrum.net</a> immediately.</p>
+                    <p style="text-indent:5px"><i class="i i-checked"></i> If you already shared your camera and location, try to refresh the browser again. Otherwise if you think this is an error please contact <a href='mailto:support@fulkrum.net'>support@fulkrum.net</a> immediately. </i></a></p>
+                    
                  </section>        
                 <?php echo form_close(); ?><br/>
                   <div class='row'>

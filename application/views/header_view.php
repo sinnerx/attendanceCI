@@ -46,7 +46,7 @@ defined ('BASEPATH') or exit('No direct access allowed!');
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>-->
   <!--<script src="<?php echo base_url();?>js/jquery.min.js"></script>-->
-<!--  <script type="text/javascript">
+  <script type="text/javascript">
       
     //table
       var save_method; //for save method string
@@ -58,7 +58,7 @@ defined ('BASEPATH') or exit('No direct access allowed!');
       var vidSrc;
 
 $(document).ready(function() {
-    //loadCamera();
+    loadCamera();
     //reload_table();
        //punch-in   
       $( "#punch-in" ).click(function(event) {
@@ -321,7 +321,7 @@ $(document).ready(function() {
         }
     //false;
     //checkVideoID();
-    loadCamera();
+    //loadCamera();
  });
  
 function reload_table(){
@@ -388,12 +388,12 @@ function currentFormattedDateTime() {
       } else {
           //console.log("loadingTitle: "+document.getElementById("loadingTitle").innerHTML);
           document.getElementById("loadingTitle").innerHTML = "Camera Error Detected...please make sure:";
-          loadCamera();
+         // loadCamera();
       }
  }
   
   
-</script>-->
+</script>
 
 </head>
 <body class="" >
