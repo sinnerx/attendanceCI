@@ -32,15 +32,17 @@ defined('BASEPATH') OR exit('No direct access allowed!');
   <script src="<?php echo base_url();?>js/calendar/bootstrap_calendar.js"></script>
   <!--<script src="<?php echo base_url();?>js/calendar/demo.js"></script>-->
   <!-- gmaps -->
-  <script src="https://maps.google.com/maps/api/js?sensor=true"></script>
-  <!--<script src="<?php echo base_url();?>js/maps/gmaps.js"></script>
-  <script src="<?php echo base_url();?>js/maps/demo.js"></script>-->
+  <script src="https://maps.google.com/maps/api/js?sensor=false"></script>
   <script src="<?php echo base_url();?>js/sortable/jquery.sortable.js"></script>
   <script src="<?php echo base_url();?>js/app.plugin.js"></script>
   <!-- punch -->
   <script src="<?php echo base_url();?>js/punch.js"></script>
   <!-- geolocation -->
   <script src="<?php echo base_url();?>js/geolocation/geolocation.js"></script>
-  
+  <script type="text/javascript">
+      $(window).on('load', function() {
+            $("#cover").fadeOut(200);
+        });
+      </script>
 </body>
 </html>
