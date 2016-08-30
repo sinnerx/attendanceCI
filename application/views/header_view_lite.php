@@ -38,9 +38,17 @@ defined ('BASEPATH') or exit('No direct access allowed!');
   <link rel="stylesheet" href="<?php echo base_url();?>js/datatables/dataTables.bootstrap.css" type="text/css"/>
   <!--<link rel="stylesheet" href="<?php echo base_url();?>js/datatables/datatables.css" type="text/css"/>-->
   <style type="text/css">
-      #cover {position: fixed; height: 100%; width: 100%; top:0; left: 0; background: #000; z-index:9999; 
-    font-size: 30px; text-align: center; padding-top: 200px; color: #fff;
-}
+      #cover {
+          position: fixed;
+          height: 100%;
+          width: 100%;
+          top:0; left: 0;
+          background: #000;
+          z-index:9999; 
+          font-size: 30px;
+          text-align: center;
+          padding-top: 200px;
+          color: #fff;}
   </style>
   <!---->
   <!--[if lt IE 9]>
@@ -78,9 +86,9 @@ $(document).ready(function() {
             var siteID = $("#valSiteID").val();
             var siteName = $("#valSiteName").val();
             var userEmail = $("#valUserEmail").val();
-            var activityTime = "<?php echo date("G:i"); ?>";
-            var activityDate = "<?php echo date("d-m-Y");?>";
-            var activityDateTime = "<?php echo date("Y-m-d G:i:s");?>";
+            var activityTime = "";
+            var activityDate = "";
+            var activityDateTime = "";
             var  activityStatus = punchStatus = 'IN';
             var  outstationStatus = $("#outstationStatusTxt").val();
             var  latLongIn = $("#valLatLong").val();
@@ -119,9 +127,9 @@ $(document).ready(function() {
         var siteID = $("#valSiteID").val();
         var siteName = $("#valSiteName").val();
         var userEmail = $("#valUserEmail").val();
-        var activityTime = "<?php echo date("G:i"); ?>";
-        var activityDate = "<?php echo date("d-m-Y");?>";
-        var activityDateTime = "<?php echo date("Y-m-d G:i:s");?>";
+        var activityTime = "";
+        var activityDate = "";
+        var activityDateTime = "";
         var  activityStatus = punchStatus = 'OUT';
         var  outstationStatus = $("#outstationStatusTxt").val();
         var  latLongIn = $("#valLatLong").val();
