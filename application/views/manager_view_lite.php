@@ -231,7 +231,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                       
                     </div>
                   </section>
-                  
+                  <div id="cover">LOADING</div>
 <!--                 <?php //echo form_open('manager'); ?> -->
                      <?php echo form_open(); ?> 
                   <section id='main' class="panel b-a">

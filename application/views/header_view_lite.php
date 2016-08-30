@@ -37,6 +37,11 @@ defined ('BASEPATH') or exit('No direct access allowed!');
   <link rel="stylesheet" href="<?php echo base_url();?>js/calendar/bootstrap_calendar.css" type="text/css" />
   <link rel="stylesheet" href="<?php echo base_url();?>js/datatables/dataTables.bootstrap.css" type="text/css"/>
   <!--<link rel="stylesheet" href="<?php echo base_url();?>js/datatables/datatables.css" type="text/css"/>-->
+  <style type="text/css">
+      #cover {position: fixed; height: 100%; width: 100%; top:0; left: 0; background: #000; z-index:9999; 
+    font-size: 30px; text-align: center; padding-top: 200px; color: #fff;
+}
+  </style>
   <!---->
   <!--[if lt IE 9]>
     <script src="<?php echo base_url();?>js/ie/html5shiv.js"></script>
