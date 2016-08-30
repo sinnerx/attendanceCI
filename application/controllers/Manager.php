@@ -21,46 +21,52 @@ class Manager extends CI_Controller {
         //$this->load->helper('url');
         
         
-
+        $this->load->model('manager_model', 'manager');
         $data = array(
 		    'userid' => $this->userid,
 		    'userLevel' => $this->userLevel,
 		    'message' => 'My Message',
                     'title' => 'Manager\'s Attendance Site',
-                    
+                    'getFullName' => $this->manager->getFullName($this->userid),
+                    'getUserLevel' => $this->manager->getUserLevel($this->userLevel),
+                    'getClusterName' => $this->manager->getClusterName($this->userid),
+                    'getUserEmail' => $this->manager->getUserEmail($this->userid),
+                    'getSiteID' => $this->manager->getSiteID($this->userid),
+                    'isFirstInToday' => $this->manager->isFirstInToday($this->userid),
+                    'isFourthPunched' => $this->manager->isFourthPunched($this->userid),
+                    'initAnomaly' => $this->manager->initAnomaly($this->userid),
+                    'getClusterLeadGroupID' => $this->manager->getClusterLeadGroupID($this->userid),
+                    'getLastPunchStatus' => $this->manager->getLastPunchStatus($this->userid),
+                    'getClusterGroupID' => $this->manager->getClusterGroupID($this->userid),
+                    'getClusterGroup' => $this->manager->getClusterGroup($this->userid)
 		);
                 
 
         //load model for manager
-        $this->load->model('manager_model');
+        //$this->load->model('manager_model');
         //pass userid to model->method
-        $this->manager_model->getFullName($this->userid);
-        $this->manager_model->getUserLevel($this->userLevel);
-        $this->manager_model->getClusterName($this->userid);
-        $this->manager_model->getUserEmail($this->userid);
-        $this->manager_model->getSiteID($this->userid);
-        $this->manager_model->isFirstInToday($this->userid);
-        //$this->manager_model->isAnomaly($this->userid);
-        $this->manager_model->isFourthPunched($this->userid);
-        $this->manager_model->initAnomaly($this->userid);
-        //$this->manager_model->isFourthPunched($this->userid);
-        //$this->manager_model->isLastDay($this->userid);
-        //$this->manager_model->setAttendanceStatus($this->userid);
-        //$this->manager_model->isLastOut($this->userid);
-        //$this->manager_model->isFirstIn($this->userid);
-        //**$this->manager_model->hoursPerDay($this->userid);
-        //$this->manager_model->last();
-        
-        //attendance
-        //$this->manager_model->insertAttendance($dataAtt);
+        //$this->manager_model->getFullName($this->userid);
+//        $this->manager_model->getUserLevel($this->userLevel);
+//        $this->manager_model->getClusterName($this->userid);
+//        $this->manager_model->getUserEmail($this->userid);
+//        $this->manager_model->getSiteID($this->userid);
+//        $this->manager_model->isFirstInToday($this->userid);
+//        $this->manager_model->isFourthPunched($this->userid);
+//        $this->manager_model->initAnomaly($this->userid);
         
         
 
         //load complete page
-        $this->load->view('header_view',$data);
-        $this->load->view('nav_view');
-        $this->load->view('manager_view');
-        $this->load->view('footer_view');
+        //$this->load->view('header_view',$data);
+        //$this->load->view('nav_view');
+        
+        //lite version
+        $this->load->view('header_view_lite',$data);
+        $this->load->view('manager_view_lite', $data);
+        
+        //previous
+//        $this->load->view('manager_view');
+         $this->load->view('footer_view');
 
     }
     public function saveAttendance(){
@@ -87,11 +93,6 @@ class Manager extends CI_Controller {
                 'latLongIn' => $this->input->post('latLongIn'),
                 'accuracy' => $this->input->post('accuracy'),
                 'imgIn' => $this->input->post('imgIn'),
-                //'attendanceStatus' => $this->input->get($this->manager_model->setAttendanceStatus())
-                //'lateIn' => 1
-                 //camera disabled v0.1
-                //'imgIn' => $this->input->post("fieldnameid"),
-               // 'imgOut' => $this->input->post('fieldnameid'),
             );
         
         $this->manager_model->insertAttendance($data);
@@ -122,11 +123,6 @@ class Manager extends CI_Controller {
 			$row[] = $manager->activityStatus;
 			$row[] = $manager->outstationStatus;
 			$row[] = $manager->latLongIn;
-
-			//add html for action
-			//$row[] = '<a class="btn btn-sm btn-primary" href="javascript:void()" title="Edit" onclick="edit_person('."'".$manager->attID."'".')"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
-				  //<a class="btn btn-sm btn-danger" href="javascript:void()" title="Hapus" onclick="delete_person('."'".$manager->attID."'".')"><i class="glyphicon glyphicon-trash"></i> Delete</a>';
-		
 			$data[] = $row;
 		}
 
@@ -140,7 +136,6 @@ class Manager extends CI_Controller {
                 
 		//output to json format
 		echo json_encode($output);
-                 //echo "json";
 	}
        
         //public function last(){

@@ -57,7 +57,7 @@ class Manager_model extends CI_Model {
     
     public function getUserEmail ($userid){
         //get clustername from IRIS (siteName)
-        $query = $this->db->query("SELECT userEmail FROM user WHERE userID ='$userid'");
+        $query = $this->db->query("SELECT userEmail FROM user WHERE userID ='$userid' AND userLevel='2'");
         foreach ($query->result() as $row)
         {
                //return cluster name/siteName to view
@@ -97,36 +97,17 @@ class Manager_model extends CI_Model {
     public function getClusterLeadGroup ($userid){
         //get cluster group name from IRIS (cluster/cluster_lead)
         $query = $this->db->query("SELECT clusterName FROM cluster JOIN cluster_lead WHERE userID = '$userid' AND cluster.clusterID = cluster_lead.clusterID");
-        //$this->db->select('clusterName');
-        //$this->db->from('cluster'); 
-        //$this->db->join('clusterlead');
-        //$this->db->where('userID', $userid);
-        //$this->db->where('cluster.clusterID', 'cluster_lead.clusterID');
-        //$where = "userID = '$userid' AND cluster.clusterID = cluster_lead.clusterID";
-        //$this->db-where($where);
-                
-        //$query = $this->db->get(); 
+        
            
         foreach ($query->result() as $row)
         {
-               //return cluster name/siteName to view
                return $row->clusterName;
         }
     }
     
     public function getClusterGroupID ($userid){
         //get cluster group name from IRIS (cluster/cluster_lead)
-        $query = $this->db->query("SELECT cluster.clusterID FROM cluster JOIN site_manager JOIN cluster_site WHERE userID = '$userid' AND cluster.clusterID = cluster_site.clusterID AND cluster_site.siteID = site_manager.siteID");
-        //$this->db->select('clusterName');
-        //$this->db->from('cluster'); 
-        //$this->db->join('clusterlead');
-        //$this->db->where('userID', $userid);
-        //$this->db->where('cluster.clusterID', 'cluster_lead.clusterID');
-        //$where = "userID = '$userid' AND cluster.clusterID = cluster_lead.clusterID";
-        //$this->db-where($where);
-                
-        //$query = $this->db->get(); 
-           
+        $query = $this->db->query("SELECT cluster.clusterID FROM cluster JOIN site_manager JOIN cluster_site WHERE userID = '$userid' AND cluster.clusterID = cluster_site.clusterID AND cluster_site.siteID = site_manager.siteID"); 
         foreach ($query->result() as $row)
         {
                //return cluster name/siteName to view
@@ -135,17 +116,7 @@ class Manager_model extends CI_Model {
     }
     public function getClusterLeadGroupID ($userid){
         //get cluster group name from IRIS (cluster/cluster_lead)
-        $query = $this->db->query("SELECT cluster.clusterID FROM cluster JOIN cluster_lead WHERE userID = '$userid' AND cluster.clusterID = cluster_lead.clusterID");
-        //$this->db->select('clusterName');
-        //$this->db->from('cluster'); 
-        //$this->db->join('clusterlead');
-        //$this->db->where('userID', $userid);
-        //$this->db->where('cluster.clusterID', 'cluster_lead.clusterID');
-        //$where = "userID = '$userid' AND cluster.clusterID = cluster_lead.clusterID";
-        //$this->db-where($where);
-                
-        //$query = $this->db->get(); 
-           
+        $query = $this->db->query("SELECT cluster.clusterID FROM cluster JOIN cluster_lead WHERE userID = '$userid' AND cluster.clusterID = cluster_lead.clusterID");       
         foreach ($query->result() as $row)
         {
                //return cluster name/siteName to view
