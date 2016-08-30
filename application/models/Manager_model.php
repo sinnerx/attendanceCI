@@ -272,6 +272,7 @@ class Manager_model extends CI_Model {
                    }
                 }
             }
+            
     
     private function _get_datatables_query()
 	{

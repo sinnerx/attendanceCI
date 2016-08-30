@@ -293,14 +293,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <div id="outstationStatus" class="modal fade" tabindex="-1" role="dialog">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
-<!--                                        <div class="modal-header">
-                                            <button type="checkbox" class="close" data-dismiss="modal" id="canceloutstation_X">×</button>
-                                            <h4>Outstation Status</h4>
-                                        </div>-->
-                                        
                                         <div class="modal-body"><h3 style="text-align: center">Attendance Note</h3>
                                             <p>
-                                                <textarea name="outstationStatusTxt" id="outstationStatusTxt" rows="6" cols="75" placeholder=" Please state your reason..."></textarea>
+                                                <textarea name="outstationStatusTxt" id="outstationStatusTxt" rows="6" cols="65" placeholder=" Please state your reason..."></textarea>
                                             </p>
                                             <input type="hidden" value="" id="valOutStationStatus">
 <!--                                        </div>
@@ -312,6 +307,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 </div>
                             </div>
                           <div>
+                              <?php 
+                              //echo $getLastPunchStatus; 
+                              //echo 'currentDate: '.date("d-m-Y").'<br>';
+                              //echo 'currentTime'.date("G:i").'<br>';
+                              //echo 'currentDateTime'.date("Y-m-d G:i:s").'<br>';
+                              ?>
                           <!--<div  id='punch-in'>-->
                               <p style="text-align: center">
                                   <a id="punch-in" href="#" class="btn btn-primary btn-lg" style="display: 

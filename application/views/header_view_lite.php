@@ -63,7 +63,6 @@ $(document).ready(function() {
        //punch-in   
       $( "#punch-in" ).click(function(event) {
           $( "#snap" ).click();
-          //alert("time: "+currentDateTime().substr(-6) +"| date: "+currentDateTime().substr(0,10));
           $( "#punch-in" ).hide();
           $( "#punch-out" ).show();
           $( "#punch-out" ).addClass('disabled');
@@ -74,20 +73,14 @@ $(document).ready(function() {
             var siteID = $("#valSiteID").val();
             var siteName = $("#valSiteName").val();
             var userEmail = $("#valUserEmail").val();
-            //var  attID = $("#valAttID").val();
-            //var  activityTime = $("#valTime").val();
-            //var  activityDate = $("#valDate").val();
-            var  activityTime = currentDateTime().substr(-5);
-            var  activityDate = activityDateData = currentDateTime().substr(0,10);
-            //var  activityStatus = $("#valActivityStatus").val();
-            var  activityDateTime = currentFormattedDateTime();
-            //alert(activityDateTime);
+            var activityTime = "<?php echo date("G:i"); ?>";
+            var activityDate = "<?php echo date("d-m-Y");?>";
+            var activityDateTime = "<?php echo date("Y-m-d G:i:s");?>";
             var  activityStatus = punchStatus = 'IN';
             var  outstationStatus = $("#outstationStatusTxt").val();
             var  latLongIn = $("#valLatLong").val();
             var  accuracy = $("#valAccuracy").val();
-            var newActvityTime = activityTimeData = activityTime.replace(/:/,".").replace(/^\s*/, "");
-            var  imgIn = 'images/attendance/'+activityDate+'-'+newActvityTime+'-'+managerID+'-'+activityStatus+'.jpg';
+            var  imgIn = 'images/attendance/noimage.jpg';
             jQuery.ajax({
             type: "POST",
             url: "<?php echo base_url(); ?>manager/saveAttendance",
@@ -96,7 +89,7 @@ $(document).ready(function() {
             success: function (data) {
                     //table.ajax.reload(null,false);
                     console.log(data);
-                    reload_table();
+                    //reload_table();
                     notify();
                     $("#upload").click();
 
@@ -121,19 +114,13 @@ $(document).ready(function() {
         var siteID = $("#valSiteID").val();
         var siteName = $("#valSiteName").val();
         var userEmail = $("#valUserEmail").val();
-        //var  attID = $("#valAttID").val();
-        //var  activityTime = $("#valTime").val();
-        //var  activityDate = $("#valDate").val();
-        var  activityTime  = currentDateTime().substr(-5);
-        var  activityDate = activityDateData = currentDateTime().substr(0,10);
-        var  activityDateTime = currentFormattedDateTime();
-        //var  activityStatus = $("#valActivityStatus").val();
+        var activityTime = "<?php echo date("G:i"); ?>";
+        var activityDate = "<?php echo date("d-m-Y");?>";
+        var activityDateTime = "<?php echo date("Y-m-d G:i:s");?>";
         var  activityStatus = punchStatus = 'OUT';
         var  outstationStatus = $("#outstationStatusTxt").val();
         var  latLongIn = $("#valLatLong").val();
         var  accuracy = $("#valAccuracy").val();
-        var newActvityTime = activityTimeData = activityTime.replace(/:/,".").replace(/^\s*/, "");
-//        var  imgIn = 'images/attendance/'+activityDate+'-'+newActvityTime+'-'+managerID+'-'+activityStatus+'.jpg';
         var  imgIn = 'images/attendance/noimage.jpg';
 
         jQuery.ajax({
@@ -144,7 +131,7 @@ $(document).ready(function() {
         success: function (data) {
                 //table.ajax.reload(null,false);
                 console.log(data);
-                reload_table();
+                //reload_table();
                 notify();
                 $("#upload").click();
                 //alert();
@@ -158,41 +145,7 @@ $(document).ready(function() {
      });
     //reload_table();
     });
-    
 
-//    table = $('#table').DataTable({ 
-//        
-//        "processing": true, //Feature control the processing indicator.
-//        "serverSide": true, //Feature control DataTables' server-side processing mode.
-//        "order": [], //Initial no order.
-//        //"pagingType": "full_numbers",
-//        
-//        // Load data for the table's content from an Ajax source
-//        "ajax": {
-//            "url": "<?php echo base_url();?>manager/ajax_list",
-//            "type": "POST"
-//        },
-//         //Set column definition initialisation properties.
-//        "columnDefs": [
-//        { 
-//            
-//        //"targets": [ -1 ], //disable last column
-//        "targets": [ 0,1,2,3,4 ], //disable sorting all column
-//            "orderable": false, //set not orderable
-//        },
-//        ],
-//        //alert($userid);
-//    });
-    
-//    $("#canceloutstation").click(function() {
-//            //alert("cancel");
-//             //alert($("#outstationStatusTxt").val());    
-//        if($("#outstationStatusTxt").val()) != ""){
-//
-//           // alert($("#outstationStatusTxt").val());
-//        }
-//    });
-   
     
     $('input,textarea').focus(function () {
         $(this).data('placeholder', $(this).attr('placeholder'))
@@ -200,147 +153,16 @@ $(document).ready(function() {
     }).blur(function () {
         $(this).attr('placeholder', $(this).data('placeholder'));
     });
-    
-    //camera
-    //loadCamera();
-//    function loadCamera() {
-//            console.log('load camera');
-//            // Grab elements, create settings, etc.
-//            canvas = document.getElementById("canvas"),
-//                context = canvas.getContext("2d"),
-//                
-//                video = document.getElementById("video"),
-//                videoObj = { "video": true },
-//                image_format= "jpeg",
-//                jpeg_quality= 85,
-//                errBack = function(error) {
-//                    console.log("Video capture error: ", error.code); 
-//                };
-//                //ratio 4:3
-//                canvas.width = 502;
-//                canvas.height = 376.5;
-//
-//            // Put video listeners into place
-//            if(navigator.getUserMedia) { // Standard
-//                navigator.getUserMedia(videoObj, function(stream) {
-//                    video.src = stream;
-//                    //ratio 4:3
-//                    video.width = 502;
-//                    video.height = 376.5;
-//                    video.play();
-//                    
-//                    //$("#snap").show();
-//                }, errBack);
-//                console.log('errBack1: '+errBack);
-//            } else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
-//                navigator.webkitGetUserMedia(videoObj, function(stream){
-//                    //video.src = window.webkitURL.createObjectURL(stream);
-//                    video.src = window.URL.createObjectURL(stream);
-//                    //ratio 4:3
-//                    video.width = 502;
-//                    video.height = 376.5;
-//                    video.play();
-//                    //$("#snap").show();
-//                }, errBack);
-//                console.log('errBack2: '+errBack);
-//            } else if(navigator.mozGetUserMedia) { // moz-prefixed
-//                console.log('Mozilla');
-////                navigator.mozGetUserMedia(videoObj, function(stream){
-////                    video.src = window.URL.createObjectURL(stream);
-////\                    video.width = 502;
-////                    video.height = 376.5;
-////                    video.play();
-////                }, errBack);
-////                console.log('errBack3: '+errBack);
-//            var constraints = { audio: false, video: { width: 502, height: 376.5 } };
-//            navigator.mediaDevices.getUserMedia(constraints)
-//            .then(function(stream) {
-//              var video = document.querySelector('video');
-//              video.src = window.URL.createObjectURL(stream);
-//              video.onloadedmetadata = function(e) {
-//                video.play();
-//              };
-//            })
-//            .catch(function(err) {
-//              console.log(err.name + ": " + err.message);
-//            });
-//                vidSrc = video.src;
-//                console.log('vidSrc:'+vidSrc);
-//            }
-//            
-//            
-//                  // video.play();       these 2 lines must be repeated above 3 times
-//                  // $("#snap").show();  rather than here once, to keep "capture" hidden
-//                  //                     until after the webcam has been activated.  
-//                   //console.log('canvas:'+canvas);
-//                   //console.log('video.src:'+video.src);
-//                   //vidSrc = video.src;
-//                   //console.log('vidSrc:'+vidSrc);
-//                   
-//            // Get-Save Snapshot - image 
-//              $( "#snap" ).click(function(event) {
-//                context.drawImage(video, 0, 0, 502, 376.5);
-//                 $("#video").hide();
-//                $("#canvas").show();
-//            });
-//            // reset - clear - to Capture New Photo
-//            //document.getElementById("reset").addEventListener("click", function() {
-//             $( "#reset" ).click(function(event) {
-//                //$("#video").fadeIn("slow");
-//                //$("#canvas").fadeOut("slow");
-//                $("#video").show();
-//                $("#canvas").hide();
-//                //$("#snap").show();
-//                //$("#reset").hide();
-//                //$("#upload").hide();
-//            });
-//            // Upload image to sever 
-//            //document.getElementById("upload").addEventListener("click", function(){
-//             $( "#upload" ).click(function(event) {
-//                var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
-//                $("#uploading").show();
-//                $.ajax({
-//                  type: "POST",
-//                  url: "snap/saveFace",
-//                  data: { 
-//                     imgBase64: dataUrl,
-//                     //user: "Joe",       
-//                     //userid: 25   
-//                     userid: $("#valManagerID").val(),
-//                     punchStatus: punchStatus,
-//                     activityDateData: activityDateData,
-//                     activityTimeData: activityTimeData
-//                     
-//                  }
-//                }).done(function(msg) {
-//                  console.log(activityDateData+" | "+activityTimeData+" | "+punchStatus);
-//                  console.log("saved");
-//                  $("#uploading").hide();
-//                  $("#uploaded").show();
-//                  //checkVideoID();
-//                });
-//            });
-//        }
-    //false;
-    //checkVideoID();
-    //loadCamera();
  });
- 
-//function reload_table(){
-//     // alert("reloaded!");
-//      table.ajax.reload(null,false); //reload datatable ajax 
-//}
 
 function notify(){
     //alert("datetime: "activityDate + activityTime);
            var div = document.getElementById('success');
             div.innerHTML += 'Data successfully submitted!';
+            console.log('success!!!');
             function f() { 
-            div.innerHTML = "";
-//            var fourthPunch = "<?php //echo $this->manager_model->isFourthPunched()?>";
-//           
-//            if(fourthPunch !== "true"){        
-                $( "#punch-in" ).removeClass('disabled');
+            div.innerHTML = "";     
+            $( "#punch-in" ).removeClass('disabled');
             //}
             $( "#punch-out" ).removeClass('disabled');
             //reset check box
@@ -350,40 +172,12 @@ function notify(){
             $("#reset").click();
             $("#uploading").hide();
             $("#uploaded").hide();
-
-        //outstationTxt.innerHTML = '<label><input id=\"outstation\" type=\"checkbox\"><i></i> Add Notes</label>' ;
     }
     setTimeout(f, 3000);        
 }
 
-function currentDateTime() {
-            var d = new Date();
-            var day = ('0' + d.getDate()).slice(-2);
-            var month = ( '0' + (d.getMonth() + 1)).slice(-2);
-            var year = d.getFullYear();
-            var hour = ('0' + d.getHours()).slice(-2);
-            var mins = ('0' + d.getMinutes()).slice(-2);
-            var secs = ('0' + d.getSeconds()).slice(-2);
-            var msec = d.getMilliseconds();
-            return day + "-" + month + "-" + year + " " + hour + ":" + mins/* + ":" + secs + "," + msec*/;
- }
- 
-function currentFormattedDateTime() {
-            var d = new Date();
-            var day = ('0' + d.getDate()).slice(-2);
-            var month = ( '0' + (d.getMonth() + 1)).slice(-2);
-            var year = d.getFullYear();
-            var hour = ('0' + d.getHours()).slice(-2);
-            var mins = ('0' + d.getMinutes()).slice(-2);
-            var secs = ('0' + d.getSeconds()).slice(-2);
-            var msec = d.getMilliseconds();
-            return year + "-" + month + "-" + day + " " + hour + ":" + mins + ":" + secs/* + "," + msec*/;
- }
  
  function checkVideoID (){
-      //var value = document.getElementById("video").length;
-      //console.log('value:'+value);
-      //console.log('video.src:'+video.src.length);
       if(video.src.length !== 0){
           document.getElementById("main").style.display = "";
           document.getElementById("camImg").style.display = "none";
@@ -393,8 +187,6 @@ function currentFormattedDateTime() {
          // loadCamera();
       }
  }
-  
-  
 </script>
 
 </head>

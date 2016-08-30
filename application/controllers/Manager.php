@@ -38,28 +38,9 @@ class Manager extends CI_Controller {
                     'getClusterLeadGroupID' => $this->manager->getClusterLeadGroupID($this->userid),
                     'getLastPunchStatus' => $this->manager->getLastPunchStatus($this->userid),
                     'getClusterGroupID' => $this->manager->getClusterGroupID($this->userid),
-                    'getClusterGroup' => $this->manager->getClusterGroup($this->userid)
-		);
-                
-
-        //load model for manager
-        //$this->load->model('manager_model');
-        //pass userid to model->method
-        //$this->manager_model->getFullName($this->userid);
-//        $this->manager_model->getUserLevel($this->userLevel);
-//        $this->manager_model->getClusterName($this->userid);
-//        $this->manager_model->getUserEmail($this->userid);
-//        $this->manager_model->getSiteID($this->userid);
-//        $this->manager_model->isFirstInToday($this->userid);
-//        $this->manager_model->isFourthPunched($this->userid);
-//        $this->manager_model->initAnomaly($this->userid);
-        
-        
-
-        //load complete page
-        //$this->load->view('header_view',$data);
-        //$this->load->view('nav_view');
-        
+                    'getClusterGroup' => $this->manager->getClusterGroup($this->userid),
+                   //'getPunchDateTime' => $this->getPunchDateTime()
+		);        
         //lite version
         $this->load->view('header_view_lite',$data);
         $this->load->view('manager_view_lite', $data);
@@ -68,6 +49,14 @@ class Manager extends CI_Controller {
 //        $this->load->view('manager_view');
          $this->load->view('footer_view');
 
+    }
+    
+    public function getPunchDateTime(){
+        date_default_timezone_set("Asia/Kuala_Lumpur");
+        $currentDate = date("d-m-Y");
+        $currentTime = date("G:i");
+        $currentDateTime = date("Y-m-d G:i:s");
+        return array($currentDate, $currentTime, $currentDateTime);
     }
     public function saveAttendance(){
         //$jsonresult = json_decode($json)
