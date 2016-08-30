@@ -238,7 +238,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <div class="row">
                     <div class="col-md-6">
                             <div class="panel-heading b-b">
-                            <p style="text-align: center"><a id="curDateTime" href="#" class="block h4 font-bold m-b text-black">Current Date/Time:<br> ...calculating</a></p>
+                            <p style="text-align: center"><a href="#" class="block h4 font-bold m-b text-black">Current Date/Time:<br><?php echo date("Y-m-d G:i");?></a></p>
                            <input type="hidden" value="<?php echo $userid ?>" id="valManagerID">
                            <input type="hidden" value="<?php echo $getFullName ?>" id="valManagerName">
                            <input type="hidden" value="<?php echo $getClusterName ?>" id="valSiteName">
@@ -350,7 +350,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div><br>
                     <p style="text-indent:5px"><i class="i i-checked"></i><strike> Your camera is enabled and shared with the system upon loading.</strike></p>
                     <p style="text-indent:5px"><i class="i i-checked"></i> Your current location is shared upon loading.</p>
-                    <p style="text-indent:5px"><i class="i i-checked"></i> If you already shared your camera and location, try to refresh the browser again. Otherwise if you think this is an error please contact <a href='mailto:support@fulkrum.net'>support@fulkrum.net</a> immediately. </i></a></p>
+                    <p style="text-indent:5px"><i class="i i-checked"></i> If you already shared your <strike>camera and</strike> location, try to refresh the browser again. Otherwise if you think this is an error please contact <a href='mailto:support@fulkrum.net'>support@fulkrum.net</a> immediately. </i></a></p>
                     
                  </section>        
                 <?php echo form_close(); ?><br/>
