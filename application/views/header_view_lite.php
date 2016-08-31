@@ -8,6 +8,7 @@ defined ('BASEPATH') or exit('No direct access allowed!');
 ?><!DOCTYPE html>
 <html lang="en" class="app">
 <?php
+    
     if (!isset($_SESSION['userid'])) {
 
             header("location: ../dashboard");
@@ -57,6 +58,7 @@ defined ('BASEPATH') or exit('No direct access allowed!');
     <script src="<?php echo base_url();?>js/ie/excanvas.js"></script>
   <![endif]-->
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+ <script src="<?php echo base_url();?>js/geolocation/geolocation.js"></script>
    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>-->
   <!--<script src="<?php echo base_url();?>js/jquery.min.js"></script>-->
   <script type="text/javascript">
@@ -80,15 +82,6 @@ $(document).ready(function() {
           $( "#punch-out" ).show();
           $( "#punch-out" ).addClass('disabled');
             event.preventDefault();
-            var clusterID = $("#valClusterID").val();
-            var managerID = $("#valManagerID").val();
-            var managerName = $("#valManagerName").val();
-            var siteID = $("#valSiteID").val();
-            var siteName = $("#valSiteName").val();
-            var userEmail = $("#valUserEmail").val();
-            var activityTime = "";
-            var activityDate = "";
-            var activityDateTime = "";
             var  activityStatus = punchStatus = 'IN';
             var  outstationStatus = $("#outstationStatusTxt").val();
             var  latLongIn = $("#valLatLong").val();
@@ -98,7 +91,7 @@ $(document).ready(function() {
             type: "POST",
             url: "<?php echo base_url(); ?>manager/saveAttendance",
             //dataType: "JSON",
-            data: {managerID: managerID, clusterID: clusterID, managerName: managerName, siteID: siteID, siteName: siteName, userEmail: userEmail, activityDate: activityDate, activityTime: activityTime, activityDateTime: activityDateTime, latLongIn: latLongIn, accuracy: accuracy, activityStatus: activityStatus, outstationStatus: outstationStatus, imgIn: imgIn},
+            data: {latLongIn: latLongIn, accuracy: accuracy, activityStatus: activityStatus, outstationStatus: outstationStatus, imgIn: imgIn},
             success: function (data) {
                     //table.ajax.reload(null,false);
                     console.log(data);
@@ -121,15 +114,6 @@ $(document).ready(function() {
         $( "#punch-in" ).show();
         $( "#punch-in" ).addClass('disabled');
         event.preventDefault();
-        var clusterID = $("#valClusterID").val();
-        var managerID = $("#valManagerID").val();
-        var managerName = $("#valManagerName").val();
-        var siteID = $("#valSiteID").val();
-        var siteName = $("#valSiteName").val();
-        var userEmail = $("#valUserEmail").val();
-        var activityTime = "";
-        var activityDate = "";
-        var activityDateTime = "";
         var  activityStatus = punchStatus = 'OUT';
         var  outstationStatus = $("#outstationStatusTxt").val();
         var  latLongIn = $("#valLatLong").val();
@@ -140,7 +124,7 @@ $(document).ready(function() {
         type: "POST",
         url: "<?php echo base_url(); ?>manager/saveAttendance",
         //dataType: "JSON",
-        data: {managerID: managerID, clusterID: clusterID, managerName: managerName, siteID: siteID, siteName: siteName, userEmail: userEmail, activityDate: activityDate, activityTime: activityTime, activityDateTime: activityDateTime, latLongIn: latLongIn, accuracy: accuracy, activityStatus: activityStatus, outstationStatus: outstationStatus, imgIn: imgIn},
+        data: {latLongIn: latLongIn, accuracy: accuracy, activityStatus: activityStatus, outstationStatus: outstationStatus, imgIn: imgIn},
         success: function (data) {
                 //table.ajax.reload(null,false);
                 console.log(data);
@@ -188,8 +172,6 @@ function notify(){
     }
     setTimeout(f, 3000);        
 }
-
- 
  function checkVideoID (){
       if(video.src.length !== 0){
           document.getElementById("main").style.display = "";

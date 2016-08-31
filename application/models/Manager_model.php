@@ -35,7 +35,7 @@ class Manager_model extends CI_Model {
        //userLevel
     }
     
-    public function getClusterName ($userid){
+    public function getSiteName ($userid){
         //get clustername from IRIS (siteName)
         $query = $this->db->query("SELECT siteName FROM site JOIN site_manager WHERE userID ='$userid' AND site.siteID = site_manager.siteID");
         foreach ($query->result() as $row)
@@ -57,7 +57,7 @@ class Manager_model extends CI_Model {
     
     public function getUserEmail ($userid){
         //get clustername from IRIS (siteName)
-        $query = $this->db->query("SELECT userEmail FROM user WHERE userID ='$userid' AND userLevel='2'");
+        $query = $this->db->query("SELECT userEmail FROM user WHERE userID ='$userid'");
         foreach ($query->result() as $row)
         {
                //return cluster name/siteName to view
@@ -149,27 +149,25 @@ class Manager_model extends CI_Model {
                 $this->db->set('attendanceStatus', 'in1');
                 $this->db->where('attID',  $row->attID);
                 $this->db->update('att_attendancedetails');
-                //$this->isLateIn();
+                } 
+            if( $num === 2){
+                $this->db->set('attendanceStatus', 'out1');
+                $this->db->where('attID',  $row->attID);
+                $this->db->update('att_attendancedetails');
                 //
-                //
-                } elseif( $num === 2){
-                    $this->db->set('attendanceStatus', 'out1');
-                    $this->db->where('attID',  $row->attID);
-                    $this->db->update('att_attendancedetails');
-                    //
-                    }  elseif( $num === 3){
-                        $this->db->set('attendanceStatus', 'in2');
-                        $this->db->where('attID',  $row->attID);
-                        $this->db->update('att_attendancedetails');
-                        //
-                        }  elseif( $num === 4){
-                            $this->db->set('attendanceStatus', 'out2');
-                            $this->db->where('attID',  $row->attID);
-                            $this->db->update('att_attendancedetails');
-                            //
-                } else{
-                    // disable punch 
                 }
+            if( $num === 3){
+                $this->db->set('attendanceStatus', 'in2');
+                $this->db->where('attID',  $row->attID);
+                $this->db->update('att_attendancedetails');
+                //
+                }
+            if( $num === 4){
+                $this->db->set('attendanceStatus', 'out2');
+                $this->db->where('attID',  $row->attID);
+                $this->db->update('att_attendancedetails');
+                            
+                } 
                 //check late in/out
                 $this->isLateInOut();
             }
@@ -182,93 +180,67 @@ class Manager_model extends CI_Model {
                 $query = $this->db->get();
                 $num = $query->num_rows();
                 $row = $query->row($num-1);
-                //echo 'num_rows: '.$num.' |';
                 $time = $row->activityTime;
                 $clusterid = $row->clusterID;
                 $attStatus = $row->attendanceStatus;
-//                echo 'time:'.$time.' |';
-//                echo 'attID:'.$row->attID.' |';
-//                echo 'attendanceStatus:'.$attStatus.' |';;
-//                echo 'clusterID:'.$clusterid.' |';
-                
                 //check for late in
                 if($attStatus === 'in1'){//first in
-                    
-                   if($clusterid === '5' || $clusterid === '6' ){
-                       
-                       if((strtotime($time)) > (strtotime('09:00:00'))){// late in for semenanjung
-                           //echo "semenanjung late!";
+                   if(($clusterid === '5' || $clusterid === '6' ) && ((strtotime($time)) > (strtotime('09:00:00')))){
+                           //semenanjung late-in
                            $this->db->set('lateIn', 1);
                            $this->db->where('attID',  $row->attID);
                            $this->db->update('att_attendancedetails');
-                       }
-                   } elseif($clusterid === '1' || $clusterid === '2'|| $clusterid === '3' || $clusterid === '4'){
-                       
-                       if((strtotime($time)) > (strtotime('08:00:00'))){//late in for sabah/sarawak
-                           //echo "sabah/sarawak late!";
+                   } elseif(($clusterid === '1' || $clusterid === '2'|| $clusterid === '3' || $clusterid === '4') && ((strtotime($time)) > (strtotime('08:00:00')))){
+                           //sabah/sarawak late-in
                            $this->db->set('lateIn', 1);
                            $this->db->where('attID',  $row->attID);
                            $this->db->update('att_attendancedetails');
-                       }
                    }
                    
                 } elseif ($attStatus === 'in2') {//after break in
-                       if($clusterid === '5' || $clusterid === '6' ){
-                           //semenanjung - break
-                           if((strtotime($time)) > (strtotime('14:00:00'))){ //late in after break
-                               //echo "semenanjung late break in!";
+                       if(($clusterid === '5' || $clusterid === '6' ) && ((strtotime($time)) > (strtotime('14:00:00')))){
+                               //semenanjung late-in break
                                 $this->db->set('lateIn', 1);
                                 $this->db->where('attID',  $row->attID);
                                 $this->db->update('att_attendancedetails');
-                           }
-                       } elseif($clusterid === '1' || $clusterid === '2'|| $clusterid === '3' || $clusterid === '4'){
-                           //sabah/sarawak - break 
-                           if((strtotime($time)) > (strtotime('13:00:00'))){ //late in after break
-                               //echo "semenanjung late break in!";
+                          // }
+                       } elseif(($clusterid === '1' || $clusterid === '2'|| $clusterid === '3' || $clusterid === '4') && ((strtotime($time)) > (strtotime('13:00:00')))){
+                                //semenanjung late-in break
                                 $this->db->set('lateIn', 1);
                                 $this->db->where('attID',  $row->attID);
                                 $this->db->update('att_attendancedetails');
-                           }
                        }
                 }
 
                 //check for early out
                 if($attStatus === 'out2'){//go home
                     //semenanjung
-                   if($clusterid === '5' || $clusterid === '6' ){
-                       //before 6 flag early
-                       if((strtotime($time)) < (strtotime('18:00:00'))){// early out for semenanjung
+                   if(($clusterid === '5' || $clusterid === '6' ) && ((strtotime($time)) < (strtotime('18:00:00')))){
+                           //semenanjung early-out
                            $this->db->set('earlyOut', 1);
                            $this->db->where('attID',  $row->attID);
                            $this->db->update('att_attendancedetails');
-                       }
+                      // }
                    //sabah/sarawak    
-                   } elseif($clusterid === '1' || $clusterid === '2'|| $clusterid === '3' || $clusterid === '4'){
-                       //before 5 flag early
-                       if((strtotime($time)) < (strtotime('17:00:00'))){//early out for sabah/sarawak
+                   } elseif(($clusterid === '1' || $clusterid === '2'|| $clusterid === '3' || $clusterid === '4') && ((strtotime($time)) < (strtotime('17:00:00')))){
+                            //sabah/sarawak early-out
                            $this->db->set('earlyOut', 1);
                            $this->db->where('attID',  $row->attID);
                            $this->db->update('att_attendancedetails');
-                       }
                    }
                    
                 } elseif ($attStatus === 'out1') {//break - out
                    //semenanjung
-                   if($clusterid === '5' || $clusterid === '6' ){
-                       //before 1 flag early
-                       if((strtotime($time)) < (strtotime('13:00:00'))){ //late in after break
+                   if(($clusterid === '5' || $clusterid === '6' ) && ((strtotime($time)) < (strtotime('13:00:00')))){
+                            // semenanjung early-out break
                             $this->db->set('earlyOut', 1);
                             $this->db->where('attID',  $row->attID);
                             $this->db->update('att_attendancedetails');
-                       }
-                   //sabah/sarawak
-                   } elseif($clusterid === '1' || $clusterid === '2'|| $clusterid === '3' || $clusterid === '4'){
-                       //before 12 flag early
-                       if((strtotime($time)) < (strtotime('12:00:00'))){ //late in after break
+                   } elseif(($clusterid === '1' || $clusterid === '2'|| $clusterid === '3' || $clusterid === '4') && ((strtotime($time)) < (strtotime('12:00:00')))){
+                            //sabah/sarawak early-out break
                             $this->db->set('earlyOut', 1);
                             $this->db->where('attID',  $row->attID);
                             $this->db->update('att_attendancedetails');
-                       }
                    }
                 }
             }
@@ -377,12 +349,8 @@ class Manager_model extends CI_Model {
         public function isFirstInToday(){
         //$this->db->select('activityDate');
         $this->db->from('att_attendancedetails');
-        
         $this->db->where('managerID', $this->userid);
         $this->db->where('activityStatus !=', 'IN');
-        //isnnotdate
-        //$this->db->where('activityDate !=', date('d-m-Y'));
-        //isdate
         $this->db->where('activityDate', date('d-m-Y'));
         $query = $this->db->get();
         foreach ($query->result() as $row)
@@ -466,141 +434,114 @@ class Manager_model extends CI_Model {
         
         
         
-        public function hoursPerDay(){
-        
-        //total punch array/yesterday
-        $this->db->select('activityTime');    
-        $this->db->from('att_attendancedetails');
-        $this->db->where('managerID', $this->userid);
-        $yesterdayDate = date('d-m-Y', strtotime('-1 days'));
-        $this->db->where('activityDate', $yesterdayDate);
-        
-        //test on 29 jan 2016
-        //$this->db->where('activityDate', '29-01-2016');
-        $query = $this->db->get();
-        foreach ($query->result() as $row)
-            {
-                $row->activityTime;
-            }
-        $num = $query->num_rows();
-
-        $totalPunch = $num;
-        echo 'totalPunch: '.$num.' | ';
-            
-        //out
-        $this->db->select('activityTime');    
-        $this->db->from('att_attendancedetails');
-        $this->db->where('managerID', $this->userid);
-        $this->db->where('activityStatus', 'OUT');
-        //isnnotdate
-        //$this->db->where('activityDate !=', date('d-m-Y'));
-        //isdate yesterday
-        $yesterdayDate = date('d-m-Y', strtotime('-1 days'));
-        $this->db->where('activityDate', $yesterdayDate);
-        
-        //test on 29 jan 2016
-        //$this->db->where('activityDate', '29-01-2016');
-        $query = $this->db->get();
-        foreach ($query->result() as $row)
-            {
-                $row->activityTime;
-            }
-        //total punch-out
-        $numOut = $query->num_rows();
-        //$row = $query->last_row();
-        $rowOut = $query->row_array();
-        //echo ' | '.date('H:i'); 
-        //print_r($row);
-        //$timeOut = [];
-        $totalPunchOut = $num;
-            //echo 'totalPunchOut: '.$totalPunchOut;
-            //$numOut/In - no of punch out/in
-            for ($i = 0; $i < $numOut; $i++){
-               $rowOut = $query->row_array($i);
-               //**echo 'rowOut'.$i.': '.$rowOut['activityTime'].' | ';
-               $timeOut[$i] = $rowOut['activityTime'];
-
-            }
-        
-        //in
-        $this->db->select('activityTime');    
-        $this->db->from('att_attendancedetails');
-        $this->db->where('managerID', $this->userid);
-        $this->db->where('activityStatus', 'IN');
-        //isnnotdate
-        //$this->db->where('activityDate !=', date('d-m-Y'));
-        //isdate
-        $yesterdayDate = date('d-m-Y', strtotime('-1 days'));
-        $this->db->where('activityDate', $yesterdayDate);
-        
-        //test on 29 jan 2016
-        //$this->db->where('activityDate', '29-01-2016');
-        $query = $this->db->get();
-        foreach ($query->result() as $row)
-            {
-                $row->activityTime;
-            }
-         //total punch in   
-        $numIn = $query->num_rows();
-        //$row = $query->last_row();
-        $rowIn = $query->row_array();
-        //echo ' | '.date('H:i'); 
-        //$roww = $query->row(2);
-        //echo $rowIn[2];
-        //print_r($rowIn);
-        $totalPunchIn = $num;
-            //echo 'totalPunchIn: '.$totalPunchIn;
-            //$numOut/In - no of punch out/in
-            for ($i = 0; $i < $numIn; $i++){
-               $rowIn = $query->row_array($i);
-               echo 'rowIn'.$i.': '.$rowIn['activityTime'].' | ';
-               $timeIn[$i] = $rowIn['activityTime'];
-               
-            }
-            //calculate totalhour
-            $totalhour = 0;
-            //$totalhour1 = 0;
-            $firstIn = $this->isFirstIn();
-            $firstIn = $this->isFirstIn()->activityTime;
-            //if((strtotime($firstIn)- 9) >= 0){
-                for($i=0; $i < $numOut; $i++){
-
-                    $totalhour += ((strtotime($timeOut[$i]) - strtotime($timeIn[$i]))/3600);
-                }
-            //}
-            //echo 'fisrtIn: '.strtotime('09:00');
-            //in after 9
-            echo 'Balance: '.(strtotime('09:00') - (strtotime($firstIn)));
-            $totalhour1 = ((strtotime($timeOut[0]) - strtotime($firstIn))/3600);  
-            echo 'totalhour1: '.$totalhour1;
-            echo 'totalhours: '.round($totalhour, 2);
-            
-            //insert to db
-            $this->db->set('hours', round($totalhour, 2));
-            $lastRow = $this->isLastOut();
-            $this->db->where('attID', $lastRow->attID);
-            //**echo 'lasthours: '.$lastRow->hours;
-            if($lastRow->hours == 0){
-                $this->db->update('att_attendancedetails');
-            }
-            //$this->db->insert();
-            //$firstIn = array();
-            
-           //print_r($firstIn);
-            //echo $firstIn;
-            
-        }//end of hoursPerDay
-        
-        
-        public function  isLastActivity(){
-            
-        }
+//        public function hoursPerDay(){
+//        
+//        //total punch array/yesterday
+//        $this->db->select('activityTime');    
+//        $this->db->from('att_attendancedetails');
+//        $this->db->where('managerID', $this->userid);
+//        $yesterdayDate = date('d-m-Y', strtotime('-1 days'));
+//        $this->db->where('activityDate', $yesterdayDate);
+//        
+//        //test on 29 jan 2016
+//        $query = $this->db->get();
+//        foreach ($query->result() as $row)
+//            {
+//                $row->activityTime;
+//            }
+//        $num = $query->num_rows();
+//
+//        $totalPunch = $num;
+//        echo 'totalPunch: '.$num.' | ';
+//            
+//        //out
+//        $this->db->select('activityTime');    
+//        $this->db->from('att_attendancedetails');
+//        $this->db->where('managerID', $this->userid);
+//        $this->db->where('activityStatus', 'OUT');
+//        //isnnotdate
+//        //$this->db->where('activityDate !=', date('d-m-Y'));
+//        //isdate yesterday
+//        $yesterdayDate = date('d-m-Y', strtotime('-1 days'));
+//        $this->db->where('activityDate', $yesterdayDate);
+//        
+//        //test on 29 jan 2016
+//        $query = $this->db->get();
+//        foreach ($query->result() as $row)
+//            {
+//                $row->activityTime;
+//            }
+//        //total punch-out
+//        $numOut = $query->num_rows();
+//        $rowOut = $query->row_array();
+//        $totalPunchOut = $num;
+//            for ($i = 0; $i < $numOut; $i++){
+//               $rowOut = $query->row_array($i);
+//               $timeOut[$i] = $rowOut['activityTime'];
+//
+//            }
+//        
+//        //in
+//        $this->db->select('activityTime');    
+//        $this->db->from('att_attendancedetails');
+//        $this->db->where('managerID', $this->userid);
+//        $this->db->where('activityStatus', 'IN');
+//        //isnnotdate
+//        //$this->db->where('activityDate !=', date('d-m-Y'));
+//        //isdate
+//        $yesterdayDate = date('d-m-Y', strtotime('-1 days'));
+//        $this->db->where('activityDate', $yesterdayDate);
+//        
+//        //test on 29 jan 2016
+//        //$this->db->where('activityDate', '29-01-2016');
+//        $query = $this->db->get();
+//        foreach ($query->result() as $row)
+//            {
+//                $row->activityTime;
+//            }
+//         //total punch in   
+//        $numIn = $query->num_rows();
+//        //$row = $query->last_row();
+//        $rowIn = $query->row_array();
+//        //echo ' | '.date('H:i'); 
+//        //$roww = $query->row(2);
+//        //echo $rowIn[2];
+//        //print_r($rowIn);
+//        $totalPunchIn = $num;
+//            //echo 'totalPunchIn: '.$totalPunchIn;
+//            //$numOut/In - no of punch out/in
+//            for ($i = 0; $i < $numIn; $i++){
+//               $rowIn = $query->row_array($i);
+//               echo 'rowIn'.$i.': '.$rowIn['activityTime'].' | ';
+//               $timeIn[$i] = $rowIn['activityTime'];
+//               
+//            }
+//            //calculate totalhour
+//            $totalhour = 0;
+//            //$totalhour1 = 0;
+//            $firstIn = $this->isFirstIn();
+//            $firstIn = $this->isFirstIn()->activityTime;
+//            //if((strtotime($firstIn)- 9) >= 0){
+//                for($i=0; $i < $numOut; $i++){
+//
+//                    $totalhour += ((strtotime($timeOut[$i]) - strtotime($timeIn[$i]))/3600);
+//                }
+//            echo 'Balance: '.(strtotime('09:00') - (strtotime($firstIn)));
+//            $totalhour1 = ((strtotime($timeOut[0]) - strtotime($firstIn))/3600);  
+//            echo 'totalhour1: '.$totalhour1;
+//            echo 'totalhours: '.round($totalhour, 2);
+//            $this->db->set('hours', round($totalhour, 2));
+//            $lastRow = $this->isLastOut();
+//            $this->db->where('attID', $lastRow->attID);
+//            //**echo 'lasthours: '.$lastRow->hours;
+//            if($lastRow->hours == 0){
+//                $this->db->update('att_attendancedetails');
+//            }
+//        }
         
         public function initAnomaly(){
             $this->db->from('att_attendancedetails');
             $this->db->where('managerID', $this->userid);
-            //$this->db->where('activityDate', date('d-m-Y'));
-            //$this->db->where('attendanceStatus', 'in1');
             $query = $this->db->get();
             if($query->num_rows() <> 0){
                 //echo 'init';
@@ -611,33 +552,22 @@ class Manager_model extends CI_Model {
         public function isLastDay(){
                 $this->db->from('att_attendancedetails');
                 $this->db->where('managerID', $this->userid);
-                //$this->db->where('activityDate', date('d-m-Y'));
-                //$this->db->where('attendanceStatus', 'in1');
                 $query = $this->db->get();
-                $last = $query->last_row();
-                
+                $last = $query->last_row();                
                 $lastdate = $last->activityDate;
-                //echo 'last_date_:'.$lastdate;
                 return $lastdate;
         }
         public function isAnomaly(){
-                //echo 'asdasdasd'.$this->isLastDay();
-            
                 $lastday = $this->isLastDay();
                 $this->db->from('att_attendancedetails');
                 $this->db->where('managerID', $this->userid);
                 $this->db->where('activityDate', $lastday);
-                //$this->db->where('attendanceStatus', 'in1');
                 $query = $this->db->get();
                 $last = $query->last_row();
                 $num = $query->num_rows();
                 $row = $query->row($num-1);
                 $date = $last->activityDate;
                 $lastAtt = $last->attendanceStatus;
-//                echo 'last_row:'.$last->attID;
-//                echo 'last_date:'.$date;
-//                echo 'num_row:'.$num;
-//                echo 'last_att:'.$lastAtt;
                 if($date <> (date('d-m-Y'))){
                     if($num === 1){//if punch only once
                         //force punch out record
@@ -655,8 +585,6 @@ class Manager_model extends CI_Model {
                             //'outstationStatus' => '<i class="fa fa-warning" style="color:red;"></i><span style="color:red;"> Force punch activated by the system</span>',
                             'outstationStatus' => 'Force punch activated by the system',
                             'attendanceStatus' => 'out2',
-                            //'anomaly' => 1
-                            
                         );
                         
                          $this->db->where('activityDate', $date);
@@ -664,12 +592,8 @@ class Manager_model extends CI_Model {
                          //set whole row flag for anomaly
                          $this->db->set('anomaly', 1);
                          $this->db->where('activityDate',  $date);
+                         $this->db->where('managerID', $this->userid);
                          $this->db->update('att_attendancedetails');
-                        
-                        
-                        //update addnote - system force punch activated.
-                        
-                        
                     }elseif($num === 2 && $lastAtt == 'out1'){//if punch only 2 times
                         //echo 'anomaly 2 !!!';
                         //flag anomaly
@@ -699,6 +623,7 @@ class Manager_model extends CI_Model {
                          //set whole row flag for anomaly
                          $this->db->set('anomaly', 1);
                          $this->db->where('activityDate',  $date);
+                         $this->db->where('managerID', $this->userid);
                          $this->db->update('att_attendancedetails');
                     }
                 }
@@ -717,8 +642,5 @@ class Manager_model extends CI_Model {
             } else {
                 return "false";
             }
-        }
-        public function updateNewRecords(){
-        //for userEmail & clusterID        
         }
 }

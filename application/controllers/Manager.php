@@ -13,67 +13,65 @@ class Manager extends CI_Controller {
                 //userID/userLevel from nativesession from IRIS/main system session
                 $this->userid = $this->nativesession->get( 'userid' );
                 $this->userLevel = $this->nativesession->get( 'userLevel' );
-                //load manager model aliases with 'manager'
+                //start loading all related data
 		$this->load->model('manager_model','manager');
+                $this->getFullName = $this->manager->getFullName($this->userid);
+                $this->getUserLevel = $this->manager->getUserLevel($this->userLevel);
+                $this->getSiteName = $this->manager->getSiteName($this->userid);
+                $this->getUserEmail = $this->manager->getUserEmail($this->userid);
+                $this->getSiteID = $this->manager->getSiteID($this->userid);
+                $this->isFirstInToday = $this->manager->isFirstInToday($this->userid);
+                $this->isFourthPunched = $this->manager->isFourthPunched($this->userid);
+                $this->initAnomaly = $this->manager->initAnomaly($this->userid);
+                $this->getClusterLeadGroupID = $this->manager->getClusterLeadGroupID($this->userid);
+                $this->getLastPunchStatus = $this->manager->getLastPunchStatus($this->userid);
+                if($this->userLevel == 2){
+                    $this->getClusterGroupID = $this->manager->getClusterGroupID($this->userid);
+                } elseif ($this->userLevel == 3) {
+                    $this->getClusterGroupID = $this->manager->getClusterLeadGroupID($this->userid);
+                } elseif ($this->userLevel == 4) {
+                    $this->getClusterGroupID = 0;
+                }
+                $this->getClusterGroup = $this->manager->getClusterGroup($this->userid);
+                $this->getClusterLeadGroup = $this->manager->getClusterLeadGroup($this->userid);
 	}
 
     public function index() {
-        //$this->load->helper('url');
         
-        
-        $this->load->model('manager_model', 'manager');
         $data = array(
 		    'userid' => $this->userid,
 		    'userLevel' => $this->userLevel,
 		    'message' => 'My Message',
                     'title' => 'Manager\'s Attendance Site',
-                    'getFullName' => $this->manager->getFullName($this->userid),
-                    'getUserLevel' => $this->manager->getUserLevel($this->userLevel),
-                    'getClusterName' => $this->manager->getClusterName($this->userid),
-                    'getUserEmail' => $this->manager->getUserEmail($this->userid),
-                    'getSiteID' => $this->manager->getSiteID($this->userid),
-                    'isFirstInToday' => $this->manager->isFirstInToday($this->userid),
-                    'isFourthPunched' => $this->manager->isFourthPunched($this->userid),
-                    'initAnomaly' => $this->manager->initAnomaly($this->userid),
-                    'getClusterLeadGroupID' => $this->manager->getClusterLeadGroupID($this->userid),
-                    'getLastPunchStatus' => $this->manager->getLastPunchStatus($this->userid),
-                    'getClusterGroupID' => $this->manager->getClusterGroupID($this->userid),
-                    'getClusterGroup' => $this->manager->getClusterGroup($this->userid),
-                   //'getPunchDateTime' => $this->getPunchDateTime()
+                    'getFullName' => $this->getFullName,
+                    'getUserLevel' => $this->getUserLevel,
+                    'getSiteName' => $this->getSiteName,
+                    'getUserEmail' => $this->getUserEmail,
+                    'getSiteID' => $this->getSiteID,
+                    'isFirstInToday' => $this->isFirstInToday,
+                    'isFourthPunched' => $this->isFourthPunched,
+                    'initAnomaly' => $this->initAnomaly,
+                    'getClusterLeadGroupID' => $this->getClusterLeadGroupID,
+                    'getLastPunchStatus' => $this->getLastPunchStatus,
+                    'getClusterGroupID' => $this->getClusterGroupID,
+                    'getClusterGroup' => $this->getClusterGroup,
+                    'getClusterLeadGroup' => $this->getClusterLeadGroup
 		);        
         //lite version
         $this->load->view('header_view_lite',$data);
         $this->load->view('manager_view_lite', $data);
-        
-        //previous
-//        $this->load->view('manager_view');
          $this->load->view('footer_view');
 
     }
-    
-    public function getPunchDateTime(){
-        date_default_timezone_set("Asia/Kuala_Lumpur");
-        $currentDate = date("d-m-Y");
-        $currentTime = date("G:i");
-        $currentDateTime = date("Y-m-d G:i:s");
-        return array($currentDate, $currentTime, $currentDateTime);
-    }
     public function saveAttendance(){
-        //$jsonresult = json_decode($json)
-        //echo "saveAtt";
         $this->load->model('manager_model');
-        
-        //print_r($dataAtt);
         $data = array(
-                 //attendance
-                //'latLongIn' => $this->input->post('latLongIn'),
-                 
-                'managerID' => $this->input->post('managerID'),
-                'clusterID' => $this->input->post('clusterID'),
-                'managerName' => $this->input->post('managerName'),
-                'siteID' => $this->input->post('siteID'),
-                'siteName' => $this->input->post('siteName'),
-                'userEmail' => $this->input->post('userEmail'),
+                'managerID' => $this->userid,
+                'clusterID' => $this->getClusterGroupID,
+                'managerName' => $this->getFullName,
+                'siteID' => $this->getSiteID,
+                'siteName' => $this->getSiteName,
+                'userEmail' => $this->getUserEmail,
                 'activityDate' => date("d-m-Y"),
                 'activityTime' => date("G:i"),
                 'activityDateTime' => date("Y-m-d G:i:s"),
@@ -83,12 +81,7 @@ class Manager extends CI_Controller {
                 'accuracy' => $this->input->post('accuracy'),
                 'imgIn' => $this->input->post('imgIn'),
             );
-        
         $this->manager_model->insertAttendance($data);
-        echo "success";
-       //echo $this->input->post('latLongIn');
-        //$this->manager_model->setAttendanceStatus();
-       
     }
     
     //tables

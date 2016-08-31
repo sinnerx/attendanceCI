@@ -16,7 +16,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             }else if($userLevel == 4 ){ 
                 echo "Operation Manager"; 
             }else{
-                 echo $getClusterName;
+                 echo $getSiteName;
             } ?></a>
         <a class="btn btn-link visible-xs" data-toggle="dropdown" data-target=".user">
           <i class="fa fa-cog"></i>
@@ -227,7 +227,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           echo "Administration Attendance";
                       } ?></h3>
                       <!--<div class="well well-sm">All about your profile. You can edit all through here.</div>-->
-                       <small>Welcome back, <?php echo $getFullName?>, <?php if($userLevel == 2 ){ echo $getClusterName; } else if($userLevel == 3) { echo $getClusterLeadGroup;} ?></small>
+                       <small>Welcome back, <?php echo $getFullName?>, <?php if($userLevel == 2 ){ echo $getSiteName; } else if($userLevel == 3) { echo $getClusterLeadGroup;} ?></small>
                       
                     </div>
                   </section>
@@ -238,18 +238,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <div class="row">
                     <div class="col-md-6">
                             <div class="panel-heading b-b">
-                            <p style="text-align: center"><a href="#" class="block h4 font-bold m-b text-black">Current Date/Time:<br><?php echo date("Y-m-d G:i");?></a></p>
-                           <input type="hidden" value="<?php echo $userid ?>" id="valManagerID">
-                           <input type="hidden" value="<?php echo $getFullName ?>" id="valManagerName">
-                           <input type="hidden" value="<?php echo $getClusterName ?>" id="valSiteName">
-                           <input type="hidden" value="<?php echo $getUserEmail ?>" id="valUserEmail">
-                           <input type="hidden" value="<?php echo $getSiteID ?>" id="valSiteID">
-                           <input type="hidden" value="" id="valDateTime">
-                           <input type="hidden" value="" id="valDate">
-                           <input type="hidden" value="" id="valTime">
+                                <p style="text-align: center" class="block h4 font-bold m-b text-black">Server Date/Time: <?php echo date("d-m-Y G:i");?></p>
+                                <p style="text-align: center" class="block h4 font-bold m-b text-black" id="curDateTime">Local Date/Time: ...calculating</p>
+
                            <input type="hidden" value="<?php if($userLevel == 3){echo $getClusterLeadGroupID;} else if($userLevel == 2){echo $getClusterGroupID;} ?>" id="valClusterID">
-                           <input type="hidden" value="" id="valAccuracy">
-                           <!--<input type="hidden" value=$userid id="valManagerID">-->
                            
                             </div>
                             <!--<div class="r b bg-warning-ltest wrapper m-b">
@@ -275,7 +267,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     </div>
                     <div class="col-md-6">
                         <div class="panel-heading b-b">
-                            <p style="text-align: center"><a name="curLatLong" id="curLatLong" href="#" class="block h4 font-bold m-b text-black">Current Location:<br> ...calculating </a></p>                          
+                            <p style="text-align: center" name="curLatLong" id="curLatLong" href="#" class="block h4 font-bold m-b text-black">Current Location:<br><br> ...calculating</p>                          
                          <input type="hidden" value="" id="valLatLong">
                         </div>
                             <section id="map" style="min-height:350px;"></section>
