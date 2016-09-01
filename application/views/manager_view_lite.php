@@ -299,15 +299,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 </div>
                             </div>
                           <div>
-                              <?php 
-                              //echo $getLastPunchStatus; 
-                              //echo 'currentDate: '.date("d-m-Y").'<br>';
-                              //echo 'currentTime'.date("G:i").'<br>';
-                              //echo 'currentDateTime'.date("Y-m-d G:i:s").'<br>';
-                              ?>
-                          <!--<div  id='punch-in'>-->
                               <p style="text-align: center">
-                                  <a id="punch-in" href="#" class="btn btn-primary btn-lg" style="display: 
+                                  <a id="punch-in" href="#" class="btn btn-primary btn-lg" data-loading-text="Updating, please wait... <i class='fa fa-cog fa-spin'></i>" style="display: 
                                       <?php if($getLastPunchStatus == "IN"){
                                           echo "none";
                                       } else {
@@ -322,7 +315,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           
                           <!--<div  id='punch-out'>
                               <p style="text-align: center">-->
-                              <a id="punch-out" href="#" class="btn btn-danger btn-lg" style="display: 
+                                <a id="punch-out" href="#" class="btn btn-danger btn-lg" data-loading-text="Updating, please wait... <i class='fa fa-cog fa-spin'></i>" style="display: 
                                   <?php if($getLastPunchStatus == "OUT" || $getLastPunchStatus == ""){
                                           echo "none";
                                       } else{

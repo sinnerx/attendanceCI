@@ -78,9 +78,10 @@ $(document).ready(function() {
        //punch-in   
       $( "#punch-in" ).click(function(event) {
           $( "#snap" ).click();
-          $( "#punch-in" ).hide();
-          $( "#punch-out" ).show();
-          $( "#punch-out" ).addClass('disabled');
+//          $( "#punch-in" ).hide();
+//          $( "#punch-out" ).show();
+//          $( "#punch-out" ).addClass('disabled');
+            $(this).button('loading');
             event.preventDefault();
             var  activityStatus = punchStatus = 'IN';
             var  outstationStatus = $("#outstationStatusTxt").val();
@@ -110,9 +111,10 @@ $(document).ready(function() {
     //punch-out
     $( "#punch-out" ).click(function(event) {
         $("#snap").click();
-        $( "#punch-out" ).hide();
-        $( "#punch-in" ).show();
-        $( "#punch-in" ).addClass('disabled');
+//        $( "#punch-out" ).hide();
+//        $( "#punch-in" ).show();
+//        $( "#punch-in" ).addClass('disabled');
+        $(this).button('loading');
         event.preventDefault();
         var  activityStatus = punchStatus = 'OUT';
         var  outstationStatus = $("#outstationStatusTxt").val();
@@ -158,19 +160,27 @@ function notify(){
             div.innerHTML += 'Data successfully submitted!';
             console.log('success!!!');
             function f() { 
-            div.innerHTML = "";     
-            $( "#punch-in" ).removeClass('disabled');
-            //}
-            $( "#punch-out" ).removeClass('disabled');
-            //reset check box
-            $('#outstationStatusTxt').val("");
-            $('#outstationspan').text(" Add Notes");
-            $('#outstation').prop('checked', false);
-            $("#reset").click();
-            $("#uploading").hide();
-            $("#uploaded").hide();
+                $("#success").fadeOut('slow');   
+                $( "#punch-in" ).removeClass('disabled');
+                $( "#punch-out" ).removeClass('disabled');
+                $( "#punch-in" ).button('reset');
+                $( "#punch-out" ).button('reset');
+                if($('#punch-in').is(':visible')) {
+                    $('#punch-in').hide();
+                    $('#punch-out').show();
+                } else if($('#punch-out').is(':visible')){
+                    $('#punch-in').show();
+                    $('#punch-out').hide();
+                }
+                //reset check box
+                $('#outstationStatusTxt').val("");
+                $('#outstationspan').text(" Add Notes");
+                $('#outstation').prop('checked', false);
+                $("#reset").click();
+                $("#uploading").hide();
+                $("#uploaded").hide();
     }
-    setTimeout(f, 3000);        
+    setTimeout(f, 1500);        
 }
  function checkVideoID (){
       if(video.src.length !== 0){
