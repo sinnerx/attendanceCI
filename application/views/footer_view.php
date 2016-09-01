@@ -38,7 +38,7 @@ defined('BASEPATH') OR exit('No direct access allowed!');
   <!-- punch -->
   <script src="<?php echo base_url();?>js/punch.js"></script>
   <!-- geolocation -->
-  <script src="<?php echo base_url();?>js/geolocation/geolocation.js"></script>
+<!--  <script src="<?php echo base_url();?>js/geolocation/geolocation.js"></script>-->
 <!--  <script type="text/javascript">
       $(window).on('load', function() {
             $("#cover").fadeOut(200);
