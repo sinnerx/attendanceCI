@@ -242,7 +242,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <p style="text-align: center" class="block h4 font-bold m-b text-black" id="curDateTime">Local Date/Time: ...calculating</p>
 
                            <input type="hidden" value="<?php if($userLevel == 3){echo $getClusterLeadGroupID;} else if($userLevel == 2){echo $getClusterGroupID;} ?>" id="valClusterID">
-                           
+                           <input type="hidden" value="" id="valAccuracy">
                             </div>
                             <!--<div class="r b bg-warning-ltest wrapper m-b">
                               <p style="text-align: center"><img src="<?php echo base_url();?>images/camera-512.png" height="180" width="180"></p>
