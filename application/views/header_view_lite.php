@@ -164,7 +164,17 @@ function latestActivity(data){
                         '<b>GPS:</b> '+data_json[3]+'<br>'+
                         '<b>Notes:</b> '+data_json[4]
                         );
-            }
+                $("#statusTxt").remove();  
+                $("#statusHead").append("<p id=\"statusTxt\" class=\"block h4 font-bold m-b text-black\">My Last Activities<span class=\"label label-lg bg-success\">Success!</span></p>");  
+            
+            }, 
+            error: function ()
+            {
+              $("#statusTxt").remove(); 
+              $("#statusHead").append("<p id=\"statusTxt\" class=\"block h4 font-bold m-b text-black\">My Last Activities<span class=\"label label-lg bg-danger\">Error!</span></p>");
+            },
+            complete:function(){
+              }
          });
 }
     

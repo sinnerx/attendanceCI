@@ -342,8 +342,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                  </section></div>
                 <div class="col-md-4"><section id="warning" class="panel b-a">
                     
-                    <div class="panel-heading b-b">
-                          <p class="block h4 font-bold m-b text-black">My Last Activities</p> 
+                    <div  id="statusHead" class="panel-heading b-b">
+                        <p id="statusTxt" class="block h4 font-bold m-b text-black">My Last Activities</p> 
                     </div><br>
 <!--                    <p style="text-indent:5px"><i class="i i-checked"></i><strike> Your camera is enabled and shared with the system upon loading.</strike></p>
                     <p style="text-indent:5px"><i class="i i-checked"></i> Your current location is shared upon loading.</p>
