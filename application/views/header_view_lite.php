@@ -76,6 +76,7 @@ $(document).ready(function() {
     //loadCamera();
     //reload_table();
        //punch-in   
+       latestActivity("<?php echo $userid;?>");
       $( "#punch-in" ).click(function(event) {
           $( "#snap" ).click();
 //          $( "#punch-in" ).hide();
@@ -99,7 +100,7 @@ $(document).ready(function() {
                     //reload_table();
                     notify();
                     $("#upload").click();
-
+                    latestActivity(data);
                 },
             error: function (jqXHR, textStatus, errorThrown)
             {
@@ -133,7 +134,7 @@ $(document).ready(function() {
                 //reload_table();
                 notify();
                 $("#upload").click();
-                //alert();
+                latestActivity(data);
 
         },
         error: function (jqXHR, textStatus, errorThrown)
@@ -145,6 +146,24 @@ $(document).ready(function() {
     //reload_table();
     });
 
+function latestActivity(data){
+    $.ajax({                    
+            type: "GET",
+            url: "<?php echo base_url(); ?>manager/ajax_list",
+            data: data,
+            success: function(data){
+                 var data_json = JSON.parse(data).data[0];
+                console.log(JSON.parse(data).data[0]);
+                $("#latestActivity").html(
+                        '<b>Punch:</b> '+data_json[0]+'<br>'+
+                        '<b>Date:</b> '+data_json[1]+'<br>'+
+                        '<b>Time:</b> '+data_json[2]+'<br>'+
+                        '<b>GPS:</b> '+data_json[3]+'<br>'+
+                        '<b>Notes:</b> '+data_json[4]
+                        );
+            }
+         });
+}
     
     $('input,textarea').focus(function () {
         $(this).data('placeholder', $(this).attr('placeholder'))

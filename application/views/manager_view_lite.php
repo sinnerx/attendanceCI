@@ -287,7 +287,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <div class="modal-content">
                                         <div class="modal-body"><h3 style="text-align: center">Attendance Note</h3>
                                             <p>
-                                                <textarea name="outstationStatusTxt" id="outstationStatusTxt" rows="6" cols="65" placeholder=" Please state your reason..."></textarea>
+                                                <textarea style="width:100%" name="outstationStatusTxt" id="outstationStatusTxt" rows="6" placeholder=" Please state your reason..."></textarea>
                                             </p>
                                             <input type="hidden" value="" id="valOutStationStatus">
 <!--                                        </div>
@@ -300,7 +300,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             </div>
                           <div>
                               <p style="text-align: center">
-                                  <a id="punch-in" href="#" class="btn btn-primary btn-lg" data-loading-text="Updating, please wait... <i class='fa fa-cog fa-spin'></i>" style="display: 
+                                  <a id="punch-in" href="#" class="btn btn-primary btn-lg <?php echo $isFourthPunched;?>" data-loading-text="Updating, please wait... <i class='fa fa-cog fa-spin'></i>" style="display: 
                                       <?php if($getLastPunchStatus == "IN"){
                                           echo "none";
                                       } else {
@@ -315,7 +315,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           
                           <!--<div  id='punch-out'>
                               <p style="text-align: center">-->
-                                <a id="punch-out" href="#" class="btn btn-danger btn-lg" data-loading-text="Updating, please wait... <i class='fa fa-cog fa-spin'></i>" style="display: 
+                          
+                                <a id="punch-out" href="#" class="btn btn-danger btn-lg <?php echo $isFourthPunched;?>" data-loading-text="Updating, please wait... <i class='fa fa-cog fa-spin'></i>" style="display: 
                                   <?php if($getLastPunchStatus == "OUT" || $getLastPunchStatus == ""){
                                           echo "none";
                                       } else{
@@ -329,7 +330,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           </div><div id="success" style="text-align: center; color: green; font-weight: bold"></div>
                       </div>
                   </section>
-                <section id="warning" class="panel b-a">
+                <div class="col-md-8"><section id="warning" class="panel b-a">
+                    
                     <div class="panel-heading b-b">
                           <p id="loadingTitle" class="block h4 font-bold m-b text-black">Please make sure...</p> 
                     </div><br>
@@ -337,7 +339,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <p style="text-indent:5px"><i class="i i-checked"></i> Your current location is shared upon loading.</p>
                     <p style="text-indent:5px"><i class="i i-checked"></i> If you already shared your <strike>camera and</strike> location, try to refresh the browser again. Otherwise if you think this is an error please contact <a href='mailto:support@fulkrum.net'>support@fulkrum.net</a> immediately. </i></a></p>
                     
-                 </section>        
+                 </section></div>
+                <div class="col-md-4"><section id="warning" class="panel b-a">
+                    
+                    <div class="panel-heading b-b">
+                          <p class="block h4 font-bold m-b text-black">My Last Activities</p> 
+                    </div><br>
+<!--                    <p style="text-indent:5px"><i class="i i-checked"></i><strike> Your camera is enabled and shared with the system upon loading.</strike></p>
+                    <p style="text-indent:5px"><i class="i i-checked"></i> Your current location is shared upon loading.</p>
+                    <p style="text-indent:5px"><i class="i i-checked"></i> If you already shared your <strike>camera and</strike> location, try to refresh the browser again. Otherwise if you think this is an error please contact <a href='mailto:support@fulkrum.net'>support@fulkrum.net</a> immediately. </i></a></p>
+                    -->
+                    <div id="latestActivity"><i class='fa fa-cog fa-spin'></i> Loading last activity's...</div>
+                 </section></div>
                 <?php echo form_close(); ?><br/>
                   
                 </section>
