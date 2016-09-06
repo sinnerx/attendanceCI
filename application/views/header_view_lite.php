@@ -151,6 +151,9 @@ function latestActivity(data){
             type: "GET",
             url: "<?php echo base_url(); ?>manager/ajax_list",
             data: data,
+            beforeSend: function(){
+                $("#latestActivity").html('<i class=\'fa fa-cog fa-spin\'></i> Loading last activity\'s...');
+            },
             success: function(data){
                  var data_json = JSON.parse(data).data[0];
                 console.log(JSON.parse(data).data[0]);
