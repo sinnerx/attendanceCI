@@ -152,6 +152,8 @@ function latestActivity(data){
             url: "<?php echo base_url(); ?>manager/ajax_list",
             data: data,
             beforeSend: function(){
+                $("#statusTxt").remove();  
+                $("#statusHead").append("<p id=\"statusTxt\" class=\"block h4 font-bold m-b text-black\">My Last Activities</p>");
                 $("#latestActivity").html('<i class=\'fa fa-cog fa-spin\'></i> Loading last activity\'s...');
             },
             success: function(data){
