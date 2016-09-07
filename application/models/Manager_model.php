@@ -205,7 +205,6 @@ class Manager_model extends CI_Model {
                             'outstationStatus' => 'Force punch activated by the system',
                             'attendanceStatus' => 'out2',
                         );
-                        
                          $this->db->where('activityDate', $date);
                          $this->db->insert('att_attendancedetails', $data);
                          //set whole row flag for anomaly
@@ -261,9 +260,6 @@ class Manager_model extends CI_Model {
                     return '';
                 }
         }
-        
-	
-
 	function get_datatables($id)	
         {
                 $this->db->from($this->table);
