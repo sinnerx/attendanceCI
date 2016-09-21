@@ -182,7 +182,7 @@
                         <div class="panel-heading b-b">
                           <a href="#" class="font-bold">Download Daily Attendance Images</a>
                         </div><br>
-                            <form id="dlform" class="form-horizontal" name="dlform" action="<?php echo base_url();?>image/download" method="post">
+<!--                            <form id="dlform" class="form-horizontal" name="dlform" action="<?php echo base_url();?>image/download" method="post">-->
                             <div class="form-group">
 <!--                              <label class="col-sm-1 control-label">Select</label>-->
                               <div class="col-sm-4">
@@ -203,7 +203,7 @@
                                 </select>
 
                               </div>
-                            </div>
+                            </div><br>
                             <div class="line line-dashed b-b line-lg pull-in"></div>
 
                             <!--<div class="checkbox i-checks"><label><input checked="" type="checkbox"><i></i> Remember me</label></div>-->
@@ -220,15 +220,21 @@
                               <div class="col-sm-3">
                                   <input id="date2" name="to" class="input-sm input-s datepicker-input form-control" size="16" value="" data-date-format="dd-mm-yyyy" type="text">
                               </div>
-                             
+                             <div style="float: left; width: 100px"> 
                              <button id="search" type="" class="btn btn-primary center" data-loading-text="Searching... <i class='fa fa-cog fa-spin'></i>"><i class="fa fa-search"></i> Search</button>
-                             <button id="download" type="submit" form="dlform" class="btn btn-success center"><i class="fa fa-download"></i> Download</button>
-                            </form>
-
+                             </div>
+                             <div style="float: right; width: 210px"> 
+                            <form id="dlform" class="form-horizontal" name="dlform" action="<?php echo base_url();?>image/download" method="post">
+                                <input id="hid_selectType" type="hidden" name="hid_selectType" value="">
+                                <input id="hid_typelist" type="hidden" name="hid_typelist" value="">
+                                <input id="hid_from" type="hidden" name="hid_from" value="">
+                                <input id="hid_to" type="hidden" name="hid_to" value="">
+                                <button id="download" type="submit" form="dlform" class="btn btn-success center"><i class="fa fa-download"></i> Download</button>
+                            </form></div>
 <!--                           <a type="submit" class="btn btn-danger right"><i class="fa fa-download"></i> Reset</a></div>-->
                           
                           
-                                                    <div class="line line-dashed b-b line-lg pull-in"></div>
+                             <br><br><div class="line line-dashed b-b line-lg pull-in"></div>
 <!--                                <div class="alert alert-info">
                                 <button type="button" class="close" data-dismiss="alert">×</button>
                                 <i class="fa fa-info-sign"></i><strong>122548 </strong> image files are selected & ready to be download.
@@ -243,7 +249,11 @@
                                   foreach($att_image as $key=>$image_name){
                                         //echo $img_name["imgIn"];
                                         $file_name = $image_name["imgIn"];
-                                      echo "<img src='".base_url()."".$file_name."' alt='".$file_name."' height='130' width='160' />";                             
+                                      if(file_exists($file_name)){
+                                        echo "<img src='".base_url()."".$file_name."' alt='".$file_name."' height='130' width='160' />";
+                                      }else{
+                                          echo "<img src='".base_url()."images/attendance/noimage.jpg' alt='".$file_name."' height='130' width='160' />";
+                                      }
                                     }
                                    echo '<br>';
                                    echo $this->pagination->create_links();

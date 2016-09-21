@@ -85,7 +85,8 @@ defined ('BASEPATH') or exit('No direct access allowed!');
     
         //selection filter
         $('#selectType').on('change',function(){
-        selectTypeID = $(this).val();
+        selectTypeID  = $(this).val();
+        $('#hid_selectType').val(selectTypeID);
         console.log('selectTypeID: '+selectTypeID);
         if(selectTypeID){
             $.ajax({
@@ -107,10 +108,18 @@ defined ('BASEPATH') or exit('No direct access allowed!');
     });
     
     
-    
+    $('#date1').on('change',function(){
+        $('#hid_from').val($(this).val());
+        
+    });
+    $('#date2').on('change',function(){
+        $('#hid_to').val($(this).val());
+        
+    });
     
     $('#typelist').on('change',function(){
         typelistID = $(this).val();
+        $('#hid_typelist').val(typelistID);
         console.log('typelist_id: '+typelistID);
         if(typelistID){
             $.ajax({

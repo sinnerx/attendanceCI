@@ -140,10 +140,10 @@ class Image extends CI_Controller {
      
     public function download(){
          $this->load->library('zip');
-         $from = $this->input->post('from');
-         $to = $this->input->post('to');
-         $selecttype_id = $this->input->post('selectType');
-         $typelist_id = $this->input->post('typelist');
+         $from = $this->input->post('hid_from');
+         $to = $this->input->post('hid_to');
+         $selecttype_id = $this->input->post('hid_selectType');
+         $typelist_id = $this->input->post('hid_typelist');
          $files = $this->image_model->_get_attendance_download($from,$to,$selecttype_id,$typelist_id);
          foreach ($files as $file){
              $this->zip->read_file($file);
