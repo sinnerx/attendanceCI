@@ -137,7 +137,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           </a>
                         </li>
                         <li class=''>
-                          <a href="./download" class="auto">                                                        
+                          <a href="./image" class="auto">                                                        
                             <i class="i i-dot"></i>
                             <span>Download</span>
                           </a>

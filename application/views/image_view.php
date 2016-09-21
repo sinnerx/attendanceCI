@@ -123,7 +123,7 @@
                           </a>
                         </li><?php } ?>
                         <li class='active'>
-                          <a href="./download" class="auto">                                                        
+                          <a href="#" class="auto">                                                        
                             <i class="i i-dot"></i>
                             <span>Download</span>
                           </a>
@@ -229,10 +229,10 @@
                           
                           
                                                     <div class="line line-dashed b-b line-lg pull-in"></div>
-                                <div class="alert alert-info">
+<!--                                <div class="alert alert-info">
                                 <button type="button" class="close" data-dismiss="alert">×</button>
                                 <i class="fa fa-info-sign"></i><strong>122548 </strong> image files are selected & ready to be download.
-                              </div>
+                              </div>-->
                       
                                 <!-- pagination-->
                                 <div id="container">
