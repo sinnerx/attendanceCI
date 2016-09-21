@@ -71,6 +71,8 @@ defined ('BASEPATH') or exit('No direct access allowed!');
         if(mm<10){mm='0'+mm;} 
         var today = dd+'-'+mm+'-'+yyyy;
         $(".datepicker-input").val(today);
+        $('#hid_from').val(today);
+        $('#hid_to').val(today);
                
         $(".datepicker-input").on("changeDate",function(){
         var selected = $(this).val();
@@ -107,13 +109,16 @@ defined ('BASEPATH') or exit('No direct access allowed!');
         
     });
     
-    
-    $('#date1').on('change',function(){
+            
+
+    $('#date1').on('changeDate',function(){
         $('#hid_from').val($(this).val());
+        console.log($(this).val());
         
     });
-    $('#date2').on('change',function(){
+    $('#date2').on('changeDate',function(){
         $('#hid_to').val($(this).val());
+        console.log($(this).val());
         
     });
     
