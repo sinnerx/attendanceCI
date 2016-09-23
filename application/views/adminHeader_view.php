@@ -193,11 +193,12 @@ $(document).ready(function() {
  }
  
 function displayImg(){
+    console.log('toDisplayImgIn: '+toDisplayImgIn);
   //img exist
   
   //}
   //img dont exist
-  if(toDisplayImgIn.length === 0){
+  if(!toDisplayImgIn){
       $("#imgView").attr('src', 'images/camera-376.png');
   }else{
       $("#imgView").attr('src', toDisplayImgIn);
