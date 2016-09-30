@@ -7,6 +7,10 @@
 class Manager extends CI_Controller {
     public $userid;
     public $userLevel;
+    public $actDate;
+    public $actTime;
+    public $actDateTime;
+
     public function __construct()
 	{
 		parent::__construct();
@@ -72,13 +76,23 @@ class Manager extends CI_Controller {
          $this->load->view('footer_view');
 
     }
+    
+    public function actDateTime(){
+        $this->actDate = date("d-m-Y"); 
+        $this->actTime = date("H.i");
+        $this->actDateTime = date("Y-m-d H:i:s");
+        
+    }
+    
     public function saveAttendance(){
         $this->load->model('manager_model');
         //clear session from globals
         //$_SESSION = array();
         //clear session from disk
         //session_destroy();
-        
+        $this->actDateTime();
+        //var_dump($this->actDate);
+        //die();
         //if(($_SESSION['userid']) <> NULL){
             $data = array(
                     'managerID' => $this->userid,
@@ -87,14 +101,17 @@ class Manager extends CI_Controller {
                     'siteID' => $this->getSiteID,
                     'siteName' => $this->getSiteName,
                     'userEmail' => $this->getUserEmail,
-                    'activityDate' => date("d-m-Y"),
-                    'activityTime' => date("G:i"),
-                    'activityDateTime' => date("Y-m-d G:i:s"),
+//                    'activityDate' => date("d-m-Y"),
+//                    'activityTime' => date("G:i"),
+//                    'activityDateTime' => date("Y-m-d G:i:s"),
+                    'activityDate' => $this->actDate,
+                    'activityTime' => $this->actTime,
+                    'activityDateTime' => $this->actDateTime,
                     'activityStatus' => $this->input->post('activityStatus'),
                     'outstationStatus' => $this->input->post('outstationStatus'),
                     'latLongIn' => $this->input->post('latLongIn'),
                     'accuracy' => $this->input->post('accuracy'),
-                    'imgIn' => $this->input->post('imgIn'),
+                    'imgIn' => "images/attendance/$this->actDate-$this->actTime-$this->userid.jpg",
                     'attendanceStatus' => $this->getAttendanceStatus,
                     'lateIn' => NULL,
                     'earlyOut' => NULL
@@ -170,6 +187,7 @@ class Manager extends CI_Controller {
 	}
         
         public function saveface (){
+        $this->actDateTime();
         $rawData = $_POST['imgBase64'];
         //var_dump($rawData);
         //die();
@@ -181,8 +199,8 @@ class Manager extends CI_Controller {
         //$userid  = $_POST['userid'] ;
         $punchuserid = $this->userid;
         //$punchStatus  = $_POST['punchStatus'];
-        $activityDateData = date("d-m-Y");
-        $activityTimeData = date("Gi");
+        $activityDateData = $this->actDate;
+        $activityTimeData = $this->actTime;
         //var_dump($activityTimeData);
         //die();
         //new date-folder

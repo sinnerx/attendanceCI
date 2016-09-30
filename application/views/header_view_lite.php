@@ -88,12 +88,12 @@ $(document).ready(function() {
             var  outstationStatus = $("#outstationStatusTxt").val();
             var  latLongIn = $("#valLatLong").val();
             var  accuracy = $("#valAccuracy").val();
-            var  imgIn = 'images/attendance/noimage.jpg';
+            //var  imgIn = 'images/attendance/noimage.jpg';
             jQuery.ajax({
             type: "POST",
             url: "<?php echo base_url(); ?>manager/saveAttendance",
             //dataType: "JSON",
-            data: {latLongIn: latLongIn, accuracy: accuracy, activityStatus: activityStatus, outstationStatus: outstationStatus, imgIn: imgIn},
+            data: {latLongIn: latLongIn, accuracy: accuracy, activityStatus: activityStatus, outstationStatus: outstationStatus},
             success: function (data) {
                     //table.ajax.reload(null,false);
                     console.log(data);
@@ -121,13 +121,13 @@ $(document).ready(function() {
         var  outstationStatus = $("#outstationStatusTxt").val();
         var  latLongIn = $("#valLatLong").val();
         var  accuracy = $("#valAccuracy").val();
-        var  imgIn = 'images/attendance/noimage.jpg';
+        //var  imgIn = 'images/attendance/noimage.jpg';
 
         jQuery.ajax({
         type: "POST",
         url: "<?php echo base_url(); ?>manager/saveAttendance",
         //dataType: "JSON",
-        data: {latLongIn: latLongIn, accuracy: accuracy, activityStatus: activityStatus, outstationStatus: outstationStatus, imgIn: imgIn},
+        data: {latLongIn: latLongIn, accuracy: accuracy, activityStatus: activityStatus, outstationStatus: outstationStatus},
         success: function (data) {
                 //table.ajax.reload(null,false);
                 console.log(data);
