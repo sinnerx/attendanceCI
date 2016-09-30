@@ -122,8 +122,6 @@ $(document).ready(function() {
         //test = data[8];
         displayImg();
         displayMap();
-        
-        //console.log("test: "+test);
     } );
  });
  
