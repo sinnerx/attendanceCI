@@ -337,9 +337,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="panel-heading b-b">
                           <p id="loadingTitle" class="block h4 font-bold m-b text-black">Please make sure...</p> 
                     </div><br>
-                    <p style="text-indent:5px"><i class="i i-checked"></i><strike> Your camera is enabled and shared with the system upon loading.</strike></p>
+                    <p style="text-indent:5px"><i class="i i-checked"></i> Your camera is enabled and shared with the system upon loading.</p>
                     <p style="text-indent:5px"><i class="i i-checked"></i> Your current location is shared upon loading.</p>
-                    <p style="text-indent:5px"><i class="i i-checked"></i> If you already shared your <strike>camera and</strike> location, try to refresh the browser again. Otherwise if you think this is an error please contact <a href='mailto:support@fulkrum.net'>support@fulkrum.net</a> immediately. </i></a></p>
+                    <p style="text-indent:5px"><i class="i i-checked"></i> If you already shared your camera and location, try to refresh the browser again. Otherwise if you think this is an error please contact <a href='mailto:support@fulkrum.net'>support@fulkrum.net</a> immediately. </i></a></p>
                     
                  </section></div>
                 <div class="col-md-4"><section id="warning" class="panel b-a">
