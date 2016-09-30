@@ -120,8 +120,9 @@ $(document).ready(function() {
         todDisplayAccuracy = data[7];
         toDisplayImgIn = data[8];
         //test = data[8];
-        displayMap();
         displayImg();
+        displayMap();
+        
         //console.log("test: "+test);
     } );
  });
