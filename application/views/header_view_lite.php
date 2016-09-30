@@ -73,7 +73,7 @@ defined ('BASEPATH') or exit('No direct access allowed!');
       var vidSrc;
 
 $(document).ready(function() {
-    //loadCamera();
+    loadCamera();
     //reload_table();
        //punch-in   
        latestActivity("<?php echo $userid;?>");
@@ -186,6 +186,128 @@ function latestActivity(data){
     }).blur(function () {
         $(this).attr('placeholder', $(this).data('placeholder'));
     });
+    
+    function loadCamera() {
+            console.log('load camera');
+            // Grab elements, create settings, etc.
+            canvas = document.getElementById("canvas"),
+                context = canvas.getContext("2d"),
+                
+                video = document.getElementById("video"),
+                videoObj = { "video": true },
+                image_format= "jpeg",
+                jpeg_quality= 85,
+                errBack = function(error) {
+                    console.log("Video capture error: ", error.code); 
+                };
+                //ratio 4:3
+                canvas.width = 502;
+                canvas.height = 376.5;
+
+            // Put video listeners into place
+            if(navigator.getUserMedia) { // Standard
+                navigator.getUserMedia(videoObj, function(stream) {
+                    video.src = stream;
+                    //ratio 4:3
+                    video.width = 502;
+                    video.height = 376.5;
+                    video.play();
+                    checkVideoID(true);
+                    //$("#snap").show();
+                }, errBack);
+                console.log('errBack1: '+errBack);
+            } else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
+                navigator.webkitGetUserMedia(videoObj, function(stream){
+                    //video.src = window.webkitURL.createObjectURL(stream);
+                    video.src = window.URL.createObjectURL(stream);
+                    //ratio 4:3
+                    video.width = 502;
+                    video.height = 376.5;
+                    video.play();
+                    checkVideoID(true);
+                    //$("#snap").show();
+                }, errBack);
+                console.log('errBack2: '+errBack);
+            } else if(navigator.mozGetUserMedia) { // moz-prefixed
+                console.log('Mozilla');
+//                navigator.mozGetUserMedia(videoObj, function(stream){
+//                    video.src = window.URL.createObjectURL(stream);
+//\                    video.width = 502;
+//                    video.height = 376.5;
+//                    video.play();
+//                }, errBack);
+//                console.log('errBack3: '+errBack);
+            var constraints = { audio: false, video: { width: 502, height: 376.5 } };
+            navigator.mediaDevices.getUserMedia(constraints)
+            .then(function(stream) {
+              var video = document.querySelector('video');
+              video.src = window.URL.createObjectURL(stream);
+              video.onloadedmetadata = function(e) {
+                video.play();
+                checkVideoID(true);
+              };
+            })
+            .catch(function(err) {
+              console.log(err.name + ": " + err.message);
+              checkVideoID(false);
+            });
+                vidSrc = video.src;
+                console.log('vidSrc:'+vidSrc);
+            }
+            
+            
+                  // video.play();       these 2 lines must be repeated above 3 times
+                  // $("#snap").show();  rather than here once, to keep "capture" hidden
+                  //                     until after the webcam has been activated.  
+                   //console.log('canvas:'+canvas);
+                   //console.log('video.src:'+video.src);
+                   //vidSrc = video.src;
+                   //console.log('vidSrc:'+vidSrc);
+                //checkVideoID();   
+            // Get-Save Snapshot - image 
+              $( "#snap" ).click(function(event) {
+                context.drawImage(video, 0, 0, 502, 376.5);
+                 $("#video").hide();
+                $("#canvas").show();
+            });
+            // reset - clear - to Capture New Photo
+            //document.getElementById("reset").addEventListener("click", function() {
+             $( "#reset" ).click(function(event) {
+                //$("#video").fadeIn("slow");
+                //$("#canvas").fadeOut("slow");
+                $("#video").show();
+                $("#canvas").hide();
+                //$("#snap").show();
+                //$("#reset").hide();
+                //$("#upload").hide();
+            });
+            // Upload image to sever 
+            //document.getElementById("upload").addEventListener("click", function(){
+             $( "#upload" ).click(function(event) {
+                var dataUrl = canvas.toDataURL("image/jpeg", 0.85);
+                $("#uploading").show();
+                $.ajax({
+                  type: "POST",
+                  url: "manager/saveface",
+                  data: { 
+                     imgBase64: dataUrl,
+                     //user: "Joe",       
+                     //userid: 25   
+                     //userid: $("#valManagerID").val(),
+                     //punchStatus: punchStatus,
+                     //activityDateData: activityDateData,
+                     //activityTimeData: activityTimeData
+                     
+                  }
+                }).done(function(msg) {
+                  console.log(activityDateData+" | "+activityTimeData+" | "+punchStatus);
+                  console.log("saved");
+                  $("#uploading").hide();
+                  $("#uploaded").show();
+                  //checkVideoID();
+                });
+            });
+        }
  });
 
 function notify(){
@@ -216,10 +338,15 @@ function notify(){
     }
     setTimeout(f, 1500);        
 }
- function checkVideoID (){
-      if(video.src.length !== 0){
+
+
+ function checkVideoID (vid_src){
+        //video_src = document.getElementById("video").src;
+        console.log('video_src: '+vid_src);
+      if(vid_src === true){
           document.getElementById("main").style.display = "";
           document.getElementById("camImg").style.display = "none";
+          document.getElementById("loadingTitle").innerHTML = "Please make sure...";
       } else {
           //console.log("loadingTitle: "+document.getElementById("loadingTitle").innerHTML);
           document.getElementById("loadingTitle").innerHTML = "Camera Module Temporary Disabled...please make sure:";

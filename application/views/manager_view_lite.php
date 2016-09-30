@@ -1,6 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
+
+
   <section class="vbox">
     <header class="bg-white header header-md navbar navbar-fixed-top-xs box-shadow">
       <div class="navbar-header aside-md dk">
@@ -249,7 +251,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                               <p style="text-align: center"> Disabled for Attendance V0.1</p>
                           </div>-->
                             <div class="camcontent" style="display: block; position: relative; overflow: hidden; height: 350px; width: 502px; margin: auto;">
-                                <img id="camImg" src="images/nocamera.jpg" width="100%" height="350px">
+                                <img id="camImg" src="images/camera-376.png" width="100%" height="350px">
                                 <span align="center" id="uploading" style="position: absolute;color: red;font-weight: bold; display:none; z-index:300000;"> Processing . . .  </span> 
                                 <span align="center" id="uploaded"  style="position: absolute;color: greenyellow;font-weight: bold; display:none; z-index:300000;"> Success, your photo has been uploaded!</span> 
                                 <video id="video" autoplay></video>
@@ -351,8 +353,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     -->
                     <div id="latestActivity"><i class='fa fa-cog fa-spin'></i> Loading last activity's...</div>
                  </section></div>
-                <?php echo form_close(); ?><br/>
-                  
+                <?php echo form_close(); ?><br/></p>
                 </section>
               </section>
             <!--</section>-->            
@@ -362,3 +363,4 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       </section>
     </section>
   </section>
+
