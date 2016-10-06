@@ -10,6 +10,7 @@ class Manager extends CI_Controller {
     public $actDate;
     public $actTime;
     public $actDateTime;
+    public $actDateTimeArr = Array();
 
     public function __construct()
 	{
@@ -91,8 +92,11 @@ class Manager extends CI_Controller {
         //clear session from disk
         //session_destroy();
         $this->actDateTime();
-        //var_dump($this->actDate);
-        //die();
+//        $this->actDateTimeArr[0] = date("d-m-Y"); 
+//        $this->actDateTimeArr[1] = date("H.i");
+//        $this->actDateTimeArr[3] = date("Y-m-d H:i:s");
+        
+        
         //if(($_SESSION['userid']) <> NULL){
             $data = array(
                     'managerID' => $this->userid,
@@ -187,7 +191,7 @@ class Manager extends CI_Controller {
 	}
         
         public function saveface (){
-        $this->actDateTime();
+        //$this->actDateTime();
         $rawData = $_POST['imgBase64'];
         //var_dump($rawData);
         //die();
@@ -199,10 +203,10 @@ class Manager extends CI_Controller {
         //$userid  = $_POST['userid'] ;
         $punchuserid = $this->userid;
         //$punchStatus  = $_POST['punchStatus'];
-        $activityDateData = $this->actDate;
-        $activityTimeData = $this->actTime;
-        //var_dump($activityTimeData);
-        //die();
+        $activityDateData = $this->actDateTimeArr[0];
+        $activityTimeData = $this->actDateTimeArr[1];
+       // var_dump($this->actDateTimeArr[0]);
+       // die();
         //new date-folder
         $filename = 'images/attendance/'.$activityDateData.'-'.$activityTimeData.'-'.$punchuserid.'.jpg';
 //        $dirname = dirname($filename);

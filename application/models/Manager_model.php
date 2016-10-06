@@ -118,6 +118,7 @@ class Manager_model extends CI_Model {
     }
     
     public function getAttendanceStatus(){
+            $this->db->select('managerID,activityDate,attID');
             $this->db->from('att_attendancedetails');
             $this->db->where('managerID', $this->userid);
             $this->db->where('activityDate', date('d-m-Y'));
@@ -144,6 +145,7 @@ class Manager_model extends CI_Model {
         //isfirst in / latein catch here
         public function isFirstInToday(){
         //$this->db->select('activityDate');
+        $this->db->select('managerID,activityDate');
         $this->db->from('att_attendancedetails');
         $this->db->where('managerID', $this->userid);
         //$this->db->where('activityStatus !=', 'IN');
@@ -157,6 +159,7 @@ class Manager_model extends CI_Model {
             }
         }
         public function getAttQuery(){
+            $this->db->select('managerID,activityDate');
             $this->db->from('att_attendancedetails');
             $this->db->where('managerID', $this->userid);
             $query = $this->db->get();
@@ -172,12 +175,13 @@ class Manager_model extends CI_Model {
         
         public function isLastDay(){
                 $query = $this->getAttQuery();
-                $last = $query->last_row();                
+                $last = $query->last_row();
                 $lastdate = $last->activityDate;
                 return $lastdate;
         }
         public function isAnomaly(){
                 $lastday = $this->isLastDay();
+                $this->db->select('managerID,activityDate,attendanceStatus');
                 $this->db->from('att_attendancedetails');
                 $this->db->where('managerID', $this->userid);
                 $this->db->where('activityDate', $lastday);
@@ -248,6 +252,7 @@ class Manager_model extends CI_Model {
         }
         
         public function isFourthPunched(){
+                $this->db->select('managerID,activityDate');
                 $this->db->from('att_attendancedetails');
                 $this->db->where('managerID', $this->userid);
                 $this->db->where('activityDate', date('d-m-Y'));
@@ -262,6 +267,7 @@ class Manager_model extends CI_Model {
         }
 	function get_datatables($id)	
         {
+                $this->db->select('managerID,activityStatus,activityDate,activityTime,latLongIn,outstationStatus');
                 $this->db->from($this->table);
 		$this->db->where('managerID',$id);
 		$query = $this->db->order_by('attID','desc')->limit(1)->get();
