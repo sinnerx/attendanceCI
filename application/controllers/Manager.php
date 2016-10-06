@@ -191,7 +191,7 @@ class Manager extends CI_Controller {
 	}
         
         public function saveface (){
-        //$this->actDateTime();
+        $this->actDateTime();
         $rawData = $_POST['imgBase64'];
         //var_dump($rawData);
         //die();
@@ -203,8 +203,8 @@ class Manager extends CI_Controller {
         //$userid  = $_POST['userid'] ;
         $punchuserid = $this->userid;
         //$punchStatus  = $_POST['punchStatus'];
-        $activityDateData = $this->actDateTimeArr[0];
-        $activityTimeData = $this->actDateTimeArr[1];
+        $activityDateData = $this->actDate;
+        $activityTimeData = $this->actTime;
        // var_dump($this->actDateTimeArr[0]);
        // die();
         //new date-folder
