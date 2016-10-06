@@ -181,7 +181,7 @@ class Manager_model extends CI_Model {
         }
         public function isAnomaly(){
                 $lastday = $this->isLastDay();
-                $this->db->select('managerID,activityDate,attendanceStatus');
+                $this->db->select('managerID,clusterID,managerName,siteID,siteName,userEmail,activityDate');
                 $this->db->from('att_attendancedetails');
                 $this->db->where('managerID', $this->userid);
                 $this->db->where('activityDate', $lastday);
