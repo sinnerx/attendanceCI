@@ -107,7 +107,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                           <li >
                           <a href="./" class="auto">                                                        
                             <i class="i i-dot"></i>
-                            <span>Punch IN/OUT</span>
+                            <span>View Log</span>
                           </a>
                         </li>
                         <li class='active'>
