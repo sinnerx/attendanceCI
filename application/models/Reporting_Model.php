@@ -201,13 +201,13 @@ class Reporting_model extends CI_Model{
               // $this->db->where('anomaly', 1);              
           }
           else if($datapost['category'] == 2) {
-              $this->db->where('lateIn1', 1);
-              $this->db->or_where('lateIn2', 1);
+              $this->db->where('(lateIn1 = 1 OR lateIn2 = 1) ');
+              //$this->db->or_where('lateIn2', 1);
           }
           else if($datapost['category'] == 3) {
               //$this->db->where('hours <=', 8);
-              $this->db->where('earlyOut1', 1);
-              $this->db->or_where('earlyOut2', 1);              
+              $this->db->where('(earlyOut1 = 1 OR earlyOut2 = 1) ');
+              // $this->db->or_where('earlyOut2', 1);              
           }   
           // else if($datapost['category'] == 4) {
           //     $this->db->where('lateIn', 1);
@@ -285,7 +285,7 @@ class Reporting_model extends CI_Model{
         // $this->db->where('activityDateTime <=', $dateto);
            $this->db->where('dateonly BETWEEN "'. $datefrom . '" AND "'. $dateto .'"');
 
-        $fields = $this->db->list_fields('att_aggregate');
+        $fields = $this->db->list_fields('att_aggregateNew');
         // $fields = array_diff($fields,array("activityDate", "activityTime"));
         //print_r($fields);
         //die;
