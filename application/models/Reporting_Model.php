@@ -237,7 +237,7 @@ class Reporting_model extends CI_Model{
               if ($datapost['userlevel'] == 3){
                 //print_r($datapost['userid']);
                 //die;
-                $this->db->where('att_attendancedetails.clusterID', key($clusterLocal));
+                $this->db->where_in('att_aggregateNew.clusID', key($clusterLocal));
                 
                 //print_r($this->db->last_query());
                 //die;
@@ -438,8 +438,8 @@ class Reporting_model extends CI_Model{
         $this->_get_datatables_query($datapost);
         $queryResult = 
         $this->db->get()
-        ->result_array();
-        //->last_query();
+
+        ->result_array();      
         return $queryResult;
     }
 
