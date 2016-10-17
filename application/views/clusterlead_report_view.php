@@ -24,6 +24,15 @@ $(document).ready(function() {
         }
       });
 
+var $loading = $('#loading').hide();
+$(document)
+  .ajaxStart(function () {
+    $loading.show();
+  })
+  .ajaxStop(function () {
+    $loading.hide();
+  });
+
       $("#username").autocomplete({
         source: "reporting/get_user", // path to the get_birds method
         select: function (event, ui){
@@ -151,8 +160,8 @@ $(document).ready(function() {
                         "data": tableData,
                         "bDestroy":true,
                         //"ajax": "reporting/attendance_list",
-                        //"processing": true, //Feature control the processing indicator.
-                        //"serverSide": true, //Feature control DataTables' server-side processing mode.
+                        // "processing": true, //Feature control the processing indicator.
+                        // "serverSide": true, //Feature control DataTables' server-side processing mode.
                         "order": [], //Initial no order.
                         dom: 'Bfrtip',
                         buttons: [
@@ -178,15 +187,28 @@ $(document).ready(function() {
                           {title : "Early Out" },         //9
                           
                           {title : "Anomaly" },           //10
-                           {title : "Note" },
+                           {title : "NoteLateIn1" },      //11
+                           {title : "NoteEarlyOut1" },    //12
+                           {title : "NoteLateIn2" },      //13
+                           {title : "NoteEarlyOut2" },    //14
                         ],
 
                         "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
-                            if ( aData[10] == "x" )
+                            if ( aData[11] == "x" )
                             {
                                 $('td', nRow).css('background-color', 'rgba(255, 0, 0, 0.23)');
+                                // if (aData[11] != ""){
+                                //     //jQuery('td:eq(2)', nRow).prop('title', aData[11]);
+                                //     //jQuery('td:eq(2)', nRow).append('<div class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="'+ aData[11] +'"></div>');
+                                //     jQuery('td:eq(5)', nRow).attr('class', "fa fa-info-circle");
+                                //     jQuery('td:eq(5)', nRow).attr('data-toggle', "tooltip");
+                                //     jQuery('td:eq(5)', nRow).attr('data-placement', "top");
+                                //     jQuery('td:eq(5)', nRow).attr('title', aData[11] );
+                                    
+                                // }                                
+
                             }
-                            else if ( aData[10] == "" )
+                            else if ( aData[11] == "" )
                             {
                                 //$('td', nRow).css('background-color', 'Orange');
                             }
@@ -209,39 +231,39 @@ $(document).ready(function() {
                             if (aData[7] == "x")
                             {
                                 jQuery('td:eq(3)', nRow).css('color', 'rgba(255, 0, 0, 100)');
-                                if (aData[11] != ""){
+                                if (aData[12] != ""){
                                     //jQuery('td:eq(2)', nRow).prop('title', aData[11]);
                                     //jQuery('td:eq(2)', nRow).append('<div class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="'+ aData[11] +'"></div>');
                                     jQuery('td:eq(3)', nRow).attr('class', "fa fa-info-circle");
                                     jQuery('td:eq(3)', nRow).attr('data-toggle', "tooltip");
                                     jQuery('td:eq(3)', nRow).attr('data-placement', "top");
-                                    jQuery('td:eq(3)', nRow).attr('title', aData[11] );
+                                    jQuery('td:eq(3)', nRow).attr('title', aData[12] );
                                     
                                 }                                
                             }                            
                             if (aData[8] == "x")
                             {
                                 jQuery('td:eq(4)', nRow).css('color', 'rgba(255, 0, 0, 100)');
-                                if (aData[11] != ""){
+                                if (aData[13] != ""){
                                     //jQuery('td:eq(2)', nRow).prop('title', aData[11]);
                                     //jQuery('td:eq(2)', nRow).append('<div class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="'+ aData[11] +'"></div>');
                                     jQuery('td:eq(4)', nRow).attr('class', "fa fa-info-circle");
                                     jQuery('td:eq(4)', nRow).attr('data-toggle', "tooltip");
                                     jQuery('td:eq(4)', nRow).attr('data-placement', "top");
-                                    jQuery('td:eq(4)', nRow).attr('title', aData[11] );
+                                    jQuery('td:eq(4)', nRow).attr('title', aData[13] );
                                     
                                 }                                
                             }
                             if (aData[9] == "x")
                             {
                                 jQuery('td:eq(5)', nRow).css('color', 'rgba(255, 0, 0, 100)');
-                                if (aData[11] != ""){
+                                if (aData[14] != ""){
                                     //jQuery('td:eq(2)', nRow).prop('title', aData[11]);
                                     //jQuery('td:eq(2)', nRow).append('<div class="fa fa-info-circle" data-toggle="tooltip" data-placement="top" title="'+ aData[11] +'"></div>');
                                     jQuery('td:eq(5)', nRow).attr('class', "fa fa-info-circle");
                                     jQuery('td:eq(5)', nRow).attr('data-toggle', "tooltip");
                                     jQuery('td:eq(5)', nRow).attr('data-placement', "top");
-                                    jQuery('td:eq(5)', nRow).attr('title', aData[11] );
+                                    jQuery('td:eq(5)', nRow).attr('title', aData[14] );
                                     
                                 }                                
                             }                            
@@ -283,7 +305,22 @@ $(document).ready(function() {
                                   "targets": [ 11 ],
                                   "visible": false,
                                   "searchable": false
-                              },                                                                                                                                                      
+                              },                              
+                              {
+                                  "targets": [ 12 ],
+                                  "visible": false,
+                                  "searchable": false
+                              },                              
+                              {
+                                  "targets": [ 13 ],
+                                  "visible": false,
+                                  "searchable": false
+                              },                              
+                              {
+                                  "targets": [ 14 ],
+                                  "visible": false,
+                                  "searchable": false
+                              },                                                                                                                                                                                   
                           ]
 
 
@@ -696,6 +733,9 @@ $(document).ready(function() {
                        
 
                         </div>
+                                    <div id="loading" class="col-sm-12" style="text-align: center">
+                                        <img src="<?php echo base_url('images/ajax-loader.gif'); ?>" />
+                                    </div>                         
                         <div id="testdiv"></div>
                           <div class="table-responsive">
 

@@ -165,8 +165,14 @@ class Reporting_model extends CI_Model{
                 //$query = $this->db->from('att_attendancedetails');
                 //print_r($query);
                 // = $this->db->get('att_attendancedetails');
-        $this->db->select("managerID, managerName, siteName, activityDateTime, activityStatus, outstationStatus, attendanceStatus, latLongIn, latLongOut, hours, lateIn, earlyOut, anomaly, siteID, att_attendancedetails.clusterID as clusID, DATE(activityDateTime) as dateonly, TIME(activityDateTime) as timeonly");
-        $this->db->from('att_attendancedetails');
+        
+        //old query
+        // $this->db->select("managerID, managerName, siteName, activityDateTime, activityStatus, outstationStatus, attendanceStatus, latLongIn, latLongOut, hours, lateIn, earlyOut, anomaly, siteID, att_attendancedetails.clusterID as clusID, DATE(activityDateTime) as dateonly, TIME(activityDateTime) as timeonly");
+        // $this->db->from('att_attendancedetails');
+
+        $this->db->select("*");
+        $this->db->from('att_aggregateNew');
+
         // {
         // dateFrom: "30-01-2016",
         // dateTo: "06-01-2016",
@@ -188,32 +194,34 @@ class Reporting_model extends CI_Model{
             // <option value="5">Punch Anomaly</option>
             // <option value="6">No Attendance Problem</option>
 
-        $this->db->where('attendanceStatus <>', "");
-        // if($datapost['category'] != ''){
-        //   if($datapost['category'] == 1) {
-        //       // $this->db->where('lateIn', 1);
-        //       // $this->db->where('hours <=', 8);
-        //       // $this->db->where('anomaly', 1);              
-        //   }
-        //   else if($datapost['category'] == 2) {
-        //       $this->db->where('lateIn', 1);
-        //   }
-        //   else if($datapost['category'] == 3) {
-        //       $this->db->where('hours <=', 8);
-        //   }   
-        //   else if($datapost['category'] == 4) {
-        //       $this->db->where('lateIn', 1);
-        //       $this->db->where('hours <=', 8);
-        //   }                  
-        //   else if($datapost['category'] == 5) {
-        //       $this->db->where('anomaly', 1);
-        //   }             
-        //   else if($datapost['category'] == 6) {
-        //       $this->db->where('lateIn', 0);
-        //       $this->db->where('hours >=', 8);
-        //       $this->db->where('anomaly', 0);
-        //   }            
-        // }//if category
+        if($datapost['category'] != ''){
+          if($datapost['category'] == 1) {
+              // $this->db->where('lateIn', 1);
+              // $this->db->where('hours <=', 8);
+              // $this->db->where('anomaly', 1);              
+          }
+          else if($datapost['category'] == 2) {
+              $this->db->where('lateIn1', 1);
+              $this->db->or_where('lateIn2', 1);
+          }
+          else if($datapost['category'] == 3) {
+              //$this->db->where('hours <=', 8);
+              $this->db->where('earlyOut1', 1);
+              $this->db->or_where('earlyOut2', 1);              
+          }   
+          // else if($datapost['category'] == 4) {
+          //     $this->db->where('lateIn', 1);
+          //     $this->db->where('hours <=', 8);
+          // }                  
+          // else if($datapost['category'] == 5) {
+          //     $this->db->where('anomaly', 1);
+          // }             
+          // else if($datapost['category'] == 6) {
+          //     $this->db->where('lateIn', 0);
+          //     $this->db->where('hours >=', 8);
+          //     $this->db->where('anomaly', 0);
+          // }            
+        }//if category
 
         if($datapost['cluster'] != '')
           $this->db->where('clusterID', $datapost['cluster']);
@@ -257,7 +265,7 @@ class Reporting_model extends CI_Model{
             $arrayCluster = array('1', '2', '3', '4', '5', '6');  
 
           //$this->db->join('cluster AS c', 'c.clusterID = att_attendancedetails.clusterID');
-          $this->db->where_in('att_attendancedetails.clusterID', $arrayCluster);
+          $this->db->where_in('clusID', $arrayCluster);
 
         }//if region
 
@@ -275,10 +283,10 @@ class Reporting_model extends CI_Model{
 
         // $this->db->where('activityDateTime >=', $datefrom);
         // $this->db->where('activityDateTime <=', $dateto);
-           $this->db->where('DATE(activityDateTime) BETWEEN "'. $datefrom . '" AND "'. $dateto .'"');
+           $this->db->where('dateonly BETWEEN "'. $datefrom . '" AND "'. $dateto .'"');
 
-        $fields = $this->db->list_fields('att_attendancedetails');
-        $fields = array_diff($fields,array("activityDate", "activityTime"));
+        $fields = $this->db->list_fields('att_aggregate');
+        // $fields = array_diff($fields,array("activityDate", "activityTime"));
         //print_r($fields);
         //die;
         $i = 0;
@@ -289,7 +297,7 @@ class Reporting_model extends CI_Model{
         if(isset($_GET['order']))
           $order  = $_GET['order'];
 
-        $order_default = array('attID' => 'desc'); // default order 
+        $order_default = array('dateonly' => 'desc'); // default order 
         foreach ($fields as $item) // loop column 'attID','managerID','managerName','siteName','activityDate','activityTime','activityStatus','outstationStatus', 'latLongIn'
 
         {
@@ -421,172 +429,18 @@ class Reporting_model extends CI_Model{
 
     public function get_listattendance_arranged($datapost = null)
     {
-
-        //print_r($datapost);
-        //die;
+        set_time_limit(0);
+        // ini_set("memory_limit", "-1");
+        // print_r($datapost);
+        // die;
         $this->datatables = $datapost;
 
-        $dateSelected = $this->getDateSelected($datapost);
-        //print_r($dateSelected);        
-
-        $userSelected = $this->getUserSelected($datapost);
-        //print_r($userSelected);
-        //die;
-
         $this->_get_datatables_query($datapost);
-        $queryResult = $this->db
-        
-        ->get()
+        $queryResult = 
+        $this->db->get()
         ->result_array();
         //->last_query();
-      
-        //print_r($queryResult);
-        //die;
-        
-        $resultArray = array();
-        $x = 0;
-        foreach ($dateSelected as $keyDate) {
-          # code...
-            //print_r($keyDate['dateonly']);
-              //$dateArray = array();
-            //$resultArray[$x]['fordate'] = $keyDate['dateonly'];
-            foreach ($userSelected as $keyUser) {
-              # code...
-                $columnArray = array();
-                //print_r($keyUser['managerName']);
-                //send $keyDate["dateonly"], using LIKE 
-                //& $keyUser["userid"]
-                    $columnArray['membername'] = $keyUser['managerName'];
-                    $columnArray['in1'] = '';
-                    $columnArray['out1'] = '';
-                    $columnArray['in2'] = '';
-                    $columnArray['out2'] = '';
-
-                foreach ($queryResult as $keyQuery) {
-                  # code...
-                  //print_r($keyQuery);
-
-                  if($keyDate['dateonly'] == $keyQuery['dateonly'] ){
-                      //print_r($keyDate['dateonly']);
-                      $columnArray['date'] = $keyQuery['dateonly'];
-
-                      if ($keyQuery['attendanceStatus'] == 'in1' && $keyUser['managerID'] == $keyQuery['managerID']){
-                         $columnArray['in1'] = $keyQuery['timeonly'];
-                         if($keyQuery['lateIn'] == 1){
-                            $columnArray['lateIn1'] = "x";
-                            $columnArray['note'] = $keyQuery['outstationStatus'];
-                         } 
-                          elseif($keyQuery['lateIn'] == 0 && $keyUser['managerID'] == $keyQuery['managerID'])
-                            $columnArray['lateIn1'] = "";
-                      }//if in1
-
-                      else if ($keyQuery['attendanceStatus'] == 'in2' && $keyUser['managerID'] == $keyQuery['managerID']){
-                          $columnArray['in2'] = $keyQuery['timeonly'];
-                          if($keyQuery['lateIn'] == 1){
-                             $columnArray['lateIn2'] = "x";
-                             $columnArray['note'] = $keyQuery['outstationStatus'];
-                          }
-
-                          elseif($keyQuery['lateIn'] == 0 && $keyUser['managerID'] == $keyQuery['managerID'])
-                            $columnArray['lateIn2'] = "";                                                   
-                      }//else if in2
-
-                      else if ($keyQuery['attendanceStatus'] == 'out1' && $keyUser['managerID'] == $keyQuery['managerID']){
-                          $columnArray['out1'] = $keyQuery['timeonly'];
-                          if($keyQuery['earlyOut'] == 1){
-                             $columnArray['earlyOut1'] = "x";
-                             $columnArray['note'] = $keyQuery['outstationStatus'];
-                          }
-                          elseif($keyQuery['earlyOut'] == 0 && $keyUser['managerID'] == $keyQuery['managerID'])
-                            $columnArray['earlyOut1'] = "";                                                   
-                      }//else if out1
-
-                      else if ($keyQuery['attendanceStatus'] == 'out2' && $keyUser['managerID'] == $keyQuery['managerID']){
-                          $columnArray['out2'] = $keyQuery['timeonly'];
-                          if($keyQuery['earlyOut'] == 1){
-                             $columnArray['earlyOut2'] = "x";
-                             $columnArray['note'] = $keyQuery['outstationStatus'];
-                          }
-                          elseif($keyQuery['earlyOut'] == 0 && $keyUser['managerID'] == $keyQuery['managerID'])
-                            $columnArray['earlyOut2'] = "";                                                    
-                      }//else if out2
-
-                      //$columnArray['note'] = $keyQuery['outstationStatus'];
-
-                      if($keyQuery['anomaly'] == 1 && $keyUser['managerID'] == $keyQuery['managerID']){
-                        //echo " ANOMALIES ";
-                        $columnArray['anomaly'] = "x";
-                        $columnArray['note'] = $keyQuery['outstationStatus'];
-                      }
-                      elseif ($keyQuery['anomaly'] == 0 && $keyUser['managerID'] == $keyQuery['managerID']) 
-                        $columnArray['anomaly'] = "";
-                      //echo " nonanomaly ";
-
-                      
-
-                  }//if dateonly
-                  //print_r($keyQuery);
-                  
-                }//foreach query
-                //print_r($columnArray);
-                //check status flag
-                //$resultArray[$x] = $columnArray;
-                if($datapost['category'] != ''){
-                  if($datapost['category'] == 1) {
-                      // $this->db->where('lateIn', 1);
-                      // $this->db->where('hours <=', 8);
-                      // $this->db->where('anomaly', 1); 
-                      $resultArray[$x] = $columnArray;             
-                  }
-                  else if($datapost['category'] == 2) {
-                      //$this->db->where('lateIn', 1);
-                      if ($this->search($columnArray, 'lateIn1', 'x') == TRUE || $this->search($columnArray, 'lateIn2', 'x') == true)
-                        $resultArray[$x] = $columnArray;
-                  }
-                  else if($datapost['category'] == 3) {
-                      //$this->db->where('hours <=', 8);
-                      if ($this->search($columnArray, 'earlyOut1', 'x') == TRUE || $this->search($columnArray, 'earlyOut2', 'x') == true)
-                        $resultArray[$x] = $columnArray;                    
-                  }   
-                  else if($datapost['category'] == 4) {
-                      //$this->db->where('lateIn', 1);
-                      //$this->db->where('hours <=', 8);
-                  }                  
-                  else if($datapost['category'] == 5) {
-                      //$this->db->where('anomaly', 1);
-                  }             
-                  else if($datapost['category'] == 6) {
-                      //$this->db->where('lateIn', 0);
-                      //$this->db->where('hours >=', 8);
-                      //$this->db->where('anomaly', 0);
-                  }
-                }//if category  
-
-                if( $columnArray['in1'] == "" && $columnArray['in2'] == "" && $columnArray['out1'] == "" && $columnArray['out2'] == ""){
-                        $columnArray['anomaly'] = "";
-                        unset($resultArray[$x]);
-                      }              
-               $x++; 
-                //die;
-            }//foreach user
-                //$resultArray[$x]['attrow'] = $columnArray;
-
-
-
-
-
-                               
-                          
-
-        }//foreach date
-        //$resultArray = json_encode($resultArray);
-
-        //print_r($resultArray);
-        //die;
-
-
-
-        return $resultArray;
+        return $queryResult;
     }
 
     public function getDateSelected($datapost = null)
@@ -637,6 +491,16 @@ class Reporting_model extends CI_Model{
         //              1 => array(id=>2,name=>"cat 2"),
         //              2 => array(id=>3,name=>"cat 1"));
         //print_r(search($arr, 'name', 'cat 1'));
-    }    
+    } 
+
+  private function in_array_r($needle, $haystack, $strict = false) {
+    foreach ($haystack as $item) {
+        if (($strict ? $item === $needle : $item == $needle) || (is_array($item) && $this->in_array_r($needle, $item, $strict))) {
+            return true;
+        }
+    }
+
+    return false;
+  }       
 
 }
