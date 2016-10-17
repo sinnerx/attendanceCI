@@ -217,8 +217,8 @@ class Reporting extends CI_Controller {
 
     public function attendance_list()
     {   
-        //print_r($_GET);
-        //die;
+        // print_r($_GET);
+        // die;
 
         $this->load->model('reporting_model');
         $list = $this->reporting_model->get_listattendance_arranged($_GET);
@@ -226,19 +226,22 @@ class Reporting extends CI_Controller {
         foreach ($list as $key) {
             # code...
             $row = array();
-            $row[] = $key["date"];
-            $row[] = $key["membername"];
-            $row[] = $key["in1"];
-            $row[] = $key["out1"];
-            $row[] = $key["in2"];
-            $row[] = $key["out2"];            
-            $row[] = isset($key["lateIn1"]) ? $key["lateIn1"] : "";
-            $row[] = isset($key["earlyOut1"]) ? $key["earlyOut1"] : "";
-            $row[] = isset($key["lateIn2"]) ? $key["lateIn2"] : "";
-            $row[] = isset($key["earlyOut2"]) ? $key["earlyOut2"] : "";
+            $row[] = $key["dateonly"];
+            $row[] = $key["managerName"];
+            $row[] = $key["timeIn1"];
+            $row[] = $key["timeOut1"];
+            $row[] = $key["timeIn2"];
+            $row[] = $key["timeOut2"];            
+            $row[] = isset($key["lateIn1"]) ? "x" : "";
+            $row[] = isset($key["earlyOut1"]) ? "x" : "";
+            $row[] = isset($key["lateIn2"]) ? "x" : "";
+            $row[] = isset($key["earlyOut2"]) ? "x" : "";
             
-            $row[] = $key["anomaly"];
-            $row[] = isset($key["note"]) ? $key["note"] : "";
+            $row[] = isset($key["anomaly"]) ? "x" : "";
+            $row[] = isset($key["noteIn1"]) ? $key["noteIn1"] : "";
+            $row[] = isset($key["noteOut1"]) ? $key["noteOut1"] : "";
+            $row[] = isset($key["noteIn2"]) ? $key["noteIn2"] : "";
+            $row[] = isset($key["noteOut2"]) ? $key["noteOut2"] : "";
 
             $data[] = $row;
         }
