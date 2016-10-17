@@ -44,7 +44,7 @@ defined ('BASEPATH') or exit('No direct access allowed!');
     <script src="<?php echo base_url();?>js/ie/respond.min.js"></script>
     <script src="<?php echo base_url();?>js/ie/excanvas.js"></script>
   <![endif]-->
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
   <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>-->
   <!--<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>-->
   <!--<script src="<?php echo base_url();?>js/jquery.min.js"></script>-->
@@ -120,9 +120,8 @@ $(document).ready(function() {
         todDisplayAccuracy = data[7];
         toDisplayImgIn = data[8];
         //test = data[8];
-        displayMap();
         displayImg();
-        //console.log("test: "+test);
+        displayMap();
     } );
  });
  
@@ -193,11 +192,12 @@ $(document).ready(function() {
  }
  
 function displayImg(){
+    console.log('toDisplayImgIn: '+toDisplayImgIn);
   //img exist
   
   //}
   //img dont exist
-  if(toDisplayImgIn.length === 0){
+  if(!toDisplayImgIn){
       $("#imgView").attr('src', 'images/camera-376.png');
   }else{
       $("#imgView").attr('src', toDisplayImgIn);
