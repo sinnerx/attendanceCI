@@ -224,7 +224,7 @@ class Reporting_model extends CI_Model{
         }//if category
 
         if($datapost['cluster'] != '')
-          $this->db->where('clusterID', $datapost['cluster']);
+          $this->db->where('clusID', $datapost['cluster']);
 
         if($datapost['forpi1m'] != ''){
               // '1'  => 'All Pi1M Managers',
