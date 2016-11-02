@@ -158,14 +158,30 @@ function latestActivity(data){
             },
             success: function(data){
                  var data_json = JSON.parse(data).data[0];
-                console.log(JSON.parse(data).data[0]);
+                console.log('JSON: '+JSON.parse(data).data[0]);
                 $("#latestActivity").html(
                         '<b>Punch:</b> '+data_json[0]+'<br>'+
                         '<b>Date:</b> '+data_json[1]+'<br>'+
                         '<b>Time:</b> '+data_json[2]+'<br>'+
                         '<b>GPS:</b> '+data_json[3]+'<br>'+
-                        '<b>Notes:</b> '+data_json[4]
+                        '<b>Notes:</b> '+data_json[4]+'<br>'
                         );
+                if(data_json[5]){
+                    
+                    for(var i=0; i <5; i++){
+                        $("#label"+i).removeClass('label bg-warning').addClass('label bg-light');
+                    }
+                    $("#label"+parseInt(data_json[5]+1)).removeClass('label bg-light').addClass('label bg-warning');
+                }else{
+                    $("#label1").removeClass('label bg-light').addClass('label bg-warning');
+                }
+                if(data_json[5] == 4){
+                    console.log('4th times!');
+                     $("#punch-in").removeClass('btn btn-primary btn-lg');
+                     $("#punch-in").addClass('btn btn-primary btn-lg disabled');
+                     //console.log($("#punch-in").addClass('btn btn-primary btn-lg '));
+                }
+                
                 $("#statusTxt").remove();  
                 $("#statusHead").append("<p id=\"statusTxt\" class=\"block h4 font-bold m-b text-black\">My Last Activities<span class=\"label label-lg bg-success\">Success!</span></p>");  
             
@@ -207,7 +223,8 @@ function latestActivity(data){
             // Put video listeners into place
             if(navigator.getUserMedia) { // Standard
                 navigator.getUserMedia(videoObj, function(stream) {
-                    video.src = stream;
+                    video.src = window.URL.createObjectURL(stream);
+                    //video.src = stream;
                     //ratio 4:3
                     video.width = 502;
                     video.height = 376.5;

@@ -278,6 +278,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   </div>
                       <div class="clearfix panel-footer"></div>
                       <div class="row">
+                          
                           <div id="outstationTxt" class="checkbox i-checks" style="text-align: center">
                               <label>
                                   <input id="outstation" type="checkbox"><i></i><span id="outstationspan"> Add Notes</span>
@@ -329,7 +330,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                   <i class="fa fa-minus"></i> Punch OUT</a>
                               </p>
                           <!--</div>-->
-                          </div><div id="success" style="text-align: center; color: green; font-weight: bold"></div>
+                          </div>
+                          <div class="m-b-lg text-center">
+                            <span id="label1" class="label bg-light" data-toggle="tooltip" data-original-title="1st punch">Day IN</span>
+                            <span id="label2" class="label bg-light" data-toggle="tooltip" data-original-title="2nd punch">Lunch OUT</span>
+                            <span id="label3" class="label bg-light" data-toggle="tooltip" data-original-title="3rd punch">Lunch IN</span>
+                            <span id="label4" class="label bg-light" data-toggle="tooltip" data-original-title="4th punch">Day OUT</span>
+                          </div>
+                          <div id="success" style="text-align: center; color: green; font-weight: bold"></div>
                       </div>
                   </section>
                 <div class="col-md-8"><section id="warning" class="panel b-a">
