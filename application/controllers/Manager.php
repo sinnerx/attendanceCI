@@ -36,7 +36,7 @@ class Manager extends CI_Controller {
                     $this->getClusterGroupID = $this->manager->getClusterGroupID($this->userid);
                 } elseif ($this->userLevel == 3) {//clusterlead
                     $this->getClusterGroupID = $this->manager->getClusterLeadGroupID($this->userid);
-                } elseif ($this->userLevel == 4) {//operation manager
+                } elseif ($this->userLevel == 4 || $this->userLevel == 99) {//operation manager
                     $this->getClusterGroupID = 0;
                 }
                 $this->getClusterGroup = $this->manager->getClusterGroup($this->userid);
@@ -171,6 +171,8 @@ class Manager extends CI_Controller {
     //}
     public function ajax_list()	{
 		$list = $this->manager->get_datatables($this->userid);
+                $nrow = $this->manager->get_datatables_row($this->userid);
+                
 		$data = array();
 		foreach ($list as $manager) {
 			//$no++;
@@ -184,6 +186,7 @@ class Manager extends CI_Controller {
                         $row[] = $manager->activityTime;			
 			$row[] = $manager->latLongIn;
                         $row[] = $manager->outstationStatus;
+                        $row[] = $nrow;
 			$data[] = $row;
 		}
 		$output = array("data" => $data);
@@ -202,7 +205,7 @@ class Manager extends CI_Controller {
         
         //$userid  = $_POST['userid'] ;
         $punchuserid = $this->userid;
-        //$punchStatus  = $_POST['punchStatus'];
+        //$psunchStatus  = $_POST['punchStatus'];
         $activityDateData = $this->actDate;
         $activityTimeData = $this->actTime;
        // var_dump($this->actDateTimeArr[0]);
@@ -223,5 +226,11 @@ class Manager extends CI_Controller {
         //$imgPath = 'images/attendance/'.$activityDateData.'-'.$activityTimeData.'-'.$userid.'-'.$punchStatus.'.jpg';
         //$this->db->insert('imgIn', $imgPath);
         //echo 'imgIn'.$imgPath;
+    }
+    public function view(){
+        $this->load->view('header_view2');
+        $this->load->view('manager_view2');
+         $this->load->view('footer_view');
+
     }
 }

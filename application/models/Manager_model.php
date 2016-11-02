@@ -273,4 +273,14 @@ class Manager_model extends CI_Model {
 		$query = $this->db->order_by('attID','desc')->limit(1)->get();
 		return $query->result();
 	}
+        
+        function get_datatables_row($id)	
+        {
+                $this->db->select('managerID,activityStatus,activityDate,activityTime,latLongIn,outstationStatus');
+                $this->db->from($this->table);
+		$this->db->where('managerID',$id);
+                $this->db->where('activityDate', date('d-m-Y'));
+		$query = $this->db->get();
+		return $query->num_rows();
+	}
 }

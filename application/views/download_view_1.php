@@ -243,14 +243,6 @@ defined ('BASEPATH') or exit('No direct access allowed!');
                           
                           
                                                     <div class="line line-dashed b-b line-lg pull-in"></div>
-
-<!--                                <input id="date1" class="input-sm input-s datepicker-input form-control" size="16" value="" data-date-format="dd-mm-yyyy" type="text">-->
-<!--                                <input id="date2" class="input-sm input-s datepicker-input form-control" size="16" value="" data-date-format="dd-mm-yyyy" type="text">-->
-<!--                                <div class="col-md-4"><input class="form-control" type="text" name="file_name" id="file_name" placeholder=" Please name your file"></div>-->
-<!--                                <input type="submit" class="btn btn-sm btn-default" value="Download" id="download">&nbsp;&nbsp;&nbsp;&nbsp;-->
-<!--                                <label><input type="checkbox" id="checkAll"><i></i> Check all</label>-->
-<!--                                <div class="checkbox-inline i-checks"><label><input type="checkbox" id="checkAll"><i></i> Check all</label></div>-->
-                                    
                                 <div class="alert alert-info">
                                 <button type="button" class="close" data-dismiss="alert">×</button>
                                 <i class="fa fa-info-sign"></i><strong>122548 </strong> image files are selected & ready to be download.

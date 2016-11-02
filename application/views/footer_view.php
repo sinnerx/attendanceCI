@@ -11,7 +11,7 @@ defined('BASEPATH') OR exit('No direct access allowed!');
   <!-- Bootstrap -->
   <script src="<?php echo base_url();?>js/bootstrap.js"></script>
   <!-- App -->
-  <!--<script src="<?php echo base_url();?>js/app.js"></script> --> 
+  <script src="<?php echo base_url();?>js/app.js"></script>
   <script src="<?php echo base_url();?>js/slimscroll/jquery.slimscroll.min.js"></script>
   <!--<script src="<?php echo base_url();?>js/charts/easypiechart/jquery.easy-pie-chart.js"></script>
   <script src="<?php echo base_url();?>js/charts/sparkline/jquery.sparkline.min.js"></script>

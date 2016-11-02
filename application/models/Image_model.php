@@ -227,6 +227,8 @@ class Image_model extends CI_Model{
          function _get_attendance($limit,$offset,$from,$to,$selecttype_id,$typelist_id){
           $this->_selecttype($selecttype_id,$typelist_id);
           $subQuery =  $this->db->get_compiled_select();
+          //var_dump($subQuery);
+          //die();
           $this->db->where("managerID IN ($subQuery)", NULL, FALSE);
           $this->db->where('activityDate >=', $from);
           $this->db->where('activityDate <=', $to);
@@ -249,7 +251,7 @@ class Image_model extends CI_Model{
              if($select== "3"){
                  //semenanjung
                  if($subselect == "1"){
-                 $statement = $this->db->select('managerID')->from('att_attendancedetails')->where("(clusterID = 5 OR clusterID = 6)", NULL, FALSE);
+                 $statement = $this->db->select('managerID')->from('att_attendancedetails')->where("(clusterID = 5 OR clusterID = 6)", NULL, FALSE);//->where('activityDate >=', $from)->where('activityDate <=', $to);
                  }
                  //sabah/sarawak
                  if($subselect == "2"){
