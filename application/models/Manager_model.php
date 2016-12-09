@@ -114,7 +114,7 @@ class Manager_model extends CI_Model {
     }
     
     public function insertAttendance($data){
-         $this->db->insert('att_attendancedetails',$data);
+        $this->db->insert('att_attendancedetails',$data);
     }
     
     public function getAttendanceStatus(){
@@ -283,4 +283,44 @@ class Manager_model extends CI_Model {
 		$query = $this->db->get();
 		return $query->num_rows();
 	}
+
+    public function logInsert($log){
+        $this->db->insert('site_attendance', $log);
+    }
+
+    public function logLoaded($log){
+        $this->db->set('loaded', $log['loaded']);
+        $this->db->where('userID', $log['userID']);
+        $this->db->where('siteID', $log['siteID']);
+        $this->db->where('start', $log['start']);
+        $this->db->update('site_attendance');
+    }
+
+    public function logPunched($log){
+        $this->db->select('MAX(start) as maxDate');
+        $this->db->from('site_attendance');
+        $this->db->where('userID', $log['userID']);
+        $this->db->where('siteID', $log['siteID']);
+        $maxDate = $this->db->get()->row('maxDate');
+
+        $this->db->set('punched', date('Y-m-d G:i:s'));
+        $this->db->where('userID', $log['userID']);
+        $this->db->where('siteID', $log['siteID']);
+        $this->db->where('start', $maxDate);
+        $this->db->update('site_attendance');
+    }
+
+    public function logEnd($log){
+        $this->db->select('MAX(start) as maxDate');
+        $this->db->from('site_attendance');
+        $this->db->where('userID', $log['userID']);
+        $this->db->where('siteID', $log['siteID']);
+        $maxDate = $this->db->get()->row('maxDate');
+
+        $this->db->set('end', date('Y-m-d G:i:s'));
+        $this->db->where('userID', $log['userID']);
+        $this->db->where('siteID', $log['siteID']);
+        $this->db->where('start', $maxDate);
+        $this->db->update('site_attendance');
+    }
 }
