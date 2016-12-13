@@ -224,7 +224,7 @@ class Reporting extends CI_Controller {
         $list = $this->reporting_model->get_listattendance_arranged($_GET);
         $data = array();
         foreach ($list as $key) {
-            # code...
+            
             $row = array();
             $row[] = $key["dateonly"];
             $row[] = $key["managerName"];
