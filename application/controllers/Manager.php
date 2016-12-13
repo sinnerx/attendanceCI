@@ -73,7 +73,7 @@ class Manager extends CI_Controller {
 //                die();
         //lite version
         $this->load->view('header_view_lite',$data);
-        $this->load->view('manager_view_lite', $data);
+        $this->load->view('manager_view_lite', $data);// version lite
          $this->load->view('footer_view');
 
     }
