@@ -61,6 +61,12 @@ defined ('BASEPATH') or exit('No direct access allowed!');
  <script src="<?php echo base_url();?>js/geolocation/geolocation.js"></script>
    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>-->
   <!--<script src="<?php echo base_url();?>js/jquery.min.js"></script>-->
+  
+  <!-- datatables -->
+  <script src="<?php echo base_url();?>js/datatables/jquery.dataTables.min.js"></script>
+  <script src="<?php echo base_url();?>js/datatables/dataTables.bootstrap.js"></script>
+  <script src="<?php echo base_url();?>js/datatables/jquery.csv-0.71.min.js"></script>
+
   <script type="text/javascript">
       
     //table
@@ -73,8 +79,34 @@ defined ('BASEPATH') or exit('No direct access allowed!');
       var vidSrc;
 
 $(document).ready(function() {
+  $('#log_table').DataTable({ 
+        
+        "processing": true, //Feature control the processing indicator.
+        "serverSide": true, //Feature control DataTables' server-side processing mode.
+        "order": [], //Initial no order.
+        //"pagingType": "full_numbers",
+        
+        // Load data for the table's content from an Ajax source
+        "ajax": {
+            "url": "<?php echo base_url();?>manager/ajax_log_list",
+            "type": "POST"
+        },
+         //Set column definition initialisation properties.
+        "columnDefs": [
+        { 
+            
+        //"targets": [ -1 ], //disable last column
+        "targets": [ 0,1,2,3,4 ], //disable sorting all column
+            "orderable": false, //set not orderable
+        },
+        ],
+        //alert($userid);
+    });
+  // $('#log_table').DataTable( {
+  //       "ajax": '<?php echo base_url();?>manager/ajax_list',
+  //       "order": [[ 0, "desc" ]]
+  //   } );
     loadCamera();
-    //reload_table();
        //punch-in   
        latestActivity("<?php echo $userid;?>");
       $( "#punch-in" ).click(function(event) {
@@ -370,6 +402,7 @@ function notify(){
          // loadCamera();
       }
  }
+
 </script>
 
 </head>

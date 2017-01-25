@@ -185,30 +185,66 @@ class Manager extends CI_Controller {
         $this->manager->insertAttendance($data);
         $this->manager->logEnd($log);
     }
-    //}
+    
     public function ajax_list()	{
-		$list = $this->manager->get_datatables($this->userid);
-                $nrow = $this->manager->get_datatables_row($this->userid);
+		$list = $this->manager->get_datatables_list($this->userid);
+        $nrow = $this->manager->get_datatables_row_list($this->userid);
                 
 		$data = array();
 		foreach ($list as $manager) {
 			//$no++;
 			$row = array();
-                        //$row[] = $manager->attID;
+            //$row[] = $manager->attID;
 			//$row[] = $manager->managerID;
-                        //$row[] = $manager->managerName;
-                        //$row[] = $manager->siteName;
-                        $row[] = $manager->activityStatus;
-			$row[] = $manager->activityDate;
-                        $row[] = $manager->activityTime;			
-			$row[] = $manager->latLongIn;
-                        $row[] = $manager->outstationStatus;
-                        $row[] = $nrow;
+            //$row[] = $manager->managerName;
+            //$row[] = $manager->siteName;
+            $row[] = $manager->activityStatus;
+            $row[] = $manager->activityDate;
+            $row[] = $manager->activityTime;
+            $row[] = $manager->latLongIn;
+			$row[] = $manager->outstationStatus;			
+            $row[] = $nrow;
 			$data[] = $row;
 		}
 		$output = array("data" => $data);
 		echo json_encode($output);
 	}
+
+    //tables
+    public function ajax_log_list()
+    {
+                //get the assign userid attendance list
+                //$this->db->where('managerID',$this->userid);
+                //list the db
+        $list = $this->manager->get_datatables();
+        $data = array();
+        $no = $_POST['start'];
+        foreach ($list as $manager) {
+            $no++;
+            $row = array();
+                        //$row[] = $manager->attID;
+            //$row[] = $manager->managerID;
+                        //$row[] = $manager->managerName;
+                        //$row[] = $manager->siteName;
+            $row[] = $manager->activityDate;
+            $row[] = $manager->activityTime;
+            $row[] = $manager->activityStatus;
+            $row[] = $manager->outstationStatus;
+            $row[] = $manager->latLongIn;
+            $data[] = $row;
+        }
+
+        $output = array(
+                        "draw" => $_POST['draw'],
+                        "recordsTotal" => $this->manager->count_all(),
+                        "recordsFiltered" => $this->manager->count_filtered(),
+                        "data" => $data,
+                                                
+                );
+                
+        //output to json format
+        echo json_encode($output);
+    }
         
         public function saveface (){
         $this->actDateTime();
@@ -249,5 +285,46 @@ class Manager extends CI_Controller {
         $this->load->view('manager_view2');
          $this->load->view('footer_view');
 
+    }
+    public function viewLog(){
+        $log = array(
+            'userID' => $this->userid,
+            'siteID' => $this->getSiteID,
+            'start' => date('Y-m-d G:i:s')
+        );
+        $this->load->model('manager_model');
+        $this->manager_model->logInsert($log);
+
+        $data = array(
+            'userid' => $this->userid,
+            'userLevel' => $this->userLevel,
+            'message' => 'My Message',
+                    'title' => 'Manager\'s Attendance Site',
+                    'getFullName' => $this->getFullName,
+                    //'getUserLevel' => $this->getUserLevel,
+                    'getSiteName' => $this->getSiteName,
+                    'getUserEmail' => $this->getUserEmail,
+                    'getSiteID' => $this->getSiteID,
+                    'isFirstInToday' => $this->isFirstInToday,
+                    'isFourthPunched' => $this->isFourthPunched,
+                    'initAnomaly' => $this->initAnomaly,
+                    'getClusterLeadGroupID' => $this->getClusterLeadGroupID,
+                    'getLastPunchStatus' => $this->getLastPunchStatus,
+                    'getClusterGroupID' => $this->getClusterGroupID,
+                    'getClusterGroup' => $this->getClusterGroup,
+                    'getClusterLeadGroup' => $this->getClusterLeadGroup,
+                    'getAttendanceStatus' => $this->getAttendanceStatus
+                
+        );
+//                print_r($data[getLastPunchStatus]);
+//                die();
+        //lite version
+        $this->load->view('header_view_lite',$data);
+
+        $this->load->view('manager_log_view', $data);
+        $this->load->view('footer_view');
+
+        $log['loaded'] = date('Y-m-d G:i:s');
+        $this->manager_model->logLoaded($log);
     }
 }
