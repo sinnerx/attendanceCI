@@ -100,6 +100,18 @@ $(document).ready(function() {
             "orderable": false, //set not orderable
         },
         ],
+
+        //red row for late in eorly out
+        "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+                    if ( aData[5] == "1" )
+                    {
+                        $('td', nRow).css('background-color', 'rgba(255, 0, 0, 0.23)');
+                    }
+                    else if ( aData[6] == "1" )
+                    {
+                        $('td', nRow).css('background-color', 'rgba(255, 0, 0, 0.23)');
+                    }
+                }
         //alert($userid);
     });
   // $('#log_table').DataTable( {

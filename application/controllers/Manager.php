@@ -231,6 +231,8 @@ class Manager extends CI_Controller {
             $row[] = $manager->activityStatus;
             $row[] = $manager->outstationStatus;
             $row[] = $manager->latLongIn;
+            $row[] = $manager->lateIn;
+            $row[] = $manager->earlyOut;
             $data[] = $row;
         }
 
