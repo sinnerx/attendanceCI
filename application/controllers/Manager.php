@@ -36,7 +36,7 @@ class Manager extends CI_Controller {
                     $this->getClusterGroupID = $this->manager->getClusterGroupID($this->userid);
                 } elseif ($this->userLevel == 3) {//clusterlead
                     $this->getClusterGroupID = $this->manager->getClusterLeadGroupID($this->userid);
-                } elseif ($this->userLevel == 4) {//operation manager
+                } elseif ($this->userLevel == 4 || $this->userLevel == 99) {//operation manager
                     $this->getClusterGroupID = 0;
                 }
                 $this->getClusterGroup = $this->manager->getClusterGroup($this->userid);
