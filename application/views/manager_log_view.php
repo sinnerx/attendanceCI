@@ -51,7 +51,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </li>
             <li class="divider"></li>
             <li>
-              <a href="../dashboard/logout">Logout</a>
+              <a href="../../dashboard/logout">Logout</a>
             </li>
           </ul>
         </li>
@@ -117,13 +117,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <span class="font-bold">Attendance</span>
                       </a>
                       <ul class='nav dk'>
-                          <li class='active'>
-                          <a href="./" class="auto">                                                        
+                          <li>
+                          <a href="../" class="auto">                                                        
                             <i class="i i-dot"></i>
                             <span>Punch IN/OUT</span>
                           </a>
                         </li>
-                        <li >
+                        <li class='active' >
                           <a href="./manager/viewLog" class="auto">                                                        
                             <i class="i i-dot"></i>
                             <span>View Log</span>
@@ -234,148 +234,42 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <div class="col-sm-6">
                       <h3 class="m-b-xs text-black">
                        <?php if($userLevel==2){
-                        echo "Manager's Attendance";
+                        echo "Manager's Attendance Log";
                       }else if($userLevel==3){
-                          echo "Cluster Lead's Attendance";
+                          echo "Cluster Lead's Attendance Log";
                       }else if($userLevel==4){
-                          echo "Operation Manager's Attendance";
+                          echo "Operation Manager's Attendance Log";
                       }else{
-                          echo "Administration Attendance";
+                          echo "Administration Attendance Log";
                       } ?></h3>
                       <!--<div class="well well-sm">All about your profile. You can edit all through here.</div>-->
-                       <small>Welcome back, <?php echo $getFullName?>, <?php if($userLevel == 2 ){ echo $getSiteName; } else if($userLevel == 3) { echo $getClusterLeadGroup;} ?></small>
+                       <small>View manager's attendance.</small>
                       
                     </div>
                   </section>
 <!--                  <div id="cover">LOADING</div>-->
 <!--                 <?php //echo form_open('manager'); ?> -->
-                     <?php echo form_open(); ?> 
+                     
                   <section id='main' class="panel b-a">
-                  <div class="row">
-                    <div class="col-md-6">
-                            <div class="panel-heading b-b">
-                                <p style="text-align: center" class="block h4 font-bold m-b text-black">Server Date/Time: <?php echo date("d-m-Y G:i");?></p>
-                                <p style="text-align: center" class="block h4 font-bold m-b text-black" id="curDateTime">Local Date/Time: ...calculating</p>
-
-                           <input type="hidden" value="<?php if($userLevel == 3){echo $getClusterLeadGroupID;} else if($userLevel == 2){echo $getClusterGroupID;} ?>" id="valClusterID">
-                           <input type="hidden" value="" id="valAccuracy">
+                  <div ><!--class="table-responsive"-->
+                              <table id="log_table" class="table table-striped m-b-none" data-ride="datatables">
+                                <thead>
+                                  <tr>
+                                    <th width="15%">Date</th>
+                                    <th width="15%">Time</th>
+                                    <th width="10%">Activites</th>
+                                    <th width="20%">Status</th>
+                                    <th width="18%">Location (Lat, Long)</th>
+                                  </tr>
+                                </thead>
+                                <!--<tbody>
+                                </tbody>-->
+                             </table>
                             </div>
-                            <!--<div class="r b bg-warning-ltest wrapper m-b">
-                              <p style="text-align: center"><img src="<?php echo base_url();?>images/camera-512.png" height="180" width="180"></p>
-                              <p style="text-align: center"> Disabled for Attendance V0.1</p>
-                          </div>-->
-                            <div class="camcontent" style="display: block; position: relative; overflow: hidden; height: 350px; width: 502px; margin: auto;">
-                                <img id="camImg" src="images/camera-376.png" width="100%" height="350px">
-                                <span align="center" id="uploading" style="position: absolute;color: red;font-weight: bold; display:none; z-index:300000;"> Processing . . .  </span> 
-                                <span align="center" id="uploaded"  style="position: absolute;color: greenyellow;font-weight: bold; display:none; z-index:300000;"> Success, your photo has been uploaded!</span> 
-                                <video id="video" autoplay></video>
-                                <canvas id="canvas" width="502px" height="376.5px">
-                                
-                            </div>
-                            <div class="cambuttons">
-                                <button type="button" id="snap" style="display:none;">  Capture </button> 
-                                <button type="button" id="reset" style="display:none;">  Reset  </button>     
-                                <button type="button" id="upload" style="display:none;"> Upload </button> 
-                                <br> 
-                                <!--<span id="uploading" style="display:none;"> Uploading has begun . . .  </span> 
-                                <span id="uploaded"  style="display:none;"> Success, your photo has been uploaded!</span> -->
-                            </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="panel-heading b-b">
-                            <p style="text-align: center" name="curLatLong" id="curLatLong" href="#" class="block h4 font-bold m-b text-black">Current Location:<br><br> ...calculating</p>                          
-                         <input type="hidden" value="" id="valLatLong">
-                        </div>
-                            <section id="map" style="min-height:350px;"></section>
-                            <div id="map"></div><br>
-                    </div>
-                  </div>
-                      <div class="clearfix panel-footer"></div>
-                      <div class="row">
-                          
-                          <div id="outstationTxt" class="checkbox i-checks" style="text-align: center">
-                              <label>
-                                  <input id="outstation" type="checkbox"><i></i><span id="outstationspan"> Add Notes</span>
-                              </label>
-                            </div>
-                          
-                              <div id="outstationStatus" class="modal fade" tabindex="-1" role="dialog">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-body"><h3 style="text-align: center">Attendance Note</h3>
-                                            <p>
-                                                <textarea style="width:100%" name="outstationStatusTxt" id="outstationStatusTxt" rows="6" placeholder=" Please state your reason..."></textarea>
-                                            </p>
-                                            <input type="hidden" value="" id="valOutStationStatus">
-<!--                                        </div>
-                                        <div class="modal-footer">-->
-                                            <a id="canceloutstation" href="#" class="btn" data-dismiss="modal" >Cancel</a>
-                                            <a href="#" class="btn btn-primary" id="saveoutstation">Save</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                          <div>
-                              <p style="text-align: center">
-                                  <a id="punch-in" href="#" class="btn btn-primary btn-lg <?php echo $isFourthPunched;?>" data-loading-text="Updating, please wait... <i class='fa fa-cog fa-spin'></i>" style="display: 
-                                      <?php if($getLastPunchStatus == "IN"){
-                                          echo "none";
-                                      } else {
-                                          echo "run-in";
-                                      }
-                                      
-                                      ?>;">
-                                  <i class="fa fa-plus"></i> Punch IN</a>
-                                  <input type="hidden" value="" id="valActivityStatus">
-                              <!--</p>
-                          </div>-->
-                          
-                          <!--<div  id='punch-out'>
-                              <p style="text-align: center">-->
-                          
-                                <a id="punch-out" href="#" class="btn btn-danger btn-lg <?php echo $isFourthPunched;?>" data-loading-text="Updating, please wait... <i class='fa fa-cog fa-spin'></i>" style="display: 
-                                  <?php if($getLastPunchStatus == "OUT" || $getLastPunchStatus == ""){
-                                          echo "none";
-                                      } else{
-                                          echo "run-in";
-                                      }
-                                      
-                                      ?>;">
-                                  <i class="fa fa-minus"></i> Punch OUT</a>
-                              </p>
-                          <!--</div>-->
-                          </div>
-                          <div class="m-b-lg text-center">
-                            <span id="label1" class="label bg-light" data-toggle="tooltip" data-original-title="1st punch">Day IN</span>
-                            <span id="label2" class="label bg-light" data-toggle="tooltip" data-original-title="2nd punch">Lunch OUT</span>
-                            <span id="label3" class="label bg-light" data-toggle="tooltip" data-original-title="3rd punch">Lunch IN</span>
-                            <span id="label4" class="label bg-light" data-toggle="tooltip" data-original-title="4th punch">Day OUT</span>
-                          </div>
-                          <div id="success" style="text-align: center; color: green; font-weight: bold"></div>
-                      </div>
                   </section>
-                <div class="col-md-8"><section id="warning" class="panel b-a">
-                    
-                    <div class="panel-heading b-b">
-                          <p id="loadingTitle" class="block h4 font-bold m-b text-black">Please make sure...</p> 
-                    </div><br>
-                    <p style="text-indent:5px"><i class="i i-checked"></i> Your camera is enabled and shared with the system upon loading.</p>
-                    <p style="text-indent:5px"><i class="i i-checked"></i> Your current location is shared upon loading.</p>
-                    <p style="text-indent:5px"><i class="i i-checked"></i> If you already shared your camera and location, try to refresh the browser again. Otherwise if you think this is an error please contact <a href='mailto:support@fulkrum.net'>support@fulkrum.net</a> immediately. </i></a></p>
-                    
-                 </section></div>
-                <div class="col-md-4"><section id="warning" class="panel b-a">
-                    
-                    <div  id="statusHead" class="panel-heading b-b">
-                        <p id="statusTxt" class="block h4 font-bold m-b text-black">My Last Activities</p> 
-                    </div><br>
-<!--                    <p style="text-indent:5px"><i class="i i-checked"></i><strike> Your camera is enabled and shared with the system upon loading.</strike></p>
-                    <p style="text-indent:5px"><i class="i i-checked"></i> Your current location is shared upon loading.</p>
-                    <p style="text-indent:5px"><i class="i i-checked"></i> If you already shared your <strike>camera and</strike> location, try to refresh the browser again. Otherwise if you think this is an error please contact <a href='mailto:support@fulkrum.net'>support@fulkrum.net</a> immediately. </i></a></p>
-                    -->
-                    <div id="latestActivity"><i class='fa fa-cog fa-spin'></i> Loading last activity's...</div>
-                 </section></div>
-                <?php echo form_close(); ?><br/></p>
+                
+                
+                <br/></p>
                 </section>
               </section>
             <!--</section>-->            

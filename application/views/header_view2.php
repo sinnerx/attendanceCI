@@ -8,7 +8,6 @@ defined ('BASEPATH') or exit('No direct access allowed!');
 ?><!DOCTYPE html>
 <html lang="en" class="app">
 <?php
-    
     if (!isset($_SESSION['userid'])) {
 
             header("location: ../dashboard");
@@ -38,19 +37,6 @@ defined ('BASEPATH') or exit('No direct access allowed!');
   <link rel="stylesheet" href="<?php echo base_url();?>js/calendar/bootstrap_calendar.css" type="text/css" />
   <link rel="stylesheet" href="<?php echo base_url();?>js/datatables/dataTables.bootstrap.css" type="text/css"/>
   <!--<link rel="stylesheet" href="<?php echo base_url();?>js/datatables/datatables.css" type="text/css"/>-->
-  <style type="text/css">
-      #cover {
-          position: fixed;
-          height: 100%;
-          width: 100%;
-          top:0; left: 0;
-          background: #000;
-          z-index:9999; 
-          font-size: 30px;
-          text-align: center;
-          padding-top: 200px;
-          color: #fff;}
-  </style>
   <!---->
   <!--[if lt IE 9]>
     <script src="<?php echo base_url();?>js/ie/html5shiv.js"></script>
@@ -58,15 +44,8 @@ defined ('BASEPATH') or exit('No direct access allowed!');
     <script src="<?php echo base_url();?>js/ie/excanvas.js"></script>
   <![endif]-->
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
- <script src="<?php echo base_url();?>js/geolocation/geolocation.js"></script>
    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>-->
   <!--<script src="<?php echo base_url();?>js/jquery.min.js"></script>-->
-  
-  <!-- datatables -->
-  <script src="<?php echo base_url();?>js/datatables/jquery.dataTables.min.js"></script>
-  <script src="<?php echo base_url();?>js/datatables/dataTables.bootstrap.js"></script>
-  <script src="<?php echo base_url();?>js/datatables/jquery.csv-0.71.min.js"></script>
-
   <script type="text/javascript">
       
     //table
@@ -79,72 +58,48 @@ defined ('BASEPATH') or exit('No direct access allowed!');
       var vidSrc;
 
 $(document).ready(function() {
-  $('#log_table').DataTable({ 
-        
-        "processing": true, //Feature control the processing indicator.
-        "serverSide": true, //Feature control DataTables' server-side processing mode.
-        "order": [], //Initial no order.
-        //"pagingType": "full_numbers",
-        
-        // Load data for the table's content from an Ajax source
-        "ajax": {
-            "url": "<?php echo base_url();?>manager/ajax_log_list",
-            "type": "POST"
-        },
-         //Set column definition initialisation properties.
-        "columnDefs": [
-        { 
-            
-        //"targets": [ -1 ], //disable last column
-        "targets": [ 0,1,2,3,4 ], //disable sorting all column
-            "orderable": false, //set not orderable
-        },
-        ],
-
-        //red row for late in eorly out
-        "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
-                    if ( aData[5] == "1" )
-                    {
-                        $('td', nRow).css('background-color', 'rgba(255, 0, 0, 0.23)');
-                    }
-                    else if ( aData[6] == "1" )
-                    {
-                        $('td', nRow).css('background-color', 'rgba(255, 0, 0, 0.23)');
-                    }
-                }
-        //alert($userid);
-    });
-  // $('#log_table').DataTable( {
-  //       "ajax": '<?php echo base_url();?>manager/ajax_list',
-  //       "order": [[ 0, "desc" ]]
-  //   } );
     loadCamera();
+    //reload_table();
        //punch-in   
-       latestActivity("<?php echo $userid;?>");
       $( "#punch-in" ).click(function(event) {
           $( "#snap" ).click();
-//          $( "#punch-in" ).hide();
-//          $( "#punch-out" ).show();
-//          $( "#punch-out" ).addClass('disabled');
-            $(this).button('loading');
+          //alert("time: "+currentDateTime().substr(-6) +"| date: "+currentDateTime().substr(0,10));
+          $( "#punch-in" ).hide();
+          $( "#punch-out" ).show();
+          $( "#punch-out" ).addClass('disabled');
             event.preventDefault();
+            var clusterID = $("#valClusterID").val();
+            var managerID = $("#valManagerID").val();
+            var managerName = $("#valManagerName").val();
+            var siteID = $("#valSiteID").val();
+            var siteName = $("#valSiteName").val();
+            var userEmail = $("#valUserEmail").val();
+            //var  attID = $("#valAttID").val();
+            //var  activityTime = $("#valTime").val();
+            //var  activityDate = $("#valDate").val();
+            var  activityTime = currentDateTime().substr(-5);
+            var  activityDate = activityDateData = currentDateTime().substr(0,10);
+            //var  activityStatus = $("#valActivityStatus").val();
+            var  activityDateTime = currentFormattedDateTime();
+            //alert(activityDateTime);
             var  activityStatus = punchStatus = 'IN';
             var  outstationStatus = $("#outstationStatusTxt").val();
             var  latLongIn = $("#valLatLong").val();
             var  accuracy = $("#valAccuracy").val();
-            //var  imgIn = 'images/attendance/noimage.jpg';
+            var newActvityTime = activityTimeData = activityTime.replace(/:/,".").replace(/^\s*/, "");
+            var  imgIn = 'images/attendance/'+activityDate+'-'+newActvityTime+'-'+managerID+'-'+activityStatus+'.jpg';
             jQuery.ajax({
             type: "POST",
             url: "<?php echo base_url(); ?>manager/saveAttendance",
             //dataType: "JSON",
-            data: {latLongIn: latLongIn, accuracy: accuracy, activityStatus: activityStatus, outstationStatus: outstationStatus},
+            data: {managerID: managerID, clusterID: clusterID, managerName: managerName, siteID: siteID, siteName: siteName, userEmail: userEmail, activityDate: activityDate, activityTime: activityTime, activityDateTime: activityDateTime, latLongIn: latLongIn, accuracy: accuracy, activityStatus: activityStatus, outstationStatus: outstationStatus, imgIn: imgIn},
             success: function (data) {
                     //table.ajax.reload(null,false);
                     console.log(data);
-                    //reload_table();
+                    reload_table();
                     notify();
                     $("#upload").click();
-                    latestActivity(data);
+
                 },
             error: function (jqXHR, textStatus, errorThrown)
             {
@@ -156,29 +111,41 @@ $(document).ready(function() {
     //punch-out
     $( "#punch-out" ).click(function(event) {
         $("#snap").click();
-//        $( "#punch-out" ).hide();
-//        $( "#punch-in" ).show();
-//        $( "#punch-in" ).addClass('disabled');
-        $(this).button('loading');
+        $( "#punch-out" ).hide();
+        $( "#punch-in" ).show();
+        $( "#punch-in" ).addClass('disabled');
         event.preventDefault();
+        var clusterID = $("#valClusterID").val();
+        var managerID = $("#valManagerID").val();
+        var managerName = $("#valManagerName").val();
+        var siteID = $("#valSiteID").val();
+        var siteName = $("#valSiteName").val();
+        var userEmail = $("#valUserEmail").val();
+        //var  attID = $("#valAttID").val();
+        //var  activityTime = $("#valTime").val();
+        //var  activityDate = $("#valDate").val();
+        var  activityTime  = currentDateTime().substr(-5);
+        var  activityDate = activityDateData = currentDateTime().substr(0,10);
+        var  activityDateTime = currentFormattedDateTime();
+        //var  activityStatus = $("#valActivityStatus").val();
         var  activityStatus = punchStatus = 'OUT';
         var  outstationStatus = $("#outstationStatusTxt").val();
         var  latLongIn = $("#valLatLong").val();
         var  accuracy = $("#valAccuracy").val();
-        //var  imgIn = 'images/attendance/noimage.jpg';
-
+        var newActvityTime = activityTimeData = activityTime.replace(/:/,".").replace(/^\s*/, "");
+        var  imgIn = 'images/attendance/'+activityDate+'-'+newActvityTime+'-'+managerID+'-'+activityStatus+'.jpg';
         jQuery.ajax({
         type: "POST",
         url: "<?php echo base_url(); ?>manager/saveAttendance",
         //dataType: "JSON",
-        data: {latLongIn: latLongIn, accuracy: accuracy, activityStatus: activityStatus, outstationStatus: outstationStatus},
+        data: {managerID: managerID, clusterID: clusterID, managerName: managerName, siteID: siteID, siteName: siteName, userEmail: userEmail, activityDate: activityDate, activityTime: activityTime, activityDateTime: activityDateTime, latLongIn: latLongIn, accuracy: accuracy, activityStatus: activityStatus, outstationStatus: outstationStatus, imgIn: imgIn},
         success: function (data) {
                 //table.ajax.reload(null,false);
                 console.log(data);
-                //reload_table();
+                reload_table();
                 notify();
                 $("#upload").click();
-                latestActivity(data);
+                //alert();
 
         },
         error: function (jqXHR, textStatus, errorThrown)
@@ -189,56 +156,41 @@ $(document).ready(function() {
      });
     //reload_table();
     });
+    
 
-function latestActivity(data){
-    $.ajax({                    
-            type: "GET",
-            url: "<?php echo base_url(); ?>manager/ajax_list",
-            data: data,
-            beforeSend: function(){
-                $("#statusTxt").remove();  
-                $("#statusHead").append("<p id=\"statusTxt\" class=\"block h4 font-bold m-b text-black\">My Last Activities</p>");
-                $("#latestActivity").html('<i class=\'fa fa-cog fa-spin\'></i> Loading last activity\'s...');
-            },
-            success: function(data){
-                 var data_json = JSON.parse(data).data[0];
-                console.log('JSON: '+JSON.parse(data).data[0]);
-                $("#latestActivity").html(
-                        '<b>Punch:</b> '+data_json[0]+'<br>'+
-                        '<b>Date:</b> '+data_json[1]+'<br>'+
-                        '<b>Time:</b> '+data_json[2]+'<br>'+
-                        '<b>GPS:</b> '+data_json[3]+'<br>'+
-                        '<b>Notes:</b> '+data_json[4]+'<br>'
-                        );
-                if(data_json[5]){
-                    
-                    for(var i=0; i <5; i++){
-                        $("#label"+i).removeClass('label bg-warning').addClass('label bg-light');
-                    }
-                    $("#label"+parseInt(data_json[5]+1)).removeClass('label bg-light').addClass('label bg-warning');
-                }else{
-                    $("#label1").removeClass('label bg-light').addClass('label bg-warning');
-                }
-                if(data_json[5] == 4){
-                    console.log('4th times!');
-                     $("#punch-in").removeClass('btn btn-primary btn-lg');
-                     $("#punch-in").addClass('btn btn-primary btn-lg disabled');
-                     //console.log($("#punch-in").addClass('btn btn-primary btn-lg '));
-                }
-                
-                $("#statusTxt").remove();  
-                $("#statusHead").append("<p id=\"statusTxt\" class=\"block h4 font-bold m-b text-black\">My Last Activities<span class=\"label label-lg bg-success\">Success!</span></p>");  
+    table = $('#table').DataTable({ 
+        
+        "processing": true, //Feature control the processing indicator.
+        "serverSide": true, //Feature control DataTables' server-side processing mode.
+        "order": [], //Initial no order.
+        //"pagingType": "full_numbers",
+        
+        // Load data for the table's content from an Ajax source
+        "ajax": {
+            "url": "<?php echo base_url();?>manager/ajax_list",
+            "type": "POST"
+        },
+         //Set column definition initialisation properties.
+        "columnDefs": [
+        { 
             
-            }, 
-            error: function ()
-            {
-              $("#statusTxt").remove(); 
-              $("#statusHead").append("<p id=\"statusTxt\" class=\"block h4 font-bold m-b text-black\">My Last Activities<span class=\"label label-lg bg-danger\">Error!</span></p>");
-            },
-            complete:function(){
-              }
-         });
-}
+        //"targets": [ -1 ], //disable last column
+        "targets": [ 0,1,2,3,4 ], //disable sorting all column
+            "orderable": false, //set not orderable
+        },
+        ],
+        //alert($userid);
+    });
+    
+//    $("#canceloutstation").click(function() {
+//            //alert("cancel");
+//             //alert($("#outstationStatusTxt").val());    
+//        if($("#outstationStatusTxt").val()) != ""){
+//
+//           // alert($("#outstationStatusTxt").val());
+//        }
+//    });
+   
     
     $('input,textarea').focus(function () {
         $(this).data('placeholder', $(this).attr('placeholder'))
@@ -247,6 +199,8 @@ function latestActivity(data){
         $(this).attr('placeholder', $(this).data('placeholder'));
     });
     
+    //camera
+    //loadCamera();
     function loadCamera() {
             console.log('load camera');
             // Grab elements, create settings, etc.
@@ -267,13 +221,12 @@ function latestActivity(data){
             // Put video listeners into place
             if(navigator.getUserMedia) { // Standard
                 navigator.getUserMedia(videoObj, function(stream) {
-                    video.src = window.URL.createObjectURL(stream);
-                    //video.src = stream;
+                    video.src = stream;
                     //ratio 4:3
                     video.width = 502;
                     video.height = 376.5;
                     video.play();
-                    checkVideoID(true);
+                    
                     //$("#snap").show();
                 }, errBack);
                 console.log('errBack1: '+errBack);
@@ -285,7 +238,6 @@ function latestActivity(data){
                     video.width = 502;
                     video.height = 376.5;
                     video.play();
-                    checkVideoID(true);
                     //$("#snap").show();
                 }, errBack);
                 console.log('errBack2: '+errBack);
@@ -305,12 +257,10 @@ function latestActivity(data){
               video.src = window.URL.createObjectURL(stream);
               video.onloadedmetadata = function(e) {
                 video.play();
-                checkVideoID(true);
               };
             })
             .catch(function(err) {
               console.log(err.name + ": " + err.message);
-              checkVideoID(false);
             });
                 vidSrc = video.src;
                 console.log('vidSrc:'+vidSrc);
@@ -324,7 +274,7 @@ function latestActivity(data){
                    //console.log('video.src:'+video.src);
                    //vidSrc = video.src;
                    //console.log('vidSrc:'+vidSrc);
-                //checkVideoID();   
+                   
             // Get-Save Snapshot - image 
               $( "#snap" ).click(function(event) {
                 context.drawImage(video, 0, 0, 502, 376.5);
@@ -349,15 +299,15 @@ function latestActivity(data){
                 $("#uploading").show();
                 $.ajax({
                   type: "POST",
-                  url: "manager/saveface",
+                  url: "snap/saveFace",
                   data: { 
                      imgBase64: dataUrl,
                      //user: "Joe",       
                      //userid: 25   
-                     //userid: $("#valManagerID").val(),
-                     //punchStatus: punchStatus,
-                     //activityDateData: activityDateData,
-                     //activityTimeData: activityTimeData
+                     userid: $("#valManagerID").val(),
+                     punchStatus: punchStatus,
+                     activityDateData: activityDateData,
+                     activityTimeData: activityTimeData
                      
                   }
                 }).done(function(msg) {
@@ -369,52 +319,80 @@ function latestActivity(data){
                 });
             });
         }
+    //false;
+    //checkVideoID();
+    //loadCamera();
  });
+ 
+function reload_table(){
+     // alert("reloaded!");
+      table.ajax.reload(null,false); //reload datatable ajax 
+}
 
 function notify(){
     //alert("datetime: "activityDate + activityTime);
            var div = document.getElementById('success');
             div.innerHTML += 'Data successfully submitted!';
-            console.log('success!!!');
             function f() { 
-                $("#success").fadeOut('slow');   
+            div.innerHTML = "";
+//            var fourthPunch = "<?php //echo $this->manager_model->isFourthPunched()?>";
+//           
+//            if(fourthPunch !== "true"){        
                 $( "#punch-in" ).removeClass('disabled');
-                $( "#punch-out" ).removeClass('disabled');
-                $( "#punch-in" ).button('reset');
-                $( "#punch-out" ).button('reset');
-                if($('#punch-in').is(':visible')) {
-                    $('#punch-in').hide();
-                    $('#punch-out').show();
-                } else if($('#punch-out').is(':visible')){
-                    $('#punch-in').show();
-                    $('#punch-out').hide();
-                }
-                //reset check box
-                $('#outstationStatusTxt').val("");
-                $('#outstationspan').text(" Add Notes");
-                $('#outstation').prop('checked', false);
-                $("#reset").click();
-                $("#uploading").hide();
-                $("#uploaded").hide();
+            //}
+            $( "#punch-out" ).removeClass('disabled');
+            //reset check box
+            $('#outstationStatusTxt').val("");
+            $('#outstationspan').text(" Add Notes");
+            $('#outstation').prop('checked', false);
+            $("#reset").click();
+            $("#uploading").hide();
+            $("#uploaded").hide();
+
+        //outstationTxt.innerHTML = '<label><input id=\"outstation\" type=\"checkbox\"><i></i> Add Notes</label>' ;
     }
-    setTimeout(f, 1500);        
+    setTimeout(f, 3000);        
 }
 
-
- function checkVideoID (vid_src){
-        //video_src = document.getElementById("video").src;
-        console.log('video_src: '+vid_src);
-      if(vid_src === true){
+function currentDateTime() {
+            var d = new Date();
+            var day = ('0' + d.getDate()).slice(-2);
+            var month = ( '0' + (d.getMonth() + 1)).slice(-2);
+            var year = d.getFullYear();
+            var hour = ('0' + d.getHours()).slice(-2);
+            var mins = ('0' + d.getMinutes()).slice(-2);
+            var secs = ('0' + d.getSeconds()).slice(-2);
+            var msec = d.getMilliseconds();
+            return day + "-" + month + "-" + year + " " + hour + ":" + mins/* + ":" + secs + "," + msec*/;
+ }
+ 
+function currentFormattedDateTime() {
+            var d = new Date();
+            var day = ('0' + d.getDate()).slice(-2);
+            var month = ( '0' + (d.getMonth() + 1)).slice(-2);
+            var year = d.getFullYear();
+            var hour = ('0' + d.getHours()).slice(-2);
+            var mins = ('0' + d.getMinutes()).slice(-2);
+            var secs = ('0' + d.getSeconds()).slice(-2);
+            var msec = d.getMilliseconds();
+            return year + "-" + month + "-" + day + " " + hour + ":" + mins + ":" + secs/* + "," + msec*/;
+ }
+ 
+ function checkVideoID (){
+      //var value = document.getElementById("video").length;
+      //console.log('value:'+value);
+      //console.log('video.src:'+video.src.length);
+      if(video.src.length !== 0){
           document.getElementById("main").style.display = "";
           document.getElementById("camImg").style.display = "none";
-          document.getElementById("loadingTitle").innerHTML = "Please make sure...";
       } else {
           //console.log("loadingTitle: "+document.getElementById("loadingTitle").innerHTML);
-          document.getElementById("loadingTitle").innerHTML = "Camera Module Temporary Disabled...please make sure:";
+          document.getElementById("loadingTitle").innerHTML = "Camera Error Detected...please make sure:";
          // loadCamera();
       }
  }
-
+  
+  
 </script>
 
 </head>

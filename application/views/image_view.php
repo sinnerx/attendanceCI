@@ -220,10 +220,10 @@
                               <div class="col-sm-3">
                                   <input id="date2" name="to" class="input-sm input-s datepicker-input form-control" size="16" value="" data-date-format="dd-mm-yyyy" type="text">
                               </div>
-                             <div style="float: left; width: 100px"> 
+                             <div style="float: left; padding-right: 20px"> 
                              <button id="search" type="" class="btn btn-primary center" data-loading-text="Searching... <i class='fa fa-cog fa-spin'></i>"><i class="fa fa-search"></i> Search</button>
                              </div>
-                             <div style="float: right; width: 210px"> 
+                             <div style="float: left; padding-right: 20px"> 
                             <form id="dlform" class="form-horizontal" name="dlform" action="<?php echo base_url();?>image/download" method="post">
                                 <input id="hid_selectType" type="hidden" name="hid_selectType" value="">
                                 <input id="hid_typelist" type="hidden" name="hid_typelist" value="">

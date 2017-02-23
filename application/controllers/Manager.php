@@ -48,6 +48,14 @@ class Manager extends CI_Controller {
 //        var_dump($this->isFirstInToday);
 //        die();
         
+        $log = array(
+            'userID' => $this->userid,
+            'siteID' => $this->getSiteID,
+            'start' => date('Y-m-d G:i:s')
+        );
+        $this->load->model('manager_model');
+        $this->manager_model->logInsert($log);
+
         $data = array(
 		    'userid' => $this->userid,
 		    'userLevel' => $this->userLevel,
@@ -73,20 +81,28 @@ class Manager extends CI_Controller {
 //                die();
         //lite version
         $this->load->view('header_view_lite',$data);
-        $this->load->view('manager_view_lite', $data);
-         $this->load->view('footer_view');
 
+        $this->load->view('manager_view_lite', $data);
+        $this->load->view('footer_view');
+
+        $log['loaded'] = date('Y-m-d G:i:s');
+        $this->manager_model->logLoaded($log);
     }
     
     public function actDateTime(){
         $this->actDate = date("d-m-Y"); 
         $this->actTime = date("H.i");
         $this->actDateTime = date("Y-m-d H:i:s");
-        
     }
     
     public function saveAttendance(){
-        $this->load->model('manager_model');
+        $log = array(
+            'userID' => $this->userid,
+            'siteID' => $this->getSiteID,
+            'start' => date('Y-m-d G:i:s')
+        );
+        $this->manager->logPunched($log);
+
         //clear session from globals
         //$_SESSION = array();
         //clear session from disk
@@ -98,97 +114,139 @@ class Manager extends CI_Controller {
         
         
         //if(($_SESSION['userid']) <> NULL){
-            $data = array(
-                    'managerID' => $this->userid,
-                    'clusterID' => $this->getClusterGroupID,
-                    'managerName' => $this->getFullName,
-                    'siteID' => $this->getSiteID,
-                    'siteName' => $this->getSiteName,
-                    'userEmail' => $this->getUserEmail,
+        $data = array(
+            'managerID' => $this->userid,
+            'clusterID' => $this->getClusterGroupID,
+            'managerName' => $this->getFullName,
+            'siteID' => $this->getSiteID,
+            'siteName' => $this->getSiteName,
+            'userEmail' => $this->getUserEmail,
 //                    'activityDate' => date("d-m-Y"),
 //                    'activityTime' => date("G:i"),
 //                    'activityDateTime' => date("Y-m-d G:i:s"),
-                    'activityDate' => $this->actDate,
-                    'activityTime' => $this->actTime,
-                    'activityDateTime' => $this->actDateTime,
-                    'activityStatus' => $this->input->post('activityStatus'),
-                    'outstationStatus' => $this->input->post('outstationStatus'),
-                    'latLongIn' => $this->input->post('latLongIn'),
-                    'accuracy' => $this->input->post('accuracy'),
-                    'imgIn' => "images/attendance/$this->actDate-$this->actTime-$this->userid.jpg",
-                    'attendanceStatus' => $this->getAttendanceStatus,
-                    'lateIn' => NULL,
-                    'earlyOut' => NULL
-                );
-                $attStatus = $this->getAttendanceStatus;
-                $clusterid = $this->getClusterGroupID;
-                $time = $data['activityTime'];
-                if($attStatus === 'in1'){//first in
-                    //echo 'in1 oi oi';
-                       if(($clusterid === '5' || $clusterid === '6' ) && ((strtotime($time)) > (strtotime('09:00:00')))){
-                               //semenanjung late-in
-                               $data['lateIn'] = 1;
-                       } elseif(($clusterid === '1' || $clusterid === '2'|| $clusterid === '3' || $clusterid === '4') && ((strtotime($time)) > (strtotime('08:00:00')))){
-                               //sabah/sarawak late-in
-                               $data['lateIn'] = 1;
-                       }
+            'activityDate' => $this->actDate,
+            'activityTime' => $this->actTime,
+            'activityDateTime' => $this->actDateTime,
+            'activityStatus' => $this->input->post('activityStatus'),
+            'outstationStatus' => $this->input->post('outstationStatus'),
+            'latLongIn' => $this->input->post('latLongIn'),
+            'accuracy' => $this->input->post('accuracy'),
+            'imgIn' => "images/attendance/$this->actDate-$this->actTime-$this->userid.jpg",
+            'attendanceStatus' => $this->getAttendanceStatus,
+            'lateIn' => NULL,
+            'earlyOut' => NULL
+        );
+        $attStatus = $this->getAttendanceStatus;
+        $clusterid = $this->getClusterGroupID;
+        $time = $data['activityTime'];
+        if($attStatus === 'in1'){//first in
+            //echo 'in1 oi oi';
+           if(($clusterid === '5' || $clusterid === '6' ) && ((strtotime($time)) > (strtotime('09:00:00')))){
+               //semenanjung late-in
+               $data['lateIn'] = 1;
+           } elseif(($clusterid === '1' || $clusterid === '2'|| $clusterid === '3' || $clusterid === '4') && ((strtotime($time)) > (strtotime('08:00:00')))){
+               //sabah/sarawak late-in
+               $data['lateIn'] = 1;
+           }
 
-                    } elseif ($attStatus === 'in2') {//after break in
-                           if(($clusterid === '5' || $clusterid === '6' ) && ((strtotime($time)) > (strtotime('14:00:00')))){
-                                   //semenanjung late-in break
-                                    $data['lateIn'] = 1;
-                              // }
-                           } elseif(($clusterid === '1' || $clusterid === '2'|| $clusterid === '3' || $clusterid === '4') && ((strtotime($time)) > (strtotime('13:00:00')))){
-                                    //semenanjung late-in break
-                                    $data['lateIn'] = 1;
-                           }
-                    }
-
-                    //check for early out
-                    if($attStatus === 'out2'){//go home
-                        //semenanjung
-                       if(($clusterid === '5' || $clusterid === '6' ) && ((strtotime($time)) < (strtotime('18:00:00')))){
-                               //semenanjung early-out
-                               $data['earlyOut'] = 1;
-
-                       //sabah/sarawak    
-                       } elseif(($clusterid === '1' || $clusterid === '2'|| $clusterid === '3' || $clusterid === '4') && ((strtotime($time)) < (strtotime('17:00:00')))){
-                                //sabah/sarawak early-out
-                                $data['earlyOut'] = 1;
-                       }
-
-                    } elseif ($attStatus === 'out1') {//break - out
-                       if(($clusterid === '5' || $clusterid === '6' ) && ((strtotime($time)) < (strtotime('13:00:00')))){
-                                // semenanjung early-out break
-                                 $data['earlyOut'] = 1;
-                       } elseif(($clusterid === '1' || $clusterid === '2'|| $clusterid === '3' || $clusterid === '4') && ((strtotime($time)) < (strtotime('12:00:00')))){
-                                //sabah/sarawak early-out break
-                                 $data['earlyOut'] = 1;
-                       }
-                    }
-                        $this->manager_model->insertAttendance($data);
+        } elseif ($attStatus === 'in2') {//after break in
+            if(($clusterid === '5' || $clusterid === '6' ) && ((strtotime($time)) > (strtotime('14:00:00')))){
+            //semenanjung late-in break
+            $data['lateIn'] = 1;
+              // }
+            } elseif(($clusterid === '1' || $clusterid === '2'|| $clusterid === '3' || $clusterid === '4') && ((strtotime($time)) > (strtotime('13:00:00')))){
+                    //semenanjung late-in break
+                $data['lateIn'] = 1;
+           }
         }
-    //}
+
+        //check for early out
+        if($attStatus === 'out2'){//go home
+            //semenanjung
+           if(($clusterid === '5' || $clusterid === '6' ) && ((strtotime($time)) < (strtotime('18:00:00')))){
+                   //semenanjung early-out
+                   $data['earlyOut'] = 1;
+
+           //sabah/sarawak    
+           } elseif(($clusterid === '1' || $clusterid === '2'|| $clusterid === '3' || $clusterid === '4') && ((strtotime($time)) < (strtotime('17:00:00')))){
+                    //sabah/sarawak early-out
+                    $data['earlyOut'] = 1;
+           }
+
+        } elseif ($attStatus === 'out1') {//break - out
+           if(($clusterid === '5' || $clusterid === '6' ) && ((strtotime($time)) < (strtotime('13:00:00')))){
+                    // semenanjung early-out break
+                     $data['earlyOut'] = 1;
+           } elseif(($clusterid === '1' || $clusterid === '2'|| $clusterid === '3' || $clusterid === '4') && ((strtotime($time)) < (strtotime('12:00:00')))){
+                    //sabah/sarawak early-out break
+                     $data['earlyOut'] = 1;
+           }
+        }
+        $this->manager->insertAttendance($data);
+        $this->manager->logEnd($log);
+    }
+    
     public function ajax_list()	{
-		$list = $this->manager->get_datatables($this->userid);
+		$list = $this->manager->get_datatables_list($this->userid);
+        $nrow = $this->manager->get_datatables_row_list($this->userid);
+                
 		$data = array();
 		foreach ($list as $manager) {
 			//$no++;
 			$row = array();
-                        //$row[] = $manager->attID;
+            //$row[] = $manager->attID;
 			//$row[] = $manager->managerID;
-                        //$row[] = $manager->managerName;
-                        //$row[] = $manager->siteName;
-                        $row[] = $manager->activityStatus;
-			$row[] = $manager->activityDate;
-                        $row[] = $manager->activityTime;			
-			$row[] = $manager->latLongIn;
-                        $row[] = $manager->outstationStatus;
+            //$row[] = $manager->managerName;
+            //$row[] = $manager->siteName;
+            $row[] = $manager->activityStatus;
+            $row[] = $manager->activityDate;
+            $row[] = $manager->activityTime;
+            $row[] = $manager->latLongIn;
+			$row[] = $manager->outstationStatus;			
+            $row[] = $nrow;
 			$data[] = $row;
 		}
 		$output = array("data" => $data);
 		echo json_encode($output);
 	}
+
+    //tables
+    public function ajax_log_list()
+    {
+                //get the assign userid attendance list
+                //$this->db->where('managerID',$this->userid);
+                //list the db
+        $list = $this->manager->get_datatables();
+        $data = array();
+        $no = $_POST['start'];
+        foreach ($list as $manager) {
+            $no++;
+            $row = array();
+                        //$row[] = $manager->attID;
+            //$row[] = $manager->managerID;
+                        //$row[] = $manager->managerName;
+                        //$row[] = $manager->siteName;
+            $row[] = $manager->activityDate;
+            $row[] = $manager->activityTime;
+            $row[] = $manager->activityStatus;
+            $row[] = $manager->outstationStatus;
+            $row[] = $manager->latLongIn;
+            $row[] = $manager->lateIn;
+            $row[] = $manager->earlyOut;
+            $data[] = $row;
+        }
+
+        $output = array(
+                        "draw" => $_POST['draw'],
+                        "recordsTotal" => $this->manager->count_all(),
+                        "recordsFiltered" => $this->manager->count_filtered(),
+                        "data" => $data,
+                                                
+                );
+                
+        //output to json format
+        echo json_encode($output);
+    }
         
         public function saveface (){
         $this->actDateTime();
@@ -202,7 +260,7 @@ class Manager extends CI_Controller {
         
         //$userid  = $_POST['userid'] ;
         $punchuserid = $this->userid;
-        //$punchStatus  = $_POST['punchStatus'];
+        //$psunchStatus  = $_POST['punchStatus'];
         $activityDateData = $this->actDate;
         $activityTimeData = $this->actTime;
        // var_dump($this->actDateTimeArr[0]);
@@ -223,5 +281,52 @@ class Manager extends CI_Controller {
         //$imgPath = 'images/attendance/'.$activityDateData.'-'.$activityTimeData.'-'.$userid.'-'.$punchStatus.'.jpg';
         //$this->db->insert('imgIn', $imgPath);
         //echo 'imgIn'.$imgPath;
+    }
+    public function view(){
+        $this->load->view('header_view2');
+        $this->load->view('manager_view2');
+         $this->load->view('footer_view');
+
+    }
+    public function viewLog(){
+        $log = array(
+            'userID' => $this->userid,
+            'siteID' => $this->getSiteID,
+            'start' => date('Y-m-d G:i:s')
+        );
+        $this->load->model('manager_model');
+        $this->manager_model->logInsert($log);
+
+        $data = array(
+            'userid' => $this->userid,
+            'userLevel' => $this->userLevel,
+            'message' => 'My Message',
+                    'title' => 'Manager\'s Attendance Site',
+                    'getFullName' => $this->getFullName,
+                    //'getUserLevel' => $this->getUserLevel,
+                    'getSiteName' => $this->getSiteName,
+                    'getUserEmail' => $this->getUserEmail,
+                    'getSiteID' => $this->getSiteID,
+                    'isFirstInToday' => $this->isFirstInToday,
+                    'isFourthPunched' => $this->isFourthPunched,
+                    'initAnomaly' => $this->initAnomaly,
+                    'getClusterLeadGroupID' => $this->getClusterLeadGroupID,
+                    'getLastPunchStatus' => $this->getLastPunchStatus,
+                    'getClusterGroupID' => $this->getClusterGroupID,
+                    'getClusterGroup' => $this->getClusterGroup,
+                    'getClusterLeadGroup' => $this->getClusterLeadGroup,
+                    'getAttendanceStatus' => $this->getAttendanceStatus
+                
+        );
+//                print_r($data[getLastPunchStatus]);
+//                die();
+        //lite version
+        $this->load->view('header_view_lite',$data);
+
+        $this->load->view('manager_log_view', $data);
+        $this->load->view('footer_view');
+
+        $log['loaded'] = date('Y-m-d G:i:s');
+        $this->manager_model->logLoaded($log);
     }
 }

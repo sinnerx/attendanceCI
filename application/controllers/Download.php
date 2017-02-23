@@ -13,74 +13,66 @@ class Download extends CI_Controller {
 
     function index() {
         $data = array(
-		    'userid' => $this->userid,
+		    'userid'    => $this->userid,
 		    'userLevel' => $this->userLevel,
-		    'message' => 'My Message',
-                    'title' => 'Attendance\'s Download Site',
+		    'message'   => 'My Message',
+                    'title'     => 'Attendance\'s Download Site',
                     
 		);
-        $file_path = './images/attendance/';
-        $files = scandir($file_path);        
-
-        $files_array = array();        
-        //query by db
-        foreach($files as $key=>$file_name) {
-
-            $file_name = trim($file_name);
-
-            if($file_name != '.' || $file_name != '..') {
-                if((is_file($file_path.$file_name))) {
-                    array_push($files_array,$file_name);
-                }
-            }
-        }
-
-        $data['files'] = $files_array;
+        $this->load->view('downloadHeader_view', $data);
+        $this->load->view('download_view_1', $data);
         
-        
-        //$this->load->view('downloadheader_view');
-        $this->load->view('download_view', $data);
-        //$this->load->view('downloadfooter_view');
 
     }
-
-    function recursive_browse($files,&$files_array)
-    {
-
-        $file_path = './images/attendance/';
-        
-        foreach($files as $key=>$file_name) {
-
-            $file_name = trim($file_name);
-
-            if($file_name != '.' || $file_name != '..') {
-                if((is_file($file_path.$file_name))) {
-                    array_push($files_array,$file_name);
-                }
-                else if(is_dir($file_path.$file_name)){
-                    $recursive_files = scandir($file_path.$file_name);
-                    print_r($file_name);exit;
-                    $this->recursive_browse($recursive_files,$files_array);
-                }
+   
+    function zip(){//working like charm
+     set_time_limit(0);
+     ini_set('memory_limit', '512M'); 
+     $dir = 'images/attendance/';
+     //array of images need to be dowloaded
+     $files = glob($dir."*.jpg");
+     //var_dump($files);
+     //die();
+ 
+    $valid_files = array();
+    if(is_array($files)) {
+        foreach($files as $file) {
+            if(file_exists($file)) {
+                $valid_files[] = $file;
             }
         }
     }
-
-    function download_zip() {
-
-        $this->load->library('zip');
-        $file_path = './images/attendance/';
-        $zip_file_name = $_POST['file_name'];
-
-        $selected_files = $_POST['files'];
-
-        foreach($selected_files as $key=>$file){
-            $this->zip->read_file($file_path.$file);
+ 
+    if(count($valid_files > 0)){
+            $zip = new ZipArchive();
+            $zip_name = "zipfile.zip";
+            if($zip->open($zip_name, ZIPARCHIVE::CREATE)!==TRUE){
+                $error .= "* Sorry ZIP creation failed at this time";
+            }
+            foreach($valid_files as $file){
+                $zip->addFile($file);
+            }
+            $zip->close();
+            if(file_exists($zip_name)){
+                // force to download the zip
+                header("Pragma: public");
+                header("Expires: 0");
+                header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+                header("Cache-Control: private",false);
+                header('Content-type: application/zip');
+                header('Content-Disposition: attachment; filename="'.$zip_name.'"');
+                readfile($zip_name);
+                // remove zip file from temp path
+                unlink($zip_name);
+            }
+        } else {
+            echo "No valid files to zip";
+            exit;
         }
 
-        $this->zip->download($zip_file_name);
 
     }
+    
 
 }
 ?>
