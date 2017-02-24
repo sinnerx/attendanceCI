@@ -29,7 +29,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <span style="font-size:30px;padding-right: 10px; padding-top: 5px;color: #B4B9BC;">Attendance Management</span>
         </li>
         <li>
+          <?php if ($userLevel != 7) { ?>
           <a onclick="return true;" href="../dashboard" target="_self" style="border-left:1px dashed #CECECE;color: #8B8B8B;letter-spacing: 1px"><span class="btn btn-success">Go to Pi1M <span class="not-connected-text"></span></span></a>
+          <?php } ?>
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right m-n hidden-xs nav-user user">
@@ -77,7 +79,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <b class="caret"></b>
               </span>
               <span class="text-muted text-xs block">
-                  <?php if($userLevel==2){
+                  <?php if($userLevel==2 || $userLevel == 7){
                       echo "Site Manager";
                   }else if($userLevel==3){
                       echo "Cluster Lead";
@@ -108,7 +110,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                <!-- nav -->                 
                 <nav class="nav-primary hidden-xs">
                     <!-- ops manager menu-->
-                  <?php if($userLevel == 2 ){ ?>
+                  <?php if($userLevel == 2 || $userLevel == 7 ){ ?>
                   <ul class="nav nav-main" data-ride="collapse">
                       <li class="active">
                       <a href="#" class="auto">

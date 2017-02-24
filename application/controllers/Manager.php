@@ -32,7 +32,7 @@ class Manager extends CI_Controller {
                 $this->getClusterLeadGroupID = $this->manager->getClusterLeadGroupID($this->userid);
                 $this->getLastPunchStatus = $this->manager->getLastPunchStatus($this->userid);
                                
-                if($this->userLevel == 2){//manager
+                if($this->userLevel == 2 || $this->userLevel == 7){//manager
                     $this->getClusterGroupID = $this->manager->getClusterGroupID($this->userid);
                 } elseif ($this->userLevel == 3) {//clusterlead
                     $this->getClusterGroupID = $this->manager->getClusterLeadGroupID($this->userid);

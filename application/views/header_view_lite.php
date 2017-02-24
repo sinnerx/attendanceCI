@@ -14,13 +14,15 @@ defined ('BASEPATH') or exit('No direct access allowed!');
             header("location: ../dashboard");
             //header('location:'.base_url().'dashboard');
     }
-           
-   if(($_SESSION['userLevel']) > 4){
-        //echo $userid;
-        header("location: ".base_url()."admin");
-        //if ($_SERVER['PHP_SELF'] != "") header("Location: admin/");
-        //echo "Admin is here";
-   } 
+   if( ($_SESSION['userLevel']) != 7){
+    if(($_SESSION['userLevel']) > 4 ){
+            //echo $userid;
+            header("location: ".base_url()."admin?".($_SESSION['userLevel']));
+            //if ($_SERVER['PHP_SELF'] != "") header("Location: admin/");
+            //echo "Admin is here";
+       }     
+   }        
+   
    
 
 ?>

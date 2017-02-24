@@ -219,7 +219,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                   <section class="row m-b-md">
                     <div class="col-sm-6">
                       <h3 class="m-b-xs text-black">
-                       <?php if($userLevel==2){
+                       <?php if($userLevel==2 || $userLevel == 7){
                         echo "Manager's Attendance";
                       }else if($userLevel==3){
                           echo "Cluster Lead's Attendance";
