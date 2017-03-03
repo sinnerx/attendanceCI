@@ -356,6 +356,8 @@ class Manager_model extends CI_Model {
     }
 
     public function logInsert($log){
+        // var_dump($log);
+        // die;
         $this->db->insert('site_attendance', $log);
     }
 
@@ -393,5 +395,97 @@ class Manager_model extends CI_Model {
         $this->db->where('siteID', $log['siteID']);
         $this->db->where('start', $maxDate);
         $this->db->update('site_attendance');
+    }
+
+    public function getListAbsent($managerID){
+        $this->db->select("*");
+        $this->db->from("manager_attendance");
+        $this->db->where("userID", $managerID);
+        $query = $this->db->get();
+
+        return $query->result();
+    }
+
+private function _get_datatables_query_absent()
+    {
+        //print_r($_POST);
+        $this->db->select('MA.managerAttendanceID, MA.attendanceDate, MA.userID, MA.attendanceStatus, AS.attStatusName');
+        $this->db->from('manager_attendance MA');
+        $this->db->join('att_status AS', 'AS.attStatusID = MA.attendanceStatus');
+        //$this->db->where('managerID',$this->userid);
+        $this->db->where('userID',$this->userid);
+        //print_r($_POST['search']['value']);
+        $i = 0;
+        $column = array(0 => "MA.managerAttendanceID", 1 => "MA.attendanceDate",2 => "MA.userID",3 => "MA.attendanceStatus",4 => "AS.attStatusName");
+
+        foreach ($column as $item) // loop column 
+        {
+            if($_POST['search']['value']) // if datatable send POST for search
+            {
+                
+                if($i===0) // first loop
+                {
+                    $this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
+                                        $this->db->like($item, $_POST['search']['value']);
+                }
+                else
+                {
+                    $this->db->or_like($item, $_POST['search']['value']);
+                }
+
+                if(count($column) - 1 == $i) //last loop
+                    $this->db->group_end(); //close bracket
+            }
+            $column[$i] = $item; // set column array variable to order processing
+            $i++;
+        }
+        
+        if(isset($_POST['order'])) // here order processing
+        {
+            $this->db->order_by($column[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+        } 
+        else
+        {
+            // $order = array(0=>'attendanceDate');
+            $this->db->order_by('MA.attendanceDate', 'desc');
+        }
+    }
+
+    function get_datatables_absent()
+    {
+                //$this->db->where('managerID',134);
+                //$this->db->where('managerID',$this->userid);
+        $this->_get_datatables_query_absent();
+        if($_POST['length'] != -1)
+        $this->db->limit($_POST['length'], $_POST['start']);
+                //$this->db->from($this->table);
+        //$this->db->where('managerID',$id);
+        $query = $this->db->get();
+        return $query->result();
+    }  
+
+    public function count_filtered_absent()
+    {
+        $this->_get_datatables_query_absent();
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    public function count_all_absent()
+    {
+        $this->db->from('manager_attendance');
+                //limit to userid
+        $this->db->where('userID',$this->userid);
+        return $this->db->count_all_results();
+    }  
+
+    public function updateAbsentStatus($data)
+    {
+        $id = $data['id'];
+        $status = $data['status'];
+
+        $this->db->set('attendanceStatus', $status);
+        $this->db->where('managerAttendanceID',  $id);
+        $this->db->update('manager_attendance');        
     }
 }

@@ -2,6 +2,13 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <script>
+
+var times = {
+   0 : "Not Justified", 
+   1 : "Approved by CL", 
+   2 : "Not Approved by CL", 
+};
+
 $(document).ready(function() {
   $('#log_table').DataTable({ 
         
@@ -12,33 +19,84 @@ $(document).ready(function() {
         
         // Load data for the table's content from an Ajax source
         "ajax": {
-            "url": "<?php echo base_url();?>manager/ajax_log_list",
+            "url": "<?php echo base_url();?>manager/ajax_absent_list",
             "type": "POST"
         },
          //Set column definition initialisation properties.
         "columnDefs": [
+        {
+            "targets": 0,
+            "visible": false,
+            "searchable": false,
+        },
         { 
             
         //"targets": [ -1 ], //disable last column
-        "targets": [ 0,1,2,3,4 ], //disable sorting all column
-            "orderable": false, //set not orderable
+        // "targets": [ 0,1 ], //disable sorting all column
+        //     "orderable": false, //set not orderable
+
+            "targets": 1,
+            "orderable": true,
+          
         },
+        {
+            "targets": 2,
+            "orderable": false,
+            "render": function(data,type,row){
+                                var $select = $("<select ></select>", {
+                                    "id": row[0],
+                                    "class": 'sel_reason', 
+                                    "onChange" : 'test(this,value)'
+                                    // "value": data
+                                });
+                                $.each(times, function(k,v){
+                                    var $option = $("<option></option>", {
+                                        "text": v,
+                                        "value": k
+                                    });
+                                    if(data === k){
+                                        $option.attr("selected", "selected")
+                                    }
+                                    $select.append($option);
+                                });
+                                return $select.prop("outerHTML");
+                            },
+                         
+        }
         ],
+        "initComplete": function(settings, json) {
+            // alert( 'DataTables has finished its initialisation.' );
+            // $("#log_table select.sel_reason").on("change", "", function() {
+            //         console.log(json.data[0]);
+            //     });            
+            function test(){
+                console.log('abc');
+            }
+          }        
 
         //red row for late in eorly out
-        "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
-                    if ( aData[5] == "1" )
-                    {
-                        $('td', nRow).css('background-color', 'rgba(255, 0, 0, 0.23)');
-                    }
-                    else if ( aData[6] == "1" )
-                    {
-                        $('td', nRow).css('background-color', 'rgba(255, 0, 0, 0.23)');
-                    }
-                }
+        // "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+
+        //         }
         //alert($userid);
     });
+
+
 });
+function test(objselect, val){
+    var id = $(objselect).attr('id');
+
+    // console.log(id);
+    // console.log(val);
+    var updateData = {id:id, status:val};
+    $.ajax({url: '<?php echo base_url()."/manager/updateAbsentStatus"; ?>', 
+        data : updateData,
+        method: "POST",
+        success: function(result){
+            //$("#div1").html(result);
+            console.log(result);
+    }});    
+}
 </script>
 
   <section class="vbox">
@@ -163,7 +221,7 @@ $(document).ready(function() {
                             <span>Punch IN/OUT</span>
                           </a>
                         </li>
-                        <li class='active' >
+                        <li>
                           <a href="./viewLog" class="auto">                                                        
                             <i class="i i-dot"></i>
                             <span>View Log</span>
@@ -280,7 +338,7 @@ $(document).ready(function() {
                     <div class="col-sm-6">
                       <h3 class="m-b-xs text-black">
                        <?php if($userLevel==2 || $userLevel == 7){
-                        echo "Manager's Attendance Log";
+                        echo "Manager's Absent Log";
                       }else if($userLevel==3){
                           echo "Cluster Lead's Attendance Log";
                       }else if($userLevel==4){
@@ -289,7 +347,7 @@ $(document).ready(function() {
                           echo "Administration Attendance Log";
                       } ?></h3>
                       <!--<div class="well well-sm">All about your profile. You can edit all through here.</div>-->
-                       <small>View manager's attendance.</small>
+                       <small>View manager's absent.</small>
                       
                     </div>
                   </section>
@@ -301,11 +359,9 @@ $(document).ready(function() {
                               <table id="log_table" class="table table-striped m-b-none" data-ride="datatables">
                                 <thead>
                                   <tr>
+                                    <th width="15%">ID</th>
                                     <th width="15%">Date</th>
-                                    <th width="15%">Time</th>
-                                    <th width="10%">Activites</th>
                                     <th width="20%">Status</th>
-                                    <th width="18%">Location (Lat, Long)</th>
                                   </tr>
                                 </thead>
                                 <!--<tbody>

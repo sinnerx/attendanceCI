@@ -329,4 +329,88 @@ class Manager extends CI_Controller {
         $log['loaded'] = date('Y-m-d G:i:s');
         $this->manager_model->logLoaded($log);
     }
+
+    public function viewAbsent(){
+
+        $this->load->model('manager_model');
+
+        $resultList = $this->manager_model->getListAbsent($this->userid);
+
+
+        $data = array(
+            'userid' => $this->userid,
+            'userLevel' => $this->userLevel,
+            'message' => 'My Message',
+                    'title' => 'Manager\'s Attendance Site',
+                    'getFullName' => $this->getFullName,
+                    //'getUserLevel' => $this->getUserLevel,
+                    'getSiteName' => $this->getSiteName,
+                    'getUserEmail' => $this->getUserEmail,
+                    'getSiteID' => $this->getSiteID,
+                    'isFirstInToday' => $this->isFirstInToday,
+                    'isFourthPunched' => $this->isFourthPunched,
+                    'initAnomaly' => $this->initAnomaly,
+                    'getClusterLeadGroupID' => $this->getClusterLeadGroupID,
+                    'getLastPunchStatus' => $this->getLastPunchStatus,
+                    'getClusterGroupID' => $this->getClusterGroupID,
+                    'getClusterGroup' => $this->getClusterGroup,
+                    'getClusterLeadGroup' => $this->getClusterLeadGroup,
+                    'getAttendanceStatus' => $this->getAttendanceStatus
+                
+        );
+
+        $this->load->view('header_view_lite',$data);
+
+        $this->load->view('absent_view', $data);
+        $this->load->view('footer_view');
+    }
+
+    public function ajax_absent_list()
+    {
+                //get the assign userid attendance list
+                //$this->db->where('managerID',$this->userid);
+                //list the db
+        $absents = $this->manager->get_datatables_absent();
+        // var_dump($absents);
+        // die;
+        $data = array();
+        $no = $_POST['start'];
+        foreach ($absents as $absent) {
+            $no++;
+            $row = array();
+                        //$row[] = $manager->attID;
+            //$row[] = $manager->managerID;
+                        //$row[] = $manager->managerName;
+                        //$row[] = $manager->siteName;
+            $row[] = $absent->managerAttendanceID;
+            $row[] = $absent->attendanceDate;
+            $row[] = $absent->attendanceStatus;
+            // $row[] = $absent->attStatusName;
+            $data[] = $row;
+        }
+
+        $output = array(
+                        "draw" => $_POST['draw'],
+                        "recordsTotal" => $this->manager->count_all_absent(),
+                        "recordsFiltered" => $this->manager->count_filtered_absent(),
+                        "data" => $data,
+                                                
+                );
+                
+        //output to json format
+        echo json_encode($output);
+    }   
+
+    public function updateAbsentStatus()
+    {
+        // var_dump( $_POST);
+        $data['id']     = $_POST['id'];
+        $data['status'] = $_POST['status'];
+        // die;
+        $this->load->model('manager_model');
+
+        $resultList = $this->manager_model->updateAbsentStatus($data);
+
+        return "Success";
+    } 
 }
