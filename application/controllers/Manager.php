@@ -16,38 +16,39 @@ class Manager extends CI_Controller {
 	{
 		parent::__construct();
                 
-                //userID/userLevel from nativesession from IRIS/main system session
-                $this->userid = $this->nativesession->get( 'userid' );
-                $this->userLevel = $this->nativesession->get( 'userLevel' );
-                //start loading all related data
-		$this->load->model('manager_model','manager');
-                $this->getFullName = $this->manager->getFullName($this->userid);
-                //$this->getUserLevel = $this->manager->getUserLevel($this->userLevel);
-                $this->getSiteName = $this->manager->getSiteName($this->userid);
-                $this->getUserEmail = $this->manager->getUserEmail($this->userid);
-                $this->getSiteID = $this->manager->getSiteID($this->userid);
-                $this->isFirstInToday = $this->manager->isFirstInToday($this->userid);
-                $this->isFourthPunched = $this->manager->isFourthPunched($this->userid);
-                $this->initAnomaly = $this->manager->initAnomaly($this->userid);
-                $this->getClusterLeadGroupID = $this->manager->getClusterLeadGroupID($this->userid);
-                $this->getLastPunchStatus = $this->manager->getLastPunchStatus($this->userid);
-                               
-                if($this->userLevel == 2 || $this->userLevel == 7){//manager
-                    $this->getClusterGroupID = $this->manager->getClusterGroupID($this->userid);
-                } elseif ($this->userLevel == 3) {//clusterlead
-                    $this->getClusterGroupID = $this->manager->getClusterLeadGroupID($this->userid);
-                } elseif ($this->userLevel == 4 || $this->userLevel == 99) {//operation manager
-                    $this->getClusterGroupID = 0;
-                }
-                $this->getClusterGroup = $this->manager->getClusterGroup($this->userid);
-                $this->getClusterLeadGroup = $this->manager->getClusterLeadGroup($this->userid);
-                $this->getAttendanceStatus = $this->manager->getAttendanceStatus($this->userid);
+            //userID/userLevel from nativesession from IRIS/main system session
+            $this->userid = $this->nativesession->get( 'userid' );
+            $this->userLevel = $this->nativesession->get( 'userLevel' );
+            //start loading all related data
+	        $this->load->model('manager_model','manager');
+            $this->getFullName = $this->manager->getFullName($this->userid);
+            //$this->getUserLevel = $this->manager->getUserLevel($this->userLevel);
+            $this->getSiteName = $this->manager->getSiteName($this->userid);
+            $this->getUserEmail = $this->manager->getUserEmail($this->userid);
+            $this->getSiteID = $this->manager->getSiteID($this->userid);
+            $this->isFirstInToday = $this->manager->isFirstInToday($this->userid);
+            $this->isFourthPunched = $this->manager->isFourthPunched($this->userid);
+            $this->initAnomaly = $this->manager->initAnomaly($this->userid);
+            $this->getClusterLeadGroupID = $this->manager->getClusterLeadGroupID($this->userid);
+            $this->getLastPunchStatus = $this->manager->getLastPunchStatus($this->userid);
+                           
+            if($this->userLevel == 2 || $this->userLevel == 7){//manager
+                $this->getClusterGroupID = $this->manager->getClusterGroupID($this->userid);
+            } elseif ($this->userLevel == 3) {//clusterlead
+                $this->getClusterGroupID = $this->manager->getClusterLeadGroupID($this->userid);
+            } elseif ($this->userLevel == 4 || $this->userLevel == 99) {//operation manager
+                $this->getClusterGroupID = 0;
+            }
+            $this->getClusterGroup = $this->manager->getClusterGroup($this->userid);
+            $this->getClusterLeadGroup = $this->manager->getClusterLeadGroup($this->userid);
+            $this->getAttendanceStatus = $this->manager->getAttendanceStatus($this->userid);
 	}
 
     public function index() {
 //        var_dump($this->isFirstInToday);
 //        die();
-        
+        // var_dump($this->getSiteID);
+        // die;
         $log = array(
             'userID' => $this->userid,
             'siteID' => $this->getSiteID,
@@ -332,9 +333,9 @@ class Manager extends CI_Controller {
 
     public function viewAbsent(){
 
-        $this->load->model('manager_model');
+        // $this->load->model('manager_model');
 
-        $resultList = $this->manager_model->getListAbsent($this->userid);
+        $resultList = $this->manager->getListAbsent($this->userid);
 
 
         $data = array(
@@ -385,6 +386,8 @@ class Manager extends CI_Controller {
             $row[] = $absent->managerAttendanceID;
             $row[] = $absent->attendanceDate;
             $row[] = $absent->attendanceStatus;
+            $row[] = $absent->attApprovalName;
+            $row[] = $absent->approvalStatus;
             // $row[] = $absent->attStatusName;
             $data[] = $row;
         }

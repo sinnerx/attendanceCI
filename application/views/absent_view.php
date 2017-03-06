@@ -9,6 +9,12 @@ var times = {
    2 : "Not Approved by CL", 
 };
 
+var ApprovalStatus = {
+   0 : "Not Justified", 
+   1 : "Approved", 
+   2 : "Rejected", 
+};
+
 $(document).ready(function() {
   $('#log_table').DataTable({ 
         
@@ -43,7 +49,13 @@ $(document).ready(function() {
             "targets": 2,
             "orderable": false,
             "render": function(data,type,row){
-                                var $select = $("<select ></select>", {
+                                console.log(row[4]);
+                                var disableColumn = "";
+                                if(row[4] != "0")
+                                  disableColumn = "disabled";
+                                else
+                                  disableColumn = ""
+                                var $select = $("<select " + disableColumn +"></select>", {
                                     "id": row[0],
                                     "class": 'sel_reason', 
                                     "onChange" : 'test(this,value)'
@@ -62,7 +74,12 @@ $(document).ready(function() {
                                 return $select.prop("outerHTML");
                             },
                          
-        }
+        },
+        {
+            "targets": 4,
+            "visible": false,
+            "searchable": false,
+        },        
         ],
         "initComplete": function(settings, json) {
             // alert( 'DataTables has finished its initialisation.' );
@@ -362,6 +379,7 @@ function test(objselect, val){
                                     <th width="15%">ID</th>
                                     <th width="15%">Date</th>
                                     <th width="20%">Status</th>
+                                    <th width="20%">CL Approval</th>
                                   </tr>
                                 </thead>
                                 <!--<tbody>

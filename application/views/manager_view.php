@@ -126,7 +126,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <i class="i i-stack icon">
                         </i>
                         <span class="font-bold">Attendance</span>
-                      </a><ul class='nav dk'>
+                      </a>
+                      
+                      <ul class='nav dk'>
                           <li class='active'>
                           <a href="#" class="auto">                                                        
                             <i class="i i-dot"></i>
@@ -139,6 +141,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                             <span>View Log</span>
                           </a>
                         </li>
+
                         <li class=''>
                           <a href="./reporting" class="auto">                                                        
                             <i class="i i-dot"></i>

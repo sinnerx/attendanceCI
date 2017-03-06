@@ -482,7 +482,12 @@ function notify(){
                             <span>View Report</span>
                           </a>
                         </li>
-                        
+                        <li>
+                          <a href="./clusterlead/viewAbsent/" class="auto">                                                        
+                            <i class="i i-dot"></i>
+                            <span>View Manager Absent</span>
+                          </a>
+                        </li>                         
                       </ul>
                     </li>
                   </ul>

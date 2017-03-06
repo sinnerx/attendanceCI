@@ -409,9 +409,10 @@ class Manager_model extends CI_Model {
 private function _get_datatables_query_absent()
     {
         //print_r($_POST);
-        $this->db->select('MA.managerAttendanceID, MA.attendanceDate, MA.userID, MA.attendanceStatus, AS.attStatusName');
+        $this->db->select('MA.managerAttendanceID, MA.attendanceDate, MA.userID, MA.attendanceStatus, AS.attStatusName, APS.attApprovalName, MA.approvalStatus');
         $this->db->from('manager_attendance MA');
         $this->db->join('att_status AS', 'AS.attStatusID = MA.attendanceStatus');
+        $this->db->join('att_approval_status APS', 'APS.attApprovalID = MA.approvalStatus');
         //$this->db->where('managerID',$this->userid);
         $this->db->where('userID',$this->userid);
         //print_r($_POST['search']['value']);

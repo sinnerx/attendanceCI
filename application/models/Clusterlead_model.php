@@ -104,6 +104,22 @@ class Clusterlead_model extends CI_Model{
          
     }
    
+    public function getSiteInCluster()
+    {
+        $this->db->select("CS.siteID");
+        $this->db->from("cluster_site CS");
+        $this->db->where("CS.clusterID", $this->getClusterLeadGroupID($this->userid));
+        $result = $this->db->get()->result_array();
+
+        $arraySite = array();
+        foreach ($result as $key => $value) {
+            // var_dump($value['siteID']);
+            // die;
+            # code...
+            array_push($arraySite, $value['siteID']);
+        }
+        return $arraySite;
+    }
    // public function setClusterLeadGroupID ($userid)
     //{
        // $query = $this->db->query("SELECT cluster.clusterID FROM cluster JOIN cluster_lead WHERE userID = '$userid' AND cluster.clusterID = cluster_lead.clusterID");
@@ -421,4 +437,101 @@ class Clusterlead_model extends CI_Model{
 //            echo $firstIn;
 //            
 //        }//end of hoursPerDay
+
+
+    private function _get_datatables_query_absent()
+    {
+        $listSite = $this->getSiteInCluster();
+        // var_dump($listSite);
+        // die;
+        // ID
+        // Date
+        // Manager
+        // Site
+        // Status
+        // Approval
+        //print_r($_POST);
+        $this->db->select("MA.managerAttendanceID, MA.attendanceDate, CONCAT(COALESCE(userProfileFullName,''), ' ', COALESCE(userProfileLastName,'') ) as managerName, S.siteName, MA.attendanceStatus, MA.approvalStatus, AS.attStatusName, MA.approvalStatus ");
+        $this->db->from('manager_attendance MA');
+        $this->db->join('att_status AS', 'AS.attStatusID = MA.attendanceStatus');
+        $this->db->join('site S', 'S.siteID = MA.siteID');
+        $this->db->join('user_profile UP', 'UP.userID = MA.userID');
+        //$this->db->where('managerID',$this->userid);
+        $this->db->where_in('MA.siteID',$listSite);
+        //print_r($_POST['search']['value']);
+        $i = 0;
+        $column = array("MA.managerAttendanceID", "MA.attendanceDate", "UP.userProfileFullName", "UP.userProfileLastName", "S.siteName","MA.attendanceStatus", "MA.approvalStatus");
+
+        foreach ($column as $item) // loop column 
+        {
+            if($_POST['search']['value']) // if datatable send POST for search
+            {
+                
+                if($i===0) // first loop
+                {
+                    $this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
+                                        $this->db->like($item, $_POST['search']['value']);
+                }
+                else
+                {
+                    $this->db->or_like($item, $_POST['search']['value']);
+                }
+
+                if(count($column) - 1 == $i) //last loop
+                    $this->db->group_end(); //close bracket
+            }
+            $column[$i] = $item; // set column array variable to order processing
+            $i++;
+        }
+        
+        if(isset($_POST['order'])) // here order processing
+        {
+            $this->db->order_by($column[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+        } 
+        else
+        {
+            // $order = array(0=>'attendanceDate');
+            $this->db->order_by('MA.attendanceDate', 'desc');
+        }
+    }
+
+    function get_datatables_absent()
+    {
+                //$this->db->where('managerID',134);
+                //$this->db->where('managerID',$this->userid);
+        $this->_get_datatables_query_absent();
+        if($_POST['length'] != -1)
+        $this->db->limit($_POST['length'], $_POST['start']);
+                //$this->db->from($this->table);
+        //$this->db->where('managerID',$id);
+        $query = $this->db->get();
+        return $query->result();
+    }  
+
+    public function count_filtered_absent()
+    {
+        $this->_get_datatables_query_absent();
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+
+    public function count_all_absent()
+    {
+        $listSite = $this->getSiteInCluster();
+        $this->db->from('manager_attendance');
+                //limit to userid
+        $this->db->where_in('siteID',$listSite);
+        return $this->db->count_all_results();
+    }    
+
+    
+    public function approveAbsentStatus($data)
+    {
+        $id = $data['id'];
+        $status = $data['status'];
+
+        $this->db->set('approvalStatus', $status);
+        $this->db->where('managerAttendanceID',  $id);
+        $this->db->update('manager_attendance');        
+    }     
 }
