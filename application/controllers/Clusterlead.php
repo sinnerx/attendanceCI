@@ -165,7 +165,7 @@ public function viewAbsent(){
 
     public function approveAbsentStatus()
     {
-        var_dump( $_POST);
+        // var_dump( $_POST);
         $data['id']     = $_POST['id'];
         $data['status'] = $_POST['status'];
         // die;
@@ -174,6 +174,61 @@ public function viewAbsent(){
         $resultList = $this->clusterlead_model->approveAbsentStatus($data);
 
         return "Success";
-    }     
+    }  
+
+    public function ajaxColumnAbsentFilter()
+    {
+        //columnNumber
+        // 3 = site
+        // 4 = status
+        // 5 = approval
+        // var_dump($_POST);
+        // die;
+        $columnNumber = $_POST['columnNumber'];
+
+        $this->load->model('clusterlead_model');
+
+        switch ($columnNumber) {
+            case '3':
+                # code...
+                // var_dump($columnNumber);
+                $result = $this->clusterlead_model->getSiteInCluster();
+                $sites = array();
+                foreach ($result as $key => $value) {
+                    # code...
+                    $sites[$value['siteID']] = $value['siteName'];
+                }
+                echo json_encode($sites);
+                
+                break;            
+            case '4':
+                # code...
+                $this->db->select("attStatusID, attStatusName");
+                $this->db->from("att_status");
+                $result = $this->db->get()->result_array();
+                foreach ($result as $key => $value) {
+                    # code...
+                    $data[$value['attStatusID']] = $value['attStatusName'];
+                }
+                echo json_encode($data);
+                break;           
+            case '5':
+                # code...
+            // var_dump("test");
+                $this->db->select("attApprovalID, attApprovalName");
+                $this->db->from("att_approval_status");
+                $result = $this->db->get()->result_array();
+                foreach ($result as $key => $value) {
+                    # code...
+                    $data[$value['attApprovalID']] = $value['attApprovalName'];
+                }
+                echo json_encode($data);
+                break;
+            
+            default:
+                # code...
+                break;
+        }
+    }   
     
 }

@@ -5,8 +5,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 var AbsentStatus = {
    0 : "Not Justified", 
-   1 : "Approved by CL", 
-   2 : "Not Approved by CL", 
+   3 : "Medical Certificate", 
+   4 : "Training", 
+   5 : "Off Day", 
+   6 : "Annual Leave", 
+   7 : "Emergency Leave", 
+   8 : "Part Time", 
+   9 : "Public Holiday",
 };
 
 var ApprovalStatus = {
@@ -103,34 +108,49 @@ $(document).ready(function() {
         ],
         "initComplete": function(settings, json) {
             // alert( 'DataTables has finished its initialisation.' );
-            // $("#log_table select.sel_reason").on("change", "", function() {
-            //         console.log(json.data[0]);
-            //     });            
-            // function test(){
-            //     console.log('abc');
-            // }
+            $("#log_table select.sel_reason").on("change", "", function() {
+                    console.log(json.data[0]);
+                });            
+            function test(){
+                console.log('abc');
+            }
 
 
-            // this.api().columns().every( function () {
-            //       var column = this;
-            //       // console.log(this);
-            //       var select = $('<select><option value=""></option></select>')
-            //           .appendTo( $(column.footer()).empty() )
-            //           .on( 'change', function () {
-            //               var val = $.fn.dataTable.util.escapeRegex(
-            //                   $(this).val()
-            //               );
+            this.api().columns([3,4,5]).every( function () {
+                  var column = this;
+                  // console.log(column[0][0]);
+                  var columnNumber = {columnNumber:column[0][0]};
+                  var select = $('<select><option value="All"></option></select>')
+                      .appendTo( $(column.footer()).empty() )
+                      .on( 'change', function () {
+                          var val = $.fn.dataTable.util.escapeRegex(
+                              $(this).val()
+                          );
    
-            //               column
-            //                   .search( val ? '^'+val+'$' : '', true, false )
-            //                   .draw();
-            //           } );
-   
-            //       column.data().unique().sort().each( function ( d, j ) {
-            //           console.log(d);
-            //           select.append( '<option value="'+d+'">'+d+'</option>' )
-            //       } );
-            //   } );    
+                          column
+                              .search( val ? '^'+val+'$' : '', true, false )
+                              .draw();
+                      } );
+                  //ajax populate dropbox
+                  // console.log(columnNumber);
+                  $.ajax({url: '<?php echo base_url()."/clusterlead/ajaxColumnAbsentFilter"; ?>', 
+                      data : columnNumber,
+                      method: "POST",
+                      dataType: "json",
+                      success: function(result){
+                          //$("#div1").html(result);
+                          // console.log(result);
+                          $.each(result, function(index, result){
+                            console.log(index);
+                            select.append( '<option value="'+index+'">'+result+'</option>' )
+                          });
+                          //populate option of the select
+                  }});                  
+                  // column.data().unique().sort().each( function ( d, j ) {
+                  //     // console.log(column.data());
+                  //     select.append( '<option value="'+d+'">'+d+'</option>' )
+                  // } );
+              } );    
 
 
           }  //end initComplete      
@@ -141,8 +161,6 @@ $(document).ready(function() {
         //         }
         //alert($userid);
     });
-
-
 });
 
 

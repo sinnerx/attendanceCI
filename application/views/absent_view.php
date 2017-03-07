@@ -5,8 +5,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 var times = {
    0 : "Not Justified", 
-   1 : "Approved by CL", 
-   2 : "Not Approved by CL", 
+   3 : "Medical Certificate", 
+   4 : "Training", 
+   5 : "Off Day", 
+   6 : "Annual Leave", 
+   7 : "Emergency Leave", 
+   8 : "Part Time", 
+   9 : "Public Holiday", 
 };
 
 var ApprovalStatus = {

@@ -94,6 +94,7 @@ class Manager extends CI_Controller {
         $this->actDate = date("d-m-Y"); 
         $this->actTime = date("H.i");
         $this->actDateTime = date("Y-m-d H:i:s");
+
     }
     
     public function saveAttendance(){
@@ -140,8 +141,28 @@ class Manager extends CI_Controller {
         $attStatus = $this->getAttendanceStatus;
         $clusterid = $this->getClusterGroupID;
         $time = $data['activityTime'];
+        $dataUpdate = array();
+
+
+        // if($attStatus === NULL){
+        //     $dataUpdate['managerID']    = $this->userid;
+        //     $dataUpdate['datepunch']    = $this->actDate;
+        //     $dataUpdate['status']       = 1;
+            
+        //     $this->manager->updateAbsentStatusViaPunch($dataUpdate);            
+        // }
+
         if($attStatus === 'in1'){//first in
             //echo 'in1 oi oi';
+           
+            //update into incomplete on manager_attendance table
+            $dataUpdate['managerID']    = $this->userid;
+            $dataUpdate['datepunch']    = date("Y-m-d");
+            $dataUpdate['status']       = 1;
+            
+            $this->manager->updateAbsentStatusViaPunch($dataUpdate);  
+
+        // die; 
            if(($clusterid === '5' || $clusterid === '6' ) && ((strtotime($time)) > (strtotime('09:00:00')))){
                //semenanjung late-in
                $data['lateIn'] = 1;
@@ -163,6 +184,14 @@ class Manager extends CI_Controller {
 
         //check for early out
         if($attStatus === 'out2'){//go home
+
+            //update into working on manager_attendance table
+            $dataUpdate['managerID']    = $this->userid;
+            $dataUpdate['datepunch']    = date("Y-m-d");
+            $dataUpdate['status']       = 2;
+            
+            $this->manager->updateAbsentStatusViaPunch($dataUpdate); 
+
             //semenanjung
            if(($clusterid === '5' || $clusterid === '6' ) && ((strtotime($time)) < (strtotime('18:00:00')))){
                    //semenanjung early-out

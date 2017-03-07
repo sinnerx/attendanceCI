@@ -415,6 +415,7 @@ private function _get_datatables_query_absent()
         $this->db->join('att_approval_status APS', 'APS.attApprovalID = MA.approvalStatus');
         //$this->db->where('managerID',$this->userid);
         $this->db->where('userID',$this->userid);
+        $this->db->where_in('attendanceStatus', array('0'));
         //print_r($_POST['search']['value']);
         $i = 0;
         $column = array(0 => "MA.managerAttendanceID", 1 => "MA.attendanceDate",2 => "MA.userID",3 => "MA.attendanceStatus",4 => "AS.attStatusName");
@@ -488,5 +489,18 @@ private function _get_datatables_query_absent()
         $this->db->set('attendanceStatus', $status);
         $this->db->where('managerAttendanceID',  $id);
         $this->db->update('manager_attendance');        
+    }
+
+    public function updateAbsentStatusViaPunch($data)
+    {
+        $managerID  = $data['managerID'];
+        $datepunch  = $data['datepunch'];
+        $status     = $data['status'];
+        // var_dump($data);
+
+        $this->db->set('attendanceStatus', $status);
+        $this->db->where('userID',  $managerID);
+        $this->db->where('attendanceDate',  $datepunch);
+        $this->db->update('manager_attendance');         
     }
 }

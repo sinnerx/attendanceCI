@@ -104,10 +104,11 @@ class Clusterlead_model extends CI_Model{
          
     }
    
-    public function getSiteInCluster()
+    public function getSiteInCluster($idonly = null)
     {
-        $this->db->select("CS.siteID");
+        $this->db->select("CS.siteID, S.siteName");
         $this->db->from("cluster_site CS");
+        $this->db->join("site S", "S.siteID = CS.siteID");
         $this->db->where("CS.clusterID", $this->getClusterLeadGroupID($this->userid));
         $result = $this->db->get()->result_array();
 
@@ -118,7 +119,18 @@ class Clusterlead_model extends CI_Model{
             # code...
             array_push($arraySite, $value['siteID']);
         }
-        return $arraySite;
+
+        // var_dump($idonly);
+        if($idonly === NULL){
+            // var_dump('aaa');
+            return $result;
+        }
+            
+        else {
+            // var_dump('bbb');
+            return $arraySite;
+        }
+            
     }
    // public function setClusterLeadGroupID ($userid)
     //{
@@ -441,7 +453,7 @@ class Clusterlead_model extends CI_Model{
 
     private function _get_datatables_query_absent()
     {
-        $listSite = $this->getSiteInCluster();
+        $listSite = $this->getSiteInCluster(1);
         // var_dump($listSite);
         // die;
         // ID
@@ -458,9 +470,32 @@ class Clusterlead_model extends CI_Model{
         $this->db->join('user_profile UP', 'UP.userID = MA.userID');
         //$this->db->where('managerID',$this->userid);
         $this->db->where_in('MA.siteID',$listSite);
+        $this->db->where('MA.attendanceStatus !=',1); //dont display incomplete attendance
+
         //print_r($_POST['search']['value']);
         $i = 0;
         $column = array("MA.managerAttendanceID", "MA.attendanceDate", "UP.userProfileFullName", "UP.userProfileLastName", "S.siteName","MA.attendanceStatus", "MA.approvalStatus");
+
+
+        // switch ($_POST['columns'][$x]['search']['value']) {
+        //     case 'value':
+        //         # code...
+        //         break;
+            
+        //     default:
+        //         # code...
+        //         break;
+        // }
+
+        if($_POST['columns'][3]['search']['value']){
+            $this->db->where("MA.siteID", substr($_POST['columns'][3]['search']['value'],1,-1));
+        }        
+        if($_POST['columns'][4]['search']['value']){
+            $this->db->where("MA.attendanceStatus", substr($_POST['columns'][4]['search']['value'],1,-1));
+        }        
+        if($_POST['columns'][5]['search']['value']){
+            $this->db->where("MA.approvalStatus", substr($_POST['columns'][5]['search']['value'],1,-1));
+        }
 
         foreach ($column as $item) // loop column 
         {
@@ -517,7 +552,7 @@ class Clusterlead_model extends CI_Model{
 
     public function count_all_absent()
     {
-        $listSite = $this->getSiteInCluster();
+        $listSite = $this->getSiteInCluster(1);
         $this->db->from('manager_attendance');
                 //limit to userid
         $this->db->where_in('siteID',$listSite);
