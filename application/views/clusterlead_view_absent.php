@@ -17,7 +17,6 @@ var AbsentStatus = {
 var ApprovalStatus = {
    0 : "Not Justified", 
    1 : "Approved", 
-   2 : "Rejected", 
 };
 
 $(document).ready(function() {
@@ -50,30 +49,38 @@ $(document).ready(function() {
             "orderable": true,
           
         },
-        // {
-        //     "targets": 4,
-        //     "orderable": false,
-        //     "render": function(data,type,row){
-        //                         var $select = $("<select disabled></select>", {
-        //                             "id": row[0],
-        //                             "class": 'sel_reason', 
-        //                            // "onChange" : 'test(this,value)'
-        //                             // "value": data
-        //                         });
-        //                         $.each(AbsentStatus, function(k,v){
-        //                             var $option = $("<option></option>", {
-        //                                 "text": v,
-        //                                 "value": k
-        //                             });
-        //                             if(data === k){
-        //                                 $option.attr("selected", "selected")
-        //                             }
-        //                             $select.append($option);
-        //                         });
-        //                         return $select.prop("outerHTML");
-        //                     },
+        {
+            "targets": 4,
+            "orderable": false,
+            "render": function(dataA,type,row){
+                                var disableColumn = "";
+                                // console.log(row[5]);
+                                if(row[5] != "0" ||row[6] == 1)
+                                  disableColumn = "disabled";
+                                else
+                                  disableColumn = "";             
+                                var $select = $("<select "+ disableColumn+"></select>", {
+                                    "id": row[0],
+                                    "class": 'sel_reason', 
+                                    "onChange" : 'modifyManagerStatus(this,value)'
+                                    // "value": data
+                                });
+                                $.each(AbsentStatus, function(k,v){
+                                    var $option = $("<option></option>", {
+                                        "text": v,
+                                        "value": k
+                                    });
+                                    // console.log(dataA);
+                                    // console.log(k);
+                                    if(dataA === k){
+                                        $option.attr("selected", "selected")
+                                    }
+                                    $select.append($option);
+                                });
+                                return $select.prop("outerHTML");
+                            },
                          
-        // },
+        },
         {
             "targets": 5,
             "orderable": false,
@@ -81,10 +88,11 @@ $(document).ready(function() {
             "render": function(data,type,row){
                                 var disableColumn = "";
                                 // console.log(row[5]);
-                                if(row[5] != "0" || row[6] == 0)
+                                // if(row[5] != "0" || row[6] == 0)
+                                if(row[5] == 1)
                                   disableColumn = "disabled";
                                 else
-                                  disableColumn = ""              
+                                  disableColumn = "";              
                                 var $select = $("<select "+ disableColumn+"></select>", {
                                     "id": row[0],
                                     "class": 'sel_approve', 
@@ -108,12 +116,12 @@ $(document).ready(function() {
         ],
         "initComplete": function(settings, json) {
             // alert( 'DataTables has finished its initialisation.' );
-            $("#log_table select.sel_reason").on("change", "", function() {
-                    console.log(json.data[0]);
-                });            
-            function test(){
-                console.log('abc');
-            }
+            // $("#log_table select.sel_reason").on("change", "", function() {
+            //         //console.log(json.data[0]);
+            //     });            
+            // function test(){
+            //     //console.log('abc');
+            // }
 
 
             this.api().columns([3,4,5]).every( function () {
@@ -141,7 +149,7 @@ $(document).ready(function() {
                           //$("#div1").html(result);
                           // console.log(result);
                           $.each(result, function(index, result){
-                            console.log(index);
+                            //console.log(index);
                             select.append( '<option value="'+index+'">'+result+'</option>' )
                           });
                           //populate option of the select
@@ -189,6 +197,21 @@ function approveFunction(objselect, val){
     }
 
        
+}
+
+function modifyManagerStatus(objselect, val){
+  var id = $(objselect).attr('id');
+
+      console.log(id);
+      console.log(val);
+      var updateData = {id:id, status:val};
+      $.ajax({url: '<?php echo base_url()."/clusterlead/modifyManagerStatus"; ?>', 
+          data : updateData,
+          method: "POST",
+          success: function(result){
+              //$("#div1").html(result);
+              console.log(result);
+      }});  
 }
 
 </script>

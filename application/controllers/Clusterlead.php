@@ -145,7 +145,10 @@ public function viewAbsent(){
             $row[] = $absent->attendanceDate;
             $row[] = $absent->managerName;
             $row[] = $absent->siteName;
-            $row[] = $absent->attStatusName;
+
+            $row[] = $absent->attendanceStatus;
+            // $row[] = $absent->attStatusName;
+            
             $row[] = $absent->approvalStatus;
             $row[] = $absent->attendanceStatus;
             $data[] = $row;
@@ -229,6 +232,19 @@ public function viewAbsent(){
                 # code...
                 break;
         }
-    }   
+    }
+
+    public function modifyManagerStatus()
+    {
+        // var_dump( $_POST);
+        $data['id']     = $_POST['id'];
+        $data['status'] = $_POST['status'];
+        // die;
+        $this->load->model('manager_model');
+
+        $resultList = $this->manager_model->updateAbsentStatus($data);
+
+        return "Success";
+    }        
     
 }
