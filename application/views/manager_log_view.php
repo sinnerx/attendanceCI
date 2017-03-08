@@ -172,7 +172,7 @@ $(document).ready(function() {
                         <li class='active' >
                           <a href="./viewAbsent" class="auto">                                                        
                             <i class="i i-dot"></i>
-                            <span>View Absent</span>
+                            <span>View Absence</span>
                           </a>
                         </li>                        
                       </ul>

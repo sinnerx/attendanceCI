@@ -43,7 +43,7 @@ class Clusterlead extends CI_Controller {
         //$this->clusterlead->isFirstInYesterday($this->userid);
         //$this->clusterlead->hoursPerDay($this->userid);
         //load view
-        $this->load->view('clusterleadHeader_view');
+        $this->load->view('clusterleadHeader_view',$data['title']);
         //$this->load->view('nav_view');
         $this->load->view('clusterlead_view',$data);
         $this->load->view('clusterleadFooter_view');
@@ -112,7 +112,7 @@ public function viewAbsent(){
         $this->clusterlead->getUserEmail($this->userid);
         $this->clusterlead->getSiteID($this->userid);
 
-        $this->load->view('clusterleadHeader_view');
+        $this->load->view('clusterleadHeader_view',$data);
         //$this->load->view('nav_view');
         $this->load->view('clusterlead_view_absent',$data);
         $this->load->view('clusterleadFooter_view');

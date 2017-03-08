@@ -252,7 +252,7 @@ function test(objselect, val){
                         <li class='active' >
                           <a href="./viewAbsent" class="auto">                                                        
                             <i class="i i-dot"></i>
-                            <span>View Absent</span>
+                            <span>View Absence</span>
                           </a>
                         </li>                        
                       </ul>
@@ -360,7 +360,7 @@ function test(objselect, val){
                     <div class="col-sm-6">
                       <h3 class="m-b-xs text-black">
                        <?php if($userLevel==2 || $userLevel == 7){
-                        echo "Manager's Absent Log";
+                        echo "Manager's Absence Log";
                       }else if($userLevel==3){
                           echo "Cluster Lead's Attendance Log";
                       }else if($userLevel==4){
@@ -369,7 +369,7 @@ function test(objselect, val){
                           echo "Administration Attendance Log";
                       } ?></h3>
                       <!--<div class="well well-sm">All about your profile. You can edit all through here.</div>-->
-                       <small>View manager's absent.</small>
+                       <small>View Manager's Absence.</small>
                       
                     </div>
                   </section>

@@ -447,7 +447,7 @@ function notify(){
                         <li >
                           <a href="./manager/viewAbsent" class="auto">                                                        
                             <i class="i i-dot"></i>
-                            <span>View Absent</span>
+                            <span>View Absence</span>
                           </a>
                         </li>                          
                       </ul>

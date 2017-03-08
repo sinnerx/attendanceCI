@@ -120,7 +120,7 @@ $(document).ready(function() {
                   var column = this;
                   // console.log(column[0][0]);
                   var columnNumber = {columnNumber:column[0][0]};
-                  var select = $('<select><option value="All"></option></select>')
+                  var select = $('<select><option value="">All</option></select>')
                       .appendTo( $(column.footer()).empty() )
                       .on( 'change', function () {
                           var val = $.fn.dataTable.util.escapeRegex(
@@ -348,7 +348,7 @@ function approveFunction(objselect, val){
                 <section class="scrollable padder">              
                   <section class="row m-b-md">
                     <div class="col-sm-6">
-                      <h3 class="m-b-xs text-black"><?php echo $this->clusterlead_model->getClusterLeadGroup($userid); ?> Attendance List</h3>
+                      <h3 class="m-b-xs text-black"><?php echo $this->clusterlead_model->getClusterLeadGroup($userid); ?> Absence List</h3>
                       <!--<div class="well well-sm">All about your profile. You can edit all through here.</div>-->
                        <small>Welcome back, <?php echo $this->clusterlead_model->getFullName($userid)?>, <?php echo $this->clusterlead_model->getClusterLeadGroup($userid); ?><!--<i class="fa fa-map-marker fa-lg text-primary"></i>--> </small>
                     </div>
@@ -360,7 +360,7 @@ function approveFunction(objselect, val){
                       <div class="col-md-12">
                       <section class="panel b-a">
                         <div class="panel-heading b-b">
-                          <a href="#" class="font-bold">Activities</a>
+                          <a href="#" class="font-bold">Absence List</a>
                         </div><br>
                           <div class="table-responsive">
                               <table id="absent_table" class="table table-striped m-b-none display">

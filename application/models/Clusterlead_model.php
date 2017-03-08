@@ -470,7 +470,7 @@ class Clusterlead_model extends CI_Model{
         $this->db->join('user_profile UP', 'UP.userID = MA.userID');
         //$this->db->where('managerID',$this->userid);
         $this->db->where_in('MA.siteID',$listSite);
-        $this->db->where('MA.attendanceStatus !=',1); //dont display incomplete attendance
+        $this->db->where_not_in('MA.attendanceStatus ',array(1,2)); //dont display incomplete attendance
 
         //print_r($_POST['search']['value']);
         $i = 0;
