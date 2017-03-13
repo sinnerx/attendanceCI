@@ -21,7 +21,7 @@ var ApprovalStatus = {
 };
 
 $(document).ready(function() {
-  $('#log_table').DataTable({ 
+  var table = $('#log_table').DataTable({ 
         
         "processing": true, //Feature control the processing indicator.
         "serverSide": true, //Feature control DataTables' server-side processing mode.
@@ -63,7 +63,7 @@ $(document).ready(function() {
                                 var $select = $("<select " + disableColumn +"></select>", {
                                     "id": row[0],
                                     "class": 'sel_reason', 
-                                    "onChange" : 'test(this,value)'
+                                    "onChange" : 'updateAbsent(this,value)'
                                     // "value": data
                                 });
                                 $.each(times, function(k,v){
@@ -91,9 +91,9 @@ $(document).ready(function() {
             // $("#log_table select.sel_reason").on("change", "", function() {
             //         console.log(json.data[0]);
             //     });            
-            function test(){
-                console.log('abc');
-            }
+            // function test(){
+            //     console.log('abc');
+            // }
           }        
 
         //red row for late in eorly out
@@ -105,19 +105,25 @@ $(document).ready(function() {
 
 
 });
-function test(objselect, val){
+function updateAbsent(objselect, val){
     var id = $(objselect).attr('id');
 
-    // console.log(id);
+    // console.log(objselect);
     // console.log(val);
     var updateData = {id:id, status:val};
-    $.ajax({url: '<?php echo base_url()."/manager/updateAbsentStatus"; ?>', 
-        data : updateData,
-        method: "POST",
-        success: function(result){
-            //$("#div1").html(result);
-            console.log(result);
-    }});    
+    if (confirm('Confirm on this leave status? (This changes cannot be undone.)')) {
+      $.ajax({url: '<?php echo base_url()."/manager/updateAbsentStatus"; ?>', 
+              data : updateData,
+              method: "POST",
+              success: function(result){
+                  //$("#div1").html(result);
+                  // console.log(result);
+                  $('#log_table').DataTable().ajax.reload();
+      }});       
+    }
+    else{
+       return false;
+    }
 }
 </script>
 

@@ -505,7 +505,7 @@ class Clusterlead_model extends CI_Model{
                 if($i===0) // first loop
                 {
                     $this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
-                                        $this->db->like($item, $_POST['search']['value']);
+                    $this->db->like($item, $_POST['search']['value']);
                 }
                 else
                 {
@@ -526,8 +526,11 @@ class Clusterlead_model extends CI_Model{
         else
         {
             // $order = array(0=>'attendanceDate');
+            $this->db->order_by('MA.approvalStatus', 'asc');
+            $this->db->order_by('MA.attendanceStatus', 'desc');
             $this->db->order_by('MA.attendanceDate', 'desc');
         }
+
     }
 
     function get_datatables_absent()

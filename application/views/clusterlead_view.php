@@ -252,30 +252,30 @@ function displayImg(){
                         </i>
                         <span class="font-bold">Attendance</span>
                       </a><ul class='nav dk'>
-                          <li >
-                          <a href="./" class="auto">                                                        
+                          <li>
+                          <a href="<?php echo base_url(); ?>manager" class="auto">                                                        
                             <i class="i i-dot"></i>
                             <span>Punch IN/OUT</span>
                           </a>
                         </li>
-                        <li class='active'>
-                          <a href="#" class="auto">                                                        
+                        <li class= 'active'>
+                          <a href="<?php echo base_url(); ?>clusterlead" class="auto">                                                        
                             <i class="i i-dot"></i>
                             <span>View Log</span>
                           </a>
                         </li>
                         <li class=''>
-                          <a href="./reporting" class="auto">                                                        
+                          <a href="<?php echo base_url(); ?>reporting" class="auto">                                                        
                             <i class="i i-dot"></i>
                             <span>View Report</span>
                           </a>
-                        </li>     
-                        <li>
-                          <a href="#" class="auto">                                                        
+                        </li>
+                        <li class=''>
+                          <a href="<?php echo base_url(); ?>clusterlead/viewAbsent" class="auto">                                                        
                             <i class="i i-dot"></i>
                             <span>View Manager Absent</span>
                           </a>
-                        </li>                                            
+                        </li>                                             
                       </ul>
                     </li>
                   </ul> 
