@@ -12,15 +12,44 @@ var times = {
    7 : "Emergency Leave", 
    8 : "Part Time", 
    9 : "Public Holiday", 
+   10 : "Internet Down", 
 };
 
 var ApprovalStatus = {
    0 : "Not Justified", 
    1 : "Approved", 
-   2 : "Rejected", 
+   // 2 : "Rejected", 
 };
+var allFields = $( [] ).add( $("#punchinmorning") ).add( $("#punchoutnoon") ).add( $("#punchinnoon").add($("#punchoutevening")) );
+var tips = $( ".validateTips" );
 
 $(document).ready(function() {
+    $('input.timepicker').timepicker({
+      timeFormat: 'HH:mm:ss',
+    });
+    
+     dialog = $( "#dialog-form" ).dialog({
+          autoOpen: false,
+          height: 400,
+          width: 350,
+          modal: true,
+          buttons: {
+            "Submit": submitInternetDown,
+            Cancel: function() {
+              dialog.dialog( "close" );
+            }
+          },
+          close: function() {
+            form[ 0 ].reset();
+            allFields.removeClass( "ui-state-error" );
+          }
+        });
+     
+        form = dialog.find( "form" ).on( "submit", function( event ) {
+          event.preventDefault();
+          submitInternetDown();
+        });
+
   var table = $('#log_table').DataTable({ 
         
         "processing": true, //Feature control the processing indicator.
@@ -62,6 +91,7 @@ $(document).ready(function() {
                                   disableColumn = ""
                                 var $select = $("<select " + disableColumn +"></select>", {
                                     "id": row[0],
+                                    "dateRecord": row[1],
                                     "class": 'sel_reason', 
                                     "onChange" : 'updateAbsent(this,value)'
                                     // "value": data
@@ -107,25 +137,115 @@ $(document).ready(function() {
 });
 function updateAbsent(objselect, val){
     var id = $(objselect).attr('id');
-
+    var dateRecord = $(objselect).attr('dateRecord');
+    // console.log(dateRecord);
     // console.log(objselect);
     // console.log(val);
-    var updateData = {id:id, status:val};
+
+    var updateData = {id:id, status:val, dateR:dateRecord};
     if (confirm('Confirm on this leave status? (This changes cannot be undone.)')) {
-      $.ajax({url: '<?php echo base_url()."/manager/updateAbsentStatus"; ?>', 
-              data : updateData,
-              method: "POST",
-              success: function(result){
-                  //$("#div1").html(result);
-                  // console.log(result);
-                  $('#log_table').DataTable().ajax.reload();
-      }});       
+
+      if(val == 10){
+        // console.log('network down');
+        dialog.data('param_1', updateData).dialog( "open" );
+        // dialog.dialog( "open" );
+      }
+      else{
+          $.ajax({url: '<?php echo base_url()."/manager/updateAbsentStatus"; ?>', 
+                      data : updateData,
+                      method: "POST",
+                      success: function(result){
+                          //$("#div1").html(result);
+                          // console.log(result);
+                          $('#log_table').DataTable().ajax.reload();
+          }});  
+      }
+
+          
     }
     else{
        return false;
     }
 }
+
+function submitInternetDown(){
+      var valid = true;
+      allFields.removeClass( "ui-state-error" );
+      var datafromRow = $("#dialog-form").data('param_1');
+      console.log(datafromRow.id);
+      // valid = valid && checkLength( name, "username", 3, 16 );
+      // valid = valid && checkLength( email, "email", 6, 80 );
+      // valid = valid && checkLength( password, "password", 5, 16 );
+ 
+      valid = valid && checkRegexp( $("#punchinmorning"), /^([0-9:])+$/, "Enter time format only." );
+      valid = valid && checkRegexp( $("#punchoutnoon"), /^([0-9:])+$/, "Enter time format only." );
+      valid = valid && checkRegexp( $("#punchinnoon"), /^([0-9:])+$/, "Enter time format only." );
+      valid = valid && checkRegexp( $("#punchoutevening"), /^([0-9:])+$/, "Enter time format only." );
+      // valid = valid && checkRegexp( name, /^[a-z]([0-9a-z_\s])+$/i, "Username may consist of a-z, 0-9, underscores, spaces and must begin with a letter." );
+      // valid = valid && checkRegexp( email, emailRegex, "eg. ui@jquery.com" );
+      // valid = valid && checkRegexp( password, /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
+ 
+      if ( valid ) {
+        // $( "#users tbody" ).append( "<tr>" +
+        //   "<td>" + name.val() + "</td>" +
+        //   "<td>" + email.val() + "</td>" +
+        //   "<td>" + password.val() + "</td>" +
+        // "</tr>" );
+        //ajax submit
+        var updateData = {id:datafromRow.id, punchinmorning:$("#punchinmorning").val(), punchoutnoon:$("#punchoutnoon").val(), punchinnoon:$("#punchinnoon").val(),punchoutevening:$("#punchoutevening").val()};
+          $.ajax({url: '<?php echo base_url()."/manager/insertAttendanceFromAbsent"; ?>', 
+                      data : updateData,
+                      method: "POST",
+                      success: function(result){
+                          //$("#div1").html(result);
+                          // console.log(result);
+                          $('#log_table').DataTable().ajax.reload();
+          }});         
+        dialog.dialog( "close" );
+      }
+      return valid;
+}
+
+function checkRegexp( o, regexp, n ) {
+    
+      if ( !( regexp.test( o.val() ) ) ) {
+        o.addClass( "ui-state-error" );
+        updateTips( n );
+        return false;
+      } else {
+        return true;
+      }
+    }
+
+function updateTips( t ) {
+      console.log($( ".validateTips" ).text());
+      //console.log(t);
+      $( ".validateTips" ).text( t ).addClass( "ui-state-highlight" );
+      setTimeout(function() {
+        $( ".validateTips" ).removeClass( "ui-state-highlight", 1500 );
+      }, 500 );
+    }
 </script>
+
+<div id="dialog-form" title="Enter Time for Punch In and Punch Out">
+  <p class="validateTips">All form fields are required.</p>
+ 
+  <form>
+    <fieldset>
+      <label for="name">Punch In (Morning)</label><br>
+      <input type="text" name="punchinmorning" id="punchinmorning" value="" class="text ui-widget-content ui-corner-all timepicker"><br>
+      <label for="email">Punch Out (Afternoon)</label><br>
+      <input type="text" name="punchoutnoon" id="punchoutnoon" value="" class="text ui-widget-content ui-corner-all timepicker">  <br>    
+      <label for="name">Punch In (Afternoon)</label><br>
+      <input type="text" name="punchinnoon" id="punchinnoon" value="" class="text ui-widget-content ui-corner-all timepicker"><br>
+      <label for="email">Punch Out (Evening)</label><br>
+      <input type="text" name="punchoutevening" id="punchoutevening" value="" class="text ui-widget-content ui-corner-all timepicker"><br>
+      <label>(Time is based on 24 hours format)</label>
+      <!-- Allow form submission with keyboard without duplicating the dialog button -->
+      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+    </fieldset>
+  </form>
+</div>
 
   <section class="vbox">
     <header class="bg-white header header-md navbar navbar-fixed-top-xs box-shadow">

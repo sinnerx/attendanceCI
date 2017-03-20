@@ -503,4 +503,14 @@ private function _get_datatables_query_absent()
         $this->db->where('attendanceDate',  $datepunch);
         $this->db->update('manager_attendance');         
     }
+
+    public function getAbsentRecord($id)
+    {
+        $this->db->select("*");
+        $this->db->from("manager_attendance");
+        $this->db->where("managerAttendanceID", $id);
+        $result = $this->db->get()->row_array();
+
+        return $result;
+    }
 }

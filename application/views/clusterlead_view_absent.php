@@ -12,6 +12,7 @@ var AbsentStatus = {
    7 : "Emergency Leave", 
    8 : "Part Time", 
    9 : "Public Holiday",
+   10 : "Internet Down",
 };
 
 var ApprovalStatus = {

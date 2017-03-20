@@ -568,8 +568,21 @@ class Clusterlead_model extends CI_Model{
         $id = $data['id'];
         $status = $data['status'];
 
+        $this->db->select("*");
+        $this->db->from("manager_attendance");
+        $this->db->where("managerAttendanceID", $id);
+        $rowAbsent = $this->db->get()->row_array();
+
+
+
         $this->db->set('approvalStatus', $status);
         $this->db->where('managerAttendanceID',  $id);
-        $this->db->update('manager_attendance');        
+        $this->db->update('manager_attendance');
+
+        if($status == 1 && $rowAbsent['attendanceStatus'] == 10){
+            $this->db->set('attendanceStatus', 2);
+            $this->db->where('managerAttendanceID',  $id);
+            $this->db->update('manager_attendance');            
+        }//end if     
     }     
 }

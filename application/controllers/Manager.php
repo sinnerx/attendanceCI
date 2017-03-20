@@ -444,5 +444,209 @@ class Manager extends CI_Controller {
         $resultList = $this->manager_model->updateAbsentStatus($data);
 
         return "Success";
+    }
+
+    public function insertAttendanceFromAbsent()
+    {
+
+        $data['id'] = $_POST['id'];
+        $data['timein1'] = $_POST['punchinmorning'];
+        $data['timeout1'] = $_POST['punchoutnoon'];
+        $data['timein2'] = $_POST['punchinnoon'];
+        $data['timeout2'] = $_POST['punchoutevening'];
+        // var_dump($data['id']);
+        // die;
+        $this->load->model('manager_model');
+        $recordAbsent = $this->manager_model->getAbsentRecord($data['id']);
+        // var_dump($recordAbsent);
+        // die;
+        $this->db->select("U.userID, UP.userProfileFullName, U.userEmail, S.siteName, CS.clusterID, S.siteID");
+        $this->db->from("site_manager MS");
+        $this->db->join("site S","MS.siteID = S.siteID");
+        $this->db->join("user_profile UP","MS.userID = UP.userID");
+        $this->db->join("user U","MS.userID = U.userID");
+        $this->db->join("cluster_site CS","CS.siteID = MS.siteID");
+        $this->db->where("MS.userID", $recordAbsent['userID']);
+        // $this->db->join("cluster C","C.clusterID = CS.siteID");
+        $resultUser = $this->db->get()->row_array();
+        // var_dump($resultUser);
+        // die;
+        ///////
+        //for in1
+        $stringDateTime = $recordAbsent['attendanceDate'] ." ". $data['timein1'];
+        // var_dump($stringDateTime);
+        // die;
+        if(($resultUser['clusterID'] === '5' || $resultUser['clusterID'] === '6' ) && ((strtotime($data['timein1'])) > (strtotime('09:00:00')))){
+               //semenanjung late-in
+               $lateIn = 1;
+        } elseif(($resultUser['clusterID'] === '1' || $resultUser['clusterID'] === '2'|| $resultUser['clusterID'] === '3' || $resultUser['clusterID'] === '4') && ((strtotime($data['timein1'])) > (strtotime('08:00:00')))){
+               //sabah/sarawak late-in
+               $lateIn = 1;
+        } 
+        else{
+            $lateIn = NULL;
+        } 
+
+        $dataIn = array(
+            'managerID' => $resultUser['userID'],
+            'clusterID' => $resultUser['clusterID'],
+            'managerName' => $resultUser['userProfileFullName'],
+            'siteID' => $resultUser['siteID'],
+            'siteName' => $resultUser['siteName'],
+            'userEmail' => $resultUser['userEmail'],
+//                    'activityDate' => date("d-m-Y"),
+//                    'activityTime' => date("G:i"),
+//                    'activityDateTime' => date("Y-m-d G:i:s"),
+            'activityDate' => $recordAbsent['attendanceDate'],
+            'activityTime' => $data['timein1'] ,
+            'activityDateTime' => $stringDateTime,
+            'activityStatus' => "PunchIn from absent",
+            'outstationStatus' => $this->input->post('outstationStatus'),
+            'latLongIn' => '',
+            'accuracy' => '',
+            'imgIn' => "images/attendance/noimage.jpg",
+            'attendanceStatus' => 'in1',
+            'lateIn' => $lateIn,
+            'earlyOut' => NULL
+        );
+
+        // var_dump($dataIn);
+        // die;
+        $this->manager->insertAttendance($dataIn);  
+
+        //////////
+        //for out1
+        $stringDateTime = $recordAbsent['attendanceDate'] ." ". $data['timeout1'];
+
+        if(($resultUser['clusterID'] === '5' || $resultUser['clusterID'] === '6' ) && ((strtotime($data['timeout1'])) < (strtotime('13:00:00')))){
+                    // semenanjung early-out break
+                     $earlyOut = 1;
+           } elseif(($resultUser['clusterID'] === '1' || $resultUser['clusterID'] === '2'|| $resultUser['clusterID'] === '3' || $resultUser['clusterID'] === '4') && ((strtotime($data['timeout1'])) < (strtotime('12:00:00')))){
+                    //sabah/sarawak early-out break
+                     $earlyOut = 1;
+           }
+        else{
+            $earlyOut = NULL;
+        } 
+
+        $dataOut1 = array(
+            'managerID' => $resultUser['userID'],
+            'clusterID' => $resultUser['clusterID'],
+            'managerName' => $resultUser['userProfileFullName'],
+            'siteID' => $resultUser['siteID'],
+            'siteName' => $resultUser['siteName'],
+            'userEmail' => $resultUser['userEmail'],
+//                    'activityDate' => date("d-m-Y"),
+//                    'activityTime' => date("G:i"),
+//                    'activityDateTime' => date("Y-m-d G:i:s"),
+            'activityDate' => $recordAbsent['attendanceDate'],
+            'activityTime' => $data['timeout1'] ,
+            'activityDateTime' => $stringDateTime,
+            'activityStatus' => "PunchIn from absent",
+            'outstationStatus' => $this->input->post('outstationStatus'),
+            'latLongIn' => '',
+            'accuracy' => '',
+            'imgIn' => "images/attendance/noimage.jpg",
+            'attendanceStatus' => 'out1',
+            'lateIn' => NULL,
+            'earlyOut' => $earlyOut
+        );
+
+        $this->manager->insertAttendance($dataOut1); 
+
+
+        //////////
+        //for in2
+        $stringDateTime = $recordAbsent['attendanceDate'] ." ". $data['timein2'];
+
+        if(($resultUser['clusterID'] === '5' || $resultUser['clusterID'] === '6' ) && ((strtotime($data['timein2'])) > (strtotime('14:00:00')))){
+            //sabah sarawak late-in break
+            $lateIn = 1;
+              // }
+            } elseif(($resultUser['clusterID'] === '1' || $resultUser['clusterID'] === '2'|| $resultUser['clusterID'] === '3' || $resultUser['clusterID'] === '4') && ((strtotime($data['timein2'])) > (strtotime('13:00:00')))){
+                    //semenanjung late-in break
+                $lateIn = 1;
+           }
+        else{
+            $lateIn = NULL;
+        } 
+
+        $dataIn2 = array(
+            'managerID' => $resultUser['userID'],
+            'clusterID' => $resultUser['clusterID'],
+            'managerName' => $resultUser['userProfileFullName'],
+            'siteID' => $resultUser['siteID'],
+            'siteName' => $resultUser['siteName'],
+            'userEmail' => $resultUser['userEmail'],
+//                    'activityDate' => date("d-m-Y"),
+//                    'activityTime' => date("G:i"),
+//                    'activityDateTime' => date("Y-m-d G:i:s"),
+            'activityDate' => $recordAbsent['attendanceDate'],
+            'activityTime' => $data['timein2'] ,
+            'activityDateTime' => $stringDateTime,
+            'activityStatus' => "PunchIn from absent",
+            'outstationStatus' => $this->input->post('outstationStatus'),
+            'latLongIn' => '',
+            'accuracy' => '',
+            'imgIn' => "images/attendance/noimage.jpg",
+            'attendanceStatus' => 'in2',
+            'lateIn' => $lateIn,
+            'earlyOut' => NULL
+        );
+
+        $this->manager->insertAttendance($dataIn2);         
+
+
+        //////////
+        //for out2
+        $stringDateTime = $recordAbsent['attendanceDate'] ." ". $data['timeout2'];
+
+        //semenanjung
+           if(($resultUser['clusterID'] === '5' || $resultUser['clusterID'] === '6' ) && ((strtotime($data['timeout2'])) < (strtotime('18:00:00')))){
+                   //semenanjung early-out
+                   $earlyOut = 1;
+
+           //sabah/sarawak    
+           } elseif(($resultUser['clusterID'] === '1' || $resultUser['clusterID'] === '2'|| $resultUser['clusterID'] === '3' || $resultUser['clusterID'] === '4') && ((strtotime($data['timeout2'])) < (strtotime('17:00:00')))){
+                    //sabah/sarawak early-out
+                    $earlyOut = 1;
+           }
+        else{
+            $earlyOut = NULL;
+        } 
+
+        $dataOut2 = array(
+            'managerID' => $resultUser['userID'],
+            'clusterID' => $resultUser['clusterID'],
+            'managerName' => $resultUser['userProfileFullName'],
+            'siteID' => $resultUser['siteID'],
+            'siteName' => $resultUser['siteName'],
+            'userEmail' => $resultUser['userEmail'],
+//                    'activityDate' => date("d-m-Y"),
+//                    'activityTime' => date("G:i"),
+//                    'activityDateTime' => date("Y-m-d G:i:s"),
+            'activityDate' => $recordAbsent['attendanceDate'],
+            'activityTime' => $data['timeout2'] ,
+            'activityDateTime' => $stringDateTime,
+            'activityStatus' => "PunchIn from absent",
+            'outstationStatus' => $this->input->post('outstationStatus'),
+            'latLongIn' => '',
+            'accuracy' => '',
+            'imgIn' => "images/attendance/noimage.jpg",
+            'attendanceStatus' => 'out2',
+            'lateIn' => NULL,
+            'earlyOut' => $earlyOut
+        );
+
+        $this->manager->insertAttendance($dataOut2);
+
+
+        //update absent status
+        $dataUpdate['datepunch'] = $recordAbsent['attendanceDate'];
+        $dataUpdate['managerID'] = $recordAbsent['userID'];
+        $dataUpdate['status'] = 10;
+
+        $this->manager->updateAbsentStatusViaPunch($dataUpdate);  
+      
     } 
 }
