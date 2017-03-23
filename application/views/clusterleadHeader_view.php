@@ -40,6 +40,9 @@ defined ('BASEPATH') or exit('No direct access allowed!');
   <link rel="stylesheet" href="<?php echo base_url();?>js/datatables/dataTables.bootstrap.css" type="text/css"/>
   <link rel="stylesheet" href="<?php echo base_url();?>js/datepicker/datepicker.css" type="text/css"/>
   <link rel="stylesheet" href="<?php echo base_url();?>js/datatables/buttons.dataTables.min.css" type="text/css" />
+  <link rel="stylesheet" href="<?php echo base_url();?>js/TimePicki/css/timepicki.css" type="text/css"/>
+  <!-- <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css"> -->
+  <link rel="stylesheet" href="<?php echo base_url();?>css/jquery-ui.min.css">  
 
   <!--<link rel="stylesheet" href="<?php echo base_url();?>js/datatables/datatables.css" type="text/css"/>
   -->
@@ -59,7 +62,9 @@ defined ('BASEPATH') or exit('No direct access allowed!');
   <!--<script src="<?php echo base_url();?>js/bootstrap.js"></script>-->
   <!-- cluster map-->
   <script type="text/javascript" src="http://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerclusterer/src/markerclusterer.js"></script>
-
+  <script src="<?php echo base_url();?>js/TimePicki/js/timepicki.js"></script>
+  <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script> -->
+  <script src="<?php echo base_url();?>js/jquery-ui.min.js"></script>
 
   
 

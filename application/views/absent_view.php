@@ -24,10 +24,12 @@ var allFields = $( [] ).add( $("#punchinmorning") ).add( $("#punchoutnoon") ).ad
 var tips = $( ".validateTips" );
 
 $(document).ready(function() {
-    $('input.timepicker').timepicker({
-      timeFormat: 'HH:mm:ss',
-    });
+    // $('input.timepicker').timepicker({
+    //   timeFormat: 'HH:mm:ss',
+    // });
     
+    $("input.timepicker").timepicki();  
+      
      dialog = $( "#dialog-form" ).dialog({
           autoOpen: false,
           height: 400,
@@ -145,12 +147,12 @@ function updateAbsent(objselect, val){
     var updateData = {id:id, status:val, dateR:dateRecord};
     if (confirm('Confirm on this leave status? (This changes cannot be undone.)')) {
 
-      if(val == 10){
+      // if(val == 10){
         // console.log('network down');
-        dialog.data('param_1', updateData).dialog( "open" );
+        // dialog.data('param_1', updateData).dialog( "open" );
         // dialog.dialog( "open" );
-      }
-      else{
+      // }
+      // else{
           $.ajax({url: '<?php echo base_url()."/manager/updateAbsentStatus"; ?>', 
                       data : updateData,
                       method: "POST",
@@ -159,7 +161,7 @@ function updateAbsent(objselect, val){
                           // console.log(result);
                           $('#log_table').DataTable().ajax.reload();
           }});  
-      }
+      // }
 
           
     }
@@ -177,10 +179,12 @@ function submitInternetDown(){
       // valid = valid && checkLength( email, "email", 6, 80 );
       // valid = valid && checkLength( password, "password", 5, 16 );
  
-      valid = valid && checkRegexp( $("#punchinmorning"), /^([0-9:])+$/, "Enter time format only." );
-      valid = valid && checkRegexp( $("#punchoutnoon"), /^([0-9:])+$/, "Enter time format only." );
-      valid = valid && checkRegexp( $("#punchinnoon"), /^([0-9:])+$/, "Enter time format only." );
-      valid = valid && checkRegexp( $("#punchoutevening"), /^([0-9:])+$/, "Enter time format only." );
+      // valid = valid && checkRegexp( $("#punchinmorning"), /^([0-9:])+$/, "Enter time format only." );
+      valid = valid && checkRegexp( $("#punchinmorning"), /^(0?[1-9]|1[012])(:[0-5]\d) [APap][mM]$/, "Enter time format only." );
+      valid = valid && checkRegexp( $("#punchoutnoon"), /^(0?[1-9]|1[012])(:[0-5]\d) [APap][mM]$/, "Enter time format only." );
+      valid = valid && checkRegexp( $("#punchinnoon"), /^(0?[1-9]|1[012])(:[0-5]\d) [APap][mM]$/, "Enter time format only." );
+      valid = valid && checkRegexp( $("#punchoutevening"), /^(0?[1-9]|1[012])(:[0-5]\d) [APap][mM]$/, "Enter time format only." );
+      
       // valid = valid && checkRegexp( name, /^[a-z]([0-9a-z_\s])+$/i, "Username may consist of a-z, 0-9, underscores, spaces and must begin with a letter." );
       // valid = valid && checkRegexp( email, emailRegex, "eg. ui@jquery.com" );
       // valid = valid && checkRegexp( password, /^([0-9a-zA-Z])+$/, "Password field only allow : a-z 0-9" );
@@ -227,25 +231,7 @@ function updateTips( t ) {
     }
 </script>
 
-<div id="dialog-form" title="Enter Time for Punch In and Punch Out">
-  <p class="validateTips">All form fields are required.</p>
- 
-  <form>
-    <fieldset>
-      <label for="name">Punch In (Morning)</label><br>
-      <input type="text" name="punchinmorning" id="punchinmorning" value="" class="text ui-widget-content ui-corner-all timepicker"><br>
-      <label for="email">Punch Out (Afternoon)</label><br>
-      <input type="text" name="punchoutnoon" id="punchoutnoon" value="" class="text ui-widget-content ui-corner-all timepicker">  <br>    
-      <label for="name">Punch In (Afternoon)</label><br>
-      <input type="text" name="punchinnoon" id="punchinnoon" value="" class="text ui-widget-content ui-corner-all timepicker"><br>
-      <label for="email">Punch Out (Evening)</label><br>
-      <input type="text" name="punchoutevening" id="punchoutevening" value="" class="text ui-widget-content ui-corner-all timepicker"><br>
-      <label>(Time is based on 24 hours format)</label>
-      <!-- Allow form submission with keyboard without duplicating the dialog button -->
-      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
-    </fieldset>
-  </form>
-</div>
+
 
   <section class="vbox">
     <header class="bg-white header header-md navbar navbar-fixed-top-xs box-shadow">
@@ -531,3 +517,22 @@ function updateTips( t ) {
     </section>
   </section>
 
+<div id="dialog-form" title="Enter Time for Punch In and Punch Out">
+  <p class="validateTips">All form fields are required.</p>
+ 
+  <form>
+    <fieldset>
+      <label for="name">Punch In (Morning)</label><br>
+      <input type="text" name="punchinmorning" id="punchinmorning" value="" class="text ui-widget-content ui-corner-all timepicker"><br>
+      <label for="email">Punch Out (Afternoon)</label><br>
+      <input type="text" name="punchoutnoon" id="punchoutnoon" value="" class="text ui-widget-content ui-corner-all timepicker">  <br>    
+      <label for="name">Punch In (Afternoon)</label><br>
+      <input type="text" name="punchinnoon" id="punchinnoon" value="" class="text ui-widget-content ui-corner-all timepicker"><br>
+      <label for="email">Punch Out (Evening)</label><br>
+      <input type="text" name="punchoutevening" id="punchoutevening" value="" class="text ui-widget-content ui-corner-all timepicker"><br>
+      <label>(Time is based on 24 hours format)</label>
+      <!-- Allow form submission with keyboard without duplicating the dialog button -->
+      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+    </fieldset>
+  </form>
+</div>

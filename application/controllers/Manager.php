@@ -450,11 +450,12 @@ class Manager extends CI_Controller {
     {
 
         $data['id'] = $_POST['id'];
-        $data['timein1'] = $_POST['punchinmorning'];
-        $data['timeout1'] = $_POST['punchoutnoon'];
-        $data['timein2'] = $_POST['punchinnoon'];
-        $data['timeout2'] = $_POST['punchoutevening'];
-        // var_dump($data['id']);
+
+        $data['timein1']    = date("H:i", strtotime($_POST['punchinmorning']));
+        $data['timeout1']   = date("H:i", strtotime($_POST['punchoutnoon']));
+        $data['timein2']    = date("H:i", strtotime($_POST['punchinnoon']));
+        $data['timeout2']   = date("H:i", strtotime($_POST['punchoutevening']));
+        // var_dump(date("H:i", strtotime($data['timein1'])));
         // die;
         $this->load->model('manager_model');
         $recordAbsent = $this->manager_model->getAbsentRecord($data['id']);
@@ -644,7 +645,7 @@ class Manager extends CI_Controller {
         //update absent status
         $dataUpdate['datepunch'] = $recordAbsent['attendanceDate'];
         $dataUpdate['managerID'] = $recordAbsent['userID'];
-        $dataUpdate['status'] = 10;
+        $dataUpdate['status'] = 2;
 
         $this->manager->updateAbsentStatusViaPunch($dataUpdate);  
       
