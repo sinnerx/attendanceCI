@@ -574,7 +574,6 @@ function updateTips( t ) {
       <input type="text" name="punchinnoon" id="punchinnoon" value="" class="text ui-widget-content ui-corner-all timepicker"><br>
       <label for="email">Punch Out (Evening)</label><br>
       <input type="text" name="punchoutevening" id="punchoutevening" value="" class="text ui-widget-content ui-corner-all timepicker"><br>
-      <label>(Time is based on 24 hours format)</label>
       <!-- Allow form submission with keyboard without duplicating the dialog button -->
       <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
     </fieldset>
